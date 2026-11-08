@@ -1,4 +1,4 @@
-name: HOME PRIME stock feed
+name: HOME PRIME stock-only sync
 
 on:
   workflow_dispatch:
@@ -14,8 +14,9 @@ permissions:
   contents: write
 
 jobs:
-  update-feed:
+  sync-stock:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,16 +29,18 @@ jobs:
       - name: Install dependencies
         run: pip install requests lxml
 
-      - name: Build feed
+      - name: Update availability only
+        env:
+          PROM_API_TOKEN: ${{ secrets.PROM_API_TOKEN }}
         run: python build_feed.py
 
-      - name: Publish generated feed to repository
+      - name: Save synchronization report
+        if: always()
         run: |
-          test -s public/prom-feed.xml
-          cp public/prom-feed.xml prom-feed.xml
-          if [ -f public/sync-report.csv ]; then cp public/sync-report.csv sync-report.csv; fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add prom-feed.xml sync-report.csv
-          git diff --cached --quiet || git commit -m "Update Prom availability feed"
-          git push
+          if [ -f sync-report.csv ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add sync-report.csv
+            git diff --cached --quiet || git commit -m "Save HOME PRIME stock sync report"
+            git push
+          fi

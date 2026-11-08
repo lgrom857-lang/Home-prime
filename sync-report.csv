@@ -1,2 +1,2 @@
 ﻿Prom ID,Артикул,Результат,Джерела / відповідь API
-3154820091,151160J834,UPDATED_IN_STOCK,"HTTP 200; top_drop:+; response={'processed_ids': [3154820091], 'errors': {}, 'warnings': {}}"
+1105022476,151160J834,API_ERROR,{'1105022476': {'id': 'Продукт не найден'}}

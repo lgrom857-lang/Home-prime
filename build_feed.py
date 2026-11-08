@@ -51,7 +51,9 @@ def parse_feed(path):
                 status = False
             else:
                 status = None
-            found[code].append(status)
+            found[("code", code)].append(status)
+            if supplier_id:
+                found[("id", supplier_id)].append(status)
         elem.clear()
         while elem.getprevious() is not None:
             del elem.getparent()[0]

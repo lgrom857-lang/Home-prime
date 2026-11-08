@@ -2,6 +2,11 @@ name: HOME PRIME stock feed
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - "whitelist_prom.csv"
+      - "build_feed.py"
+      - ".github/workflows/update.yml"
   schedule:
     - cron: "23 */4 * * *"
 

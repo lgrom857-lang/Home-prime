@@ -47,7 +47,7 @@ def parse_feed(path):
             available = (elem.get("available") or data.get("available") or "").strip().lower()
             if available in ("true", "1", "+", "yes", "склад", "in_stock"):
                 status = True
-            elif available in ("false", "0", "-", "no", ""):
+            elif available in ("false", "0", "-", "no"):
                 status = False
             else:
                 status = None
@@ -67,10 +67,8 @@ def main():
                 continue
             code = norm(row.get("Код_товару"))
             prom_id = (row.get("Ідентифікатор_товару") or "").strip()
-            name = (row.get("Назва_позиції_укр") or "").strip()
-            category = (row.get("Ідентифікатор_підрозділу") or "").strip()
-            if code and prom_id.isdigit() and name and category:
-                whitelist.append({"code": code, "id": prom_id, "name": name, "category": category})
+            if code and prom_id.isdigit():
+                whitelist.append({"code": code, "id": prom_id})
 
     tmp = []
     feeds = {}
@@ -99,10 +97,9 @@ def main():
                 continue
             # Available from any supplier wins. Out of stock only if all matched suppliers say false.
             available = any(v for _, v in observations)
+            # Update ONLY stock availability. Do not send names, categories,
+            # prices, descriptions, images, or supplier identifiers to Prom.
             offer = etree.Element("offer", id=p["id"], available="true" if available else "false")
-            etree.SubElement(offer, "name").text = p["name"]
-            etree.SubElement(offer, "categoryId").text = p["category"]
-            etree.SubElement(offer, "vendorCode").text = p["code"]
             offers.append(offer)
             report.append([p["id"], p["code"], "IN_FEED_AVAILABLE" if available else "IN_FEED_OUT_OF_STOCK",
                            ",".join(f"{s}:{'+' if v else '-'}" for s, v in observations)])
@@ -112,12 +109,8 @@ def main():
         etree.SubElement(shop, "name").text = "HOME PRIME — approved existing products"
         currencies = etree.SubElement(shop, "currencies")
         etree.SubElement(currencies, "currency", id="UAH", rate="1")
-        catalog = etree.SubElement(shop, "categories")
-        for category_id in sorted({p["category"] for p in whitelist}):
-            etree.SubElement(catalog, "category", id=category_id).text = "Категорія Prom " + category_id
         offers_el = etree.SubElement(shop, "offers")
         for offer in offers:
-            # categoryId in offer must refer to the existing Prom category; category catalogue omitted
             offers_el.append(offer)
         etree.ElementTree(root).write(os.path.join(PUBLIC, "prom-feed.xml"),
                                       encoding="UTF-8", xml_declaration=True, pretty_print=True)

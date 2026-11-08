@@ -143,10 +143,10 @@ def main():
                 report.append([product["prom_id"], product["code"], decision, details])
                 continue
             # Send only existing Prom ID and availability; no card fields.
-            payload = {"products": [{
+            payload = [{
                 "id": int(product["prom_id"]),
                 "presence": "available" if available else "not_available"
-            }]}
+            }]
             try:
                 response = session.post(f"{API_BASE}/products/edit", json=payload, timeout=45)
                 if response.status_code >= 400:

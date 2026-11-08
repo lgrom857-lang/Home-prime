@@ -1,0 +1,37 @@
+name: HOME PRIME stock feed
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 */4 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-feed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests lxml
+
+      - name: Build feed
+        run: python build_feed.py
+
+      - name: Commit generated feed
+        run: |
+          if [ -f prom-feed.xml ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add prom-feed.xml
+            git diff --cached --quiet || git commit -m "Update Prom feed"
+            git push
+          fi

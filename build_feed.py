@@ -135,13 +135,18 @@ def main():
             feeds[source] = parse_feed(path)
 
         updates = 0
-        for product in whitelist:
+        # First validation run is deliberately limited to one product.
+        sync_limit = int(os.environ.get("PROM_SYNC_LIMIT", "1"))
+        for product in whitelist[:sync_limit]:
             available, decision, details = determine_status(product, feeds)
             if available is None:
                 report.append([product["prom_id"], product["code"], decision, details])
                 continue
-            # Intentionally send ONLY the Prom ID and the in_stock flag.
-            payload = {"id": int(product["prom_id"]), "in_stock": available}
+            # Send only existing Prom ID and availability; no card fields.
+            payload = {"products": [{
+                "id": int(product["prom_id"]),
+                "presence": "available" if available else "not_available"
+            }]}
             try:
                 response = session.post(f"{API_BASE}/products/edit", json=payload, timeout=45)
                 if response.status_code >= 400:
@@ -166,9 +171,9 @@ def main():
             writer = csv.writer(f)
             writer.writerow(["Prom ID", "Артикул", "Результат", "Джерела / відповідь API"])
             writer.writerows(report)
-        print(f"Finished. Approved products={len(whitelist)}; API updates accepted={updates}; skipped/errors={len(report)-updates}")
+        print(f"Finished. Approved products={len(whitelist)}; validation limit={sync_limit}; API updates accepted={updates}; skipped/errors={len(report)-updates}")
         if updates == 0:
-            raise RuntimeError("No API updates were accepted. Review sync-report.csv; no feed was published.")
+            raise RuntimeError("No API updates were accepted. Review sync-report.csv; no stock changes confirmed.")
     finally:
         for path in temp_files:
             try:

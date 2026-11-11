@@ -4,7 +4,7 @@
 Only POSTs {"id": PROM_ID, "in_stock": bool} to Prom.
 No product creation and no other product fields are sent.
 """
-import csv, os, re, time
+import csv, json, os, re, time
 from collections import defaultdict
 from urllib.request import Request, urlopen
 
@@ -248,6 +248,71 @@ def audit_missing_prom_ids(session):
     if stop_reason not in ("LAST_PAGE", "EMPTY_PAGE"):
         raise RuntimeError(f"Prom catalog scan incomplete ({stop_reason}); audit file is partial and must not be used to assign IDs.")
 
+
+def audit_duplicate_product_details(session):
+    """GET-only detail audit for all Prom IDs in the ambiguous article report."""
+    source_path = os.path.join(BASE, "prom-id-audit-ambiguous.csv")
+    if not os.path.exists(source_path):
+        print("DETAIL_AUDIT skipped: ambiguous candidate file is absent")
+        return
+    ids = []
+    with open(source_path, encoding="utf-8-sig", newline="") as f:
+        for row in csv.DictReader(f):
+            pid = (row.get("Prom ID з API") or "").strip()
+            if pid.isdigit() and pid not in ids:
+                ids.append(pid)
+
+    detail_rows, raw_records = [], []
+    for index, pid in enumerate(ids, 1):
+        response = session.get(f"{API_BASE}/products/{pid}", timeout=60)
+        print(f"DETAIL_AUDIT product={index}/{len(ids)} id={pid} HTTP {response.status_code}")
+        response.raise_for_status()
+        payload = response.json()
+        product = payload.get("product", payload) if isinstance(payload, dict) else {}
+        if not isinstance(product, dict):
+            product = {"unexpected_response": payload}
+        raw_records.append({"requested_id": pid, "response": payload})
+        images = product.get("images")
+        if isinstance(images, list):
+            image_count = len(images)
+        elif product.get("main_image"):
+            image_count = 1
+        else:
+            image_count = ""
+        def val(*keys):
+            for key in keys:
+                value = product.get(key)
+                if value is not None and value != "":
+                    if isinstance(value, (dict, list)):
+                        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+                    return str(value)
+            return ""
+        detail_rows.append([
+            pid, val("id"), val("sku"), val("external_id"), val("name"),
+            val("presence"), val("category", "category_id", "group_id"),
+            val("url", "product_url"), val("date_created", "created_at"),
+            val("date_modified", "updated_at", "modified_at"),
+            image_count, val("main_image"), val("keywords"),
+            len(str(val("description", "description_ua", "description_ru"))),
+            ",".join(sorted(product.keys()))
+        ])
+        time.sleep(0.15)
+
+    csv_path = os.path.join(BASE, "prom-id-audit-details.csv")
+    with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            "Requested Prom ID", "Returned Prom ID", "SKU", "External ID",
+            "Name", "Presence", "Category/group", "Product URL",
+            "Created", "Modified", "Images count", "Main image",
+            "Keywords", "Description length", "API fields"
+        ])
+        writer.writerows(detail_rows)
+    json_path = os.path.join(BASE, "prom-id-audit-details.json")
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(raw_records, f, ensure_ascii=False, indent=2)
+    print(f"DETAIL_AUDIT complete: requested={len(ids)} saved={len(detail_rows)}; GET-only, no product changes.")
+
 def main():
     yml_export_only = os.environ.get("PROM_YML_EXPORT_ONLY", "0").strip().lower() in ("1", "true", "yes")
     token = os.environ.get("PROM_API_TOKEN", "").strip()
@@ -271,6 +336,7 @@ def main():
             if not token:
                 raise RuntimeError("PROM_ID_AUDIT requires PROM_API_TOKEN secret")
             audit_missing_prom_ids(session)
+            audit_duplicate_product_details(session)
 
         # Read-only diagnostic mode: page through the existing Prom catalog.
         # Prom returns at most 100 products per response; use last_id cursor.

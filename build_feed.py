@@ -130,15 +130,23 @@ def main():
     try:
         # Read-only diagnostic mode: inspect official products/list before any edit.
         if os.environ.get("PROM_API_READ_ONLY", "1").strip().lower() in ("1", "true", "yes"):
-            response = session.get(f"{API_BASE}/products/list", params={"limit": 5}, timeout=45)
+            # Read-only catalog lookup: request a large page and locate the exact article/SKU.
+            response = session.get(f"{API_BASE}/products/list", params={"limit": 1000}, timeout=60)
             print(f"READ_ONLY products/list HTTP {response.status_code}")
-            print(f"READ_ONLY response: {response.text[:5000]}")
             response.raise_for_status()
+            data = response.json()
+            products = data.get("products", []) if isinstance(data, dict) else []
+            targets = {"151160", "151160-J834"}
+            hits = [p for p in products if str(p.get("external_id", "")).strip() in targets
+                    or str(p.get("sku", "")).strip() in targets]
+            print(f"READ_ONLY products returned={len(products)}; exact article hits={len(hits)}")
+            for p in hits:
+                print("TARGET_PRODUCT:", {k: p.get(k) for k in ("id", "external_id", "sku", "name", "presence")})
             with open(REPORT, "w", newline="", encoding="utf-8-sig") as f:
                 writer = csv.writer(f)
-                writer.writerow(["Mode", "HTTP", "Endpoint", "Response"])
-                writer.writerow(["READ_ONLY", response.status_code, "/products/list?limit=5", response.text[:5000]])
-            print("Read-only API check complete. No product data was changed.")
+                writer.writerow(["Mode", "HTTP", "Endpoint", "Products returned", "Target hits", "Target product JSON"])
+                writer.writerow(["READ_ONLY", response.status_code, "/products/list?limit=1000", len(products), len(hits), str(hits)])
+            print("Read-only API lookup complete. No product data was changed.")
             return
 
         for source, url in FEEDS.items():

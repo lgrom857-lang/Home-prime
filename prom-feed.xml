@@ -1,12 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-11 16:16">
+<yml_catalog date="2026-11-11 18:57">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
       <currency id="UAH" rate="1"/>
     </currencies>
     <offers>
+      <offer id="3145443585" available="true">
+        <vendorCode>ZP140</vendorCode>
+      </offer>
+      <offer id="3145947195" available="true">
+        <vendorCode>ZP109A</vendorCode>
+      </offer>
+      <offer id="3147005439" available="true">
+        <vendorCode>ZP00235</vendorCode>
+      </offer>
+      <offer id="3150452457" available="true">
+        <vendorCode>ZP00359</vendorCode>
+      </offer>
       <offer id="3154820091" available="true">
         <vendorCode>151160</vendorCode>
       </offer>
@@ -18,6 +30,12 @@
       </offer>
       <offer id="1391167776" available="true">
         <vendorCode>951474-U546</vendorCode>
+      </offer>
+      <offer id="3159924444" available="true">
+        <vendorCode>ZP00219</vendorCode>
+      </offer>
+      <offer id="3161653147" available="true">
+        <vendorCode>N2281923</vendorCode>
       </offer>
       <offer id="704787812" available="true">
         <vendorCode>3811033</vendorCode>
@@ -232,6 +250,9 @@
       <offer id="2763121004" available="true">
         <vendorCode>CB3407</vendorCode>
       </offer>
+      <offer id="2775579357" available="true">
+        <vendorCode>ZP216</vendorCode>
+      </offer>
       <offer id="2811937008" available="true">
         <vendorCode>BL210</vendorCode>
       </offer>
@@ -307,6 +328,9 @@
       <offer id="2999641784" available="true">
         <vendorCode>ZP00347</vendorCode>
       </offer>
+      <offer id="2999928763" available="true">
+        <vendorCode>ZP209</vendorCode>
+      </offer>
       <offer id="2999965647" available="true">
         <vendorCode>ZP212</vendorCode>
       </offer>
@@ -369,6 +393,9 @@
       </offer>
       <offer id="3090817672" available="true">
         <vendorCode>G6553</vendorCode>
+      </offer>
+      <offer id="3100477733" available="true">
+        <vendorCode>ZP00345</vendorCode>
       </offer>
       <offer id="3100483000" available="true">
         <vendorCode>ZP00355</vendorCode>
@@ -798,6 +825,9 @@
       </offer>
       <offer id="2881397836" available="true">
         <vendorCode>RAFR104B</vendorCode>
+      </offer>
+      <offer id="2853474985" available="true">
+        <vendorCode>ZP217</vendorCode>
       </offer>
       <offer id="2882475380" available="true">
         <vendorCode>ZP105</vendorCode>
@@ -1674,6 +1704,15 @@
       </offer>
       <offer id="21233" available="true">
         <vendorCode>21233</vendorCode>
+      </offer>
+      <offer id="3229453093" available="true">
+        <vendorCode>AND1472</vendorCode>
+      </offer>
+      <offer id="3229453096" available="true">
+        <vendorCode>M1792</vendorCode>
+      </offer>
+      <offer id="3229453099" available="true">
+        <vendorCode>5940</vendorCode>
       </offer>
     </offers>
   </shop>

@@ -96,26 +96,34 @@ def determine_status(product, feeds):
     observations, missing, ambiguous = [], [], []
     for source, index in feeds.items():
         supplier_id = product["supplier_ids"].get(source, "")
-        values = index.get(("id", supplier_id), []) if supplier_id else []
-        if not values:
-            values = index.get(("code", product["code"]), [])
+        # If a supplier-specific ID is supplied, it must match exactly.
+        # Fall back to the normalized article only when no supplier ID exists.
+        key = ("id", supplier_id) if supplier_id else ("code", product["code"])
+        values = index.get(key, [])
         if len(values) > 1:
             ambiguous.append(source)
         elif len(values) == 1 and values[0] is not None:
             observations.append((source, values[0]))
         else:
             missing.append(source)
-    if ambiguous:
-        return None, "SKIP_AMBIGUOUS", ",".join(ambiguous)
+
+    # One unambiguous positive supplier is sufficient to confirm availability,
+    # even if another supplier has a duplicate/unknown record.
     if any(value for _, value in observations):
-        return True, "IN_STOCK", ",".join(f"{s}:{'+' if v else '-'}" for s, v in observations)
-    # Never mark unavailable unless ALL THREE supplier sources have one exact,
-    # unambiguous, explicit out-of-stock match.
-    if len(observations) == len(FEEDS) and not missing and all(not v for _, v in observations):
+        return True, "IN_STOCK", ",".join(f"{s}:{'+' if v else '-'}" for s, v in observations) + (
+            "; ambiguous=" + ",".join(ambiguous) if ambiguous else ""
+        )
+
+    # Mark unavailable only when all three sources each give one exact,
+    # unambiguous and explicit out-of-stock result.
+    if len(observations) == len(FEEDS) and not missing and not ambiguous and all(not v for _, v in observations):
         return False, "OUT_OF_STOCK", ",".join(f"{s}:-" for s, _ in observations)
-    return None, "SKIP_INCOMPLETE_OR_UNKNOWN", (
+
+    reason = "SKIP_AMBIGUOUS" if ambiguous else "SKIP_INCOMPLETE_OR_UNKNOWN"
+    return None, reason, (
         "matched=" + ",".join(f"{s}:{'+' if v else '-'}" for s, v in observations) +
-        "; missing_or_unknown=" + ",".join(missing)
+        "; missing_or_unknown=" + ",".join(missing) +
+        "; ambiguous=" + ",".join(ambiguous)
     )
 
 def main():
@@ -213,31 +221,32 @@ def main():
             temp_files.append(path)
             feeds[source] = parse_feed(path)
 
-        # YML export mode: generate a single-product availability-only feed; no Prom API writes.
+        # YML export mode: create a stock-only feed for every approved existing Prom card.
+        # The feed contains only Prom ID + availability, so names, prices, photos,
+        # descriptions, SEO, categories and characteristics are not supplied.
         if os.environ.get("PROM_YML_EXPORT_ONLY", "0").strip().lower() in ("1", "true", "yes"):
-            if not test_id or len(whitelist) != 1:
-                raise RuntimeError("Safety stop: YML test export requires exactly one PROM_TEST_ONLY_ID")
-            product = whitelist[0]
-            available, decision, details = determine_status(product, feeds)
-            if available is None:
-                raise RuntimeError(f"YML export stopped: supplier status is inconclusive ({decision}: {details})")
-            if not product["name"] or not product["category_id"].isdigit():
-                raise RuntimeError("YML export stopped: missing approved product name or category ID")
             root = etree.Element("yml_catalog", date=time.strftime("%Y-%m-%d %H:%M"))
             shop = etree.SubElement(root, "shop")
-            etree.SubElement(shop, "name").text = "HOME PRIME — stock-only test"
+            etree.SubElement(shop, "name").text = "HOME PRIME — stock-only sync"
             currencies = etree.SubElement(shop, "currencies")
             etree.SubElement(currencies, "currency", id="UAH", rate="1")
-            categories = etree.SubElement(shop, "categories")
-            etree.SubElement(categories, "category", id=product["category_id"]).text = product["name"]
             offers = etree.SubElement(shop, "offers")
-            # Use the existing Prom product ID as the YML offer ID.
-            # Keep the supplier/article code separately in vendorCode.
-            offer = etree.SubElement(offers, "offer", id=product["prom_id"],
-                                     available="true" if available else "false")
-            etree.SubElement(offer, "name").text = product["name"]
-            etree.SubElement(offer, "categoryId").text = product["category_id"]
-            etree.SubElement(offer, "vendorCode").text = product["article"]
+            included, skipped = 0, 0
+            report = []
+            for product in whitelist:
+                available, decision, details = determine_status(product, feeds)
+                if available is None:
+                    skipped += 1
+                    report.append([product["prom_id"], product["article"], decision, details])
+                    continue
+                etree.SubElement(offers, "offer", id=product["prom_id"],
+                                 available="true" if available else "false")
+                included += 1
+                report.append([product["prom_id"], product["article"],
+                               "YML_READY_IN_STOCK" if available else "YML_READY_OUT_OF_STOCK",
+                               details])
+            if included == 0:
+                raise RuntimeError("YML export stopped: no products have a conclusive supplier status; no feed generated.")
             etree.ElementTree(root).write(os.path.join(BASE, "prom-feed.xml"),
                                           encoding="UTF-8", xml_declaration=True,
                                           doctype='<!DOCTYPE yml_catalog SYSTEM "shops.dtd">',
@@ -245,11 +254,9 @@ def main():
             with open(REPORT, "w", newline="", encoding="utf-8-sig") as f:
                 writer = csv.writer(f)
                 writer.writerow(["Prom ID", "Артикул", "Результат", "Джерела"])
-                writer.writerow([product["prom_id"], product["article"],
-                                 "YML_READY_IN_STOCK" if available else "YML_READY_OUT_OF_STOCK",
-                                 details])
-            print(f"YML TEST READY: Prom ID={product['prom_id']}; available={available}; {details}")
-            print("No Prom API write requests were sent.")
+                writer.writerows(report)
+            print(f"YML READY: approved Prom products={len(whitelist)}; included={included}; skipped={skipped}")
+            print("Only offer ID and availability are exported. No Prom API write requests were sent.")
             return
 
         updates = 0

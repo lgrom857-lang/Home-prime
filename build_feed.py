@@ -156,19 +156,12 @@ def determine_status(product, feeds):
 def audit_missing_prom_ids(session):
     """Read-only lookup of whitelist rows missing Prom IDs against the live Prom catalog."""
     targets = []
-    with open(WHITELIST, encoding="utf-8-sig", newline="") as f:
+    target_path = os.path.join(BASE, "prom-id-audit-targets.csv")
+    with open(target_path, encoding="utf-8-sig", newline="") as f:
         for row in csv.DictReader(f):
-            prom_id = (row.get("Ідентифікатор_товару") or "").strip()
             article = (row.get("Код_товару") or "").strip()
-            if not prom_id and article:
-                targets.append({
-                    "article": article,
-                    "article_norm": norm(article),
-                    "name": (row.get("Назва_позиції_укр") or "").strip(),
-                    "name_norm": norm(row.get("Назва_позиції_укр") or ""),
-                    "unique_id": (row.get("Унікальний_ідентифікатор") or "").strip(),
-                    "url": (row.get("Продукт_на_сайті") or "").strip(),
-                })
+            if article:
+                targets.append({"article": article, "article_norm": norm(article)})
 
     by_key = defaultdict(list)
     seen_ids = set()

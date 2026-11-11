@@ -2,13 +2,6 @@ name: HOME PRIME stock-only sync
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "whitelist_prom.csv"
-      - "build_feed.py"
-      - ".github/workflows/update.yml"
-  schedule:
-    - cron: "23 */4 * * *"
 
 permissions:
   contents: write
@@ -32,7 +25,7 @@ jobs:
       - name: Update availability only
         env:
           PROM_API_TOKEN: ${{ secrets.PROM_API_TOKEN }}
-          PROM_SYNC_LIMIT: "1"
+          PROM_SYNC_LIMIT: "0"
         run: python build_feed.py
 
       - name: Save synchronization report

@@ -1,6 +1,10 @@
 name: HOME PRIME stock-only sync
 
 on:
+  push:
+    paths:
+      - 'build_feed.py'
+      - '.github/workflows/update.yml'
   workflow_dispatch:
   schedule:
     - cron: "17 */4 * * *"

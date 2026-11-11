@@ -231,10 +231,13 @@ def main():
             categories = etree.SubElement(shop, "categories")
             etree.SubElement(categories, "category", id=product["category_id"]).text = product["name"]
             offers = etree.SubElement(shop, "offers")
-            offer = etree.SubElement(offers, "offer", id=product["prom_id"],
+            # Use the approved product article as the YML offer ID and explicit vendorCode.
+            # Prom's internal product ID remains only in the whitelist/safety guard.
+            offer = etree.SubElement(offers, "offer", id=product["code"],
                                      available="true" if available else "false")
             etree.SubElement(offer, "name").text = product["name"]
             etree.SubElement(offer, "categoryId").text = product["category_id"]
+            etree.SubElement(offer, "vendorCode").text = product["code"]
             etree.ElementTree(root).write(os.path.join(BASE, "prom-feed.xml"),
                                           encoding="UTF-8", xml_declaration=True,
                                           doctype='<!DOCTYPE yml_catalog SYSTEM "shops.dtd">',

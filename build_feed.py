@@ -426,7 +426,27 @@ def main():
             offers = etree.SubElement(shop, "offers")
             included, skipped = 0, 0
             report = []
+            # Explicit duplicate resolution: keep one existing Prom card available
+            # and mark its duplicate unavailable. Only stock is exported.
+            resolution_path = os.path.join(BASE, "prom-duplicate-resolution.csv")
+            resolutions = []
+            resolution_ids = set()
+            with open(resolution_path, encoding="utf-8-sig", newline="") as f:
+                for row in csv.DictReader(f):
+                    article = (row.get("Артикул") or "").strip()
+                    keep_id = (row.get("Prom_ID_залишити") or "").strip()
+                    disable_id = (row.get("Prom_ID_немає_в_наявності") or "").strip()
+                    if not article or not keep_id.isdigit() or not disable_id.isdigit() or keep_id == disable_id:
+                        raise RuntimeError(f"Invalid duplicate resolution row: {row}")
+                    if keep_id in resolution_ids or disable_id in resolution_ids:
+                        raise RuntimeError(f"Duplicate Prom ID in duplicate resolution: {row}")
+                    resolution_ids.update((keep_id, disable_id))
+                    resolutions.append((article, keep_id, disable_id))
+            if len(resolutions) != 53:
+                raise RuntimeError(f"Expected 53 reviewed duplicate pairs, found {len(resolutions)}")
             for product in whitelist:
+                if product["prom_id"] in resolution_ids:
+                    continue
                 available, decision, details = determine_status(product, feeds)
                 if available is None:
                     skipped += 1
@@ -441,6 +461,17 @@ def main():
                 report.append([product["prom_id"], product["article"],
                                "YML_READY_IN_STOCK" if available else "YML_READY_OUT_OF_STOCK",
                                details])
+            for article, keep_id, disable_id in resolutions:
+                offer = etree.SubElement(offers, "offer", id=keep_id, available="true")
+                etree.SubElement(offer, "vendorCode").text = article
+                included += 1
+                report.append([keep_id, article, "DUPLICATE_KEEP_AVAILABLE",
+                               "Selected card: external_id is populated"])
+                offer = etree.SubElement(offers, "offer", id=disable_id, available="false")
+                etree.SubElement(offer, "vendorCode").text = article
+                included += 1
+                report.append([disable_id, article, "DUPLICATE_MARK_UNAVAILABLE",
+                               "Duplicate card: external_id is empty; user can delete it later"])
             if included == 0:
                 raise RuntimeError("YML export stopped: no products have a conclusive supplier status; no feed generated.")
             etree.ElementTree(root).write(os.path.join(BASE, "prom-feed.xml"),

@@ -128,25 +128,74 @@ def main():
                             "User-Agent": "HOME-PRIME-stock-sync/2.0"})
     report = []
     try:
-        # Read-only diagnostic mode: inspect official products/list before any edit.
+        # Read-only diagnostic mode: page through the existing Prom catalog.
+        # Prom returns at most 100 products per response; use last_id cursor.
+        # This branch performs GET requests only and never changes product data.
         if os.environ.get("PROM_API_READ_ONLY", "1").strip().lower() in ("1", "true", "yes"):
-            # Read-only catalog lookup: request a large page and locate the exact article/SKU.
-            response = session.get(f"{API_BASE}/products/list", params={"limit": 1000}, timeout=60)
-            print(f"READ_ONLY products/list HTTP {response.status_code}")
-            response.raise_for_status()
-            data = response.json()
-            products = data.get("products", []) if isinstance(data, dict) else []
             targets = {"151160", "151160-J834"}
-            hits = [p for p in products if str(p.get("external_id", "")).strip() in targets
-                    or str(p.get("sku", "")).strip() in targets]
-            print(f"READ_ONLY products returned={len(products)}; exact article hits={len(hits)}")
-            for p in hits:
-                print("TARGET_PRODUCT:", {k: p.get(k) for k in ("id", "external_id", "sku", "name", "presence")})
+            seen_ids = set()
+            hits = []
+            page_size = 100
+            last_id = None
+            max_pages = int(os.environ.get("PROM_READ_ONLY_MAX_PAGES", "100"))
+            pages_read = 0
+            stop_reason = "MAX_PAGES_REACHED"
+
+            for page_no in range(1, max_pages + 1):
+                params = {"limit": page_size}
+                if last_id is not None:
+                    params["last_id"] = last_id
+                response = session.get(f"{API_BASE}/products/list", params=params, timeout=60)
+                print(f"READ_ONLY products/list page={page_no} params={params} HTTP {response.status_code}")
+                response.raise_for_status()
+                data = response.json()
+                products = data.get("products", []) if isinstance(data, dict) else []
+                if not isinstance(products, list):
+                    raise RuntimeError("Unexpected products/list response: 'products' is not a list")
+                pages_read += 1
+                print(f"READ_ONLY page={page_no} products={len(products)}")
+                if not products:
+                    stop_reason = "EMPTY_PAGE"
+                    break
+
+                new_count = 0
+                numeric_ids = []
+                for p in products:
+                    pid = str(p.get("id", "")).strip()
+                    if pid:
+                        if pid not in seen_ids:
+                            new_count += 1
+                            seen_ids.add(pid)
+                        if pid.isdigit():
+                            numeric_ids.append(int(pid))
+                    external_id = str(p.get("external_id", "")).strip()
+                    sku = str(p.get("sku", "")).strip()
+                    if external_id in targets or sku in targets:
+                        hits.append({k: p.get(k) for k in ("id", "external_id", "sku", "name", "presence")})
+
+                if len(products) < page_size:
+                    stop_reason = "LAST_PAGE"
+                    break
+                if not numeric_ids:
+                    stop_reason = "NO_NUMERIC_PRODUCT_IDS_FOR_CURSOR"
+                    break
+
+                next_last_id = str(min(numeric_ids))
+                if new_count == 0 or next_last_id == last_id:
+                    stop_reason = "CURSOR_DID_NOT_ADVANCE_OR_PAGE_REPEATED"
+                    break
+                last_id = next_last_id
+            else:
+                stop_reason = "MAX_PAGES_REACHED"
+
+            print(f"READ_ONLY total_unique_products={len(seen_ids)} pages={pages_read} stop={stop_reason} target_hits={len(hits)}")
+            for hit in hits:
+                print("TARGET_PRODUCT:", hit)
             with open(REPORT, "w", newline="", encoding="utf-8-sig") as f:
                 writer = csv.writer(f)
-                writer.writerow(["Mode", "HTTP", "Endpoint", "Products returned", "Target hits", "Target product JSON"])
-                writer.writerow(["READ_ONLY", response.status_code, "/products/list?limit=1000", len(products), len(hits), str(hits)])
-            print("Read-only API lookup complete. No product data was changed.")
+                writer.writerow(["Mode", "Pages read", "Unique products scanned", "Stop reason", "Target hits", "Target product JSON"])
+                writer.writerow(["READ_ONLY_PAGINATED", pages_read, len(seen_ids), stop_reason, len(hits), str(hits)])
+            print("Read-only paginated API lookup complete. No product data was changed.")
             return
 
         for source, url in FEEDS.items():

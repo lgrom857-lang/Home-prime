@@ -22,11 +22,12 @@ jobs:
       - name: Install dependencies
         run: pip install requests lxml
 
-      - name: Update availability only
+      - name: Generate one-product availability-only YML test
         env:
           PROM_API_TOKEN: ${{ secrets.PROM_API_TOKEN }}
           PROM_SYNC_LIMIT: "1"
           PROM_API_READ_ONLY: "false"
+          PROM_YML_EXPORT_ONLY: "true"
           PROM_TEST_ONLY_ID: "3154820091"
         run: python build_feed.py
 
@@ -36,7 +37,7 @@ jobs:
           if [ -f sync-report.csv ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add sync-report.csv
-            git diff --cached --quiet || git commit -m "Save HOME PRIME stock sync report"
+            git add sync-report.csv prom-feed.xml
+            git diff --cached --quiet || git commit -m "Save HOME PRIME one-product YML test feed and report"
             git push
           fi

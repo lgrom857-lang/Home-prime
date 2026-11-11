@@ -2,6 +2,10 @@ name: HOME PRIME stock-only sync
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'build_feed.py'
+      - '.github/workflows/update.yml'
 
 permissions:
   contents: write

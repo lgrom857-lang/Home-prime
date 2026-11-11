@@ -1,19 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-11 12:05">
+<yml_catalog date="2026-11-11 13:22">
   <shop>
     <name>HOME PRIME — stock-only test</name>
     <currencies>
       <currency id="UAH" rate="1"/>
     </currencies>
     <categories>
-      <category id="142004">Набір інструментів годинникаря, Інструмент для заміни ремінця годинника, Набір інструментів годинникового майстра, RFJ</category>
+      <category id="1250309">Пилосос повітродувка садовий електричний 2600Вт Parkside (Німеччина), Садові пилососи, Садовий пилосос електричний, RFJ</category>
     </categories>
     <offers>
-      <offer id="151160" available="true">
-        <name>Набір інструментів годинникаря, Інструмент для заміни ремінця годинника, Набір інструментів годинникового майстра, RFJ</name>
-        <categoryId>142004</categoryId>
-        <vendorCode>151160</vendorCode>
+      <offer id="960414-Q382" available="true">
+        <name>Пилосос повітродувка садовий електричний 2600Вт Parkside (Німеччина), Садові пилососи, Садовий пилосос електричний, RFJ</name>
+        <categoryId>1250309</categoryId>
+        <vendorCode>960414-Q382</vendorCode>
       </offer>
     </offers>
   </shop>

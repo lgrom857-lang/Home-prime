@@ -153,6 +153,116 @@ def determine_status(product, feeds):
         "; ambiguous=" + ",".join(ambiguous)
     )
 
+def audit_missing_prom_ids(session):
+    """Read-only lookup of whitelist rows missing Prom IDs against the live Prom catalog."""
+    targets = []
+    with open(WHITELIST, encoding="utf-8-sig", newline="") as f:
+        for row in csv.DictReader(f):
+            prom_id = (row.get("Ідентифікатор_товару") or "").strip()
+            article = (row.get("Код_товару") or "").strip()
+            if not prom_id and article:
+                targets.append({
+                    "article": article,
+                    "article_norm": norm(article),
+                    "name": (row.get("Назва_позиції_укр") or "").strip(),
+                    "name_norm": norm(row.get("Назва_позиції_укр") or ""),
+                    "unique_id": (row.get("Унікальний_ідентифікатор") or "").strip(),
+                    "url": (row.get("Продукт_на_сайті") or "").strip(),
+                })
+
+    by_key = defaultdict(list)
+    seen_ids = set()
+    page_size = 100
+    last_id = None
+    max_pages = int(os.environ.get("PROM_READ_ONLY_MAX_PAGES", "200"))
+    pages_read = 0
+    stop_reason = "MAX_PAGES_REACHED"
+
+    for page_no in range(1, max_pages + 1):
+        params = {"limit": page_size}
+        if last_id is not None:
+            params["last_id"] = last_id
+        response = session.get(f"{API_BASE}/products/list", params=params, timeout=60)
+        print(f"ID_AUDIT products/list page={page_no} HTTP {response.status_code}")
+        response.raise_for_status()
+        data = response.json()
+        products = data.get("products", []) if isinstance(data, dict) else []
+        if not isinstance(products, list):
+            raise RuntimeError("Unexpected products/list response: 'products' is not a list")
+        pages_read += 1
+        if not products:
+            stop_reason = "EMPTY_PAGE"
+            break
+
+        numeric_ids = []
+        new_count = 0
+        for p in products:
+            pid = str(p.get("id", "")).strip()
+            if pid and pid not in seen_ids:
+                seen_ids.add(pid)
+                new_count += 1
+            if pid.isdigit():
+                numeric_ids.append(int(pid))
+            # Keep exact source fields for matching; do not infer Prom IDs from URL/unique_id.
+            for field in ("sku", "external_id"):
+                value = norm(str(p.get(field, "") or ""))
+                if value:
+                    by_key[("article", value)].append(p)
+            name_key = norm(str(p.get("name", "") or ""))
+            if name_key:
+                by_key[("name", name_key)].append(p)
+
+        print(f"ID_AUDIT page={page_no} products={len(products)} unique_total={len(seen_ids)}")
+        if len(products) < page_size:
+            stop_reason = "LAST_PAGE"
+            break
+        if not numeric_ids:
+            stop_reason = "NO_NUMERIC_PRODUCT_IDS_FOR_CURSOR"
+            break
+        next_last_id = str(min(numeric_ids))
+        if new_count == 0 or next_last_id == last_id:
+            stop_reason = "CURSOR_DID_NOT_ADVANCE_OR_PAGE_REPEATED"
+            break
+        last_id = next_last_id
+
+    output = []
+    for target in targets:
+        candidates = {}
+        for p in by_key.get(("article", target["article_norm"]), []):
+            candidates[str(p.get("id", ""))] = p
+        match_type = "ARTICLE_EXACT"
+        if not candidates and target["name_norm"]:
+            for p in by_key.get(("name", target["name_norm"]), []):
+                candidates[str(p.get("id", ""))] = p
+            match_type = "NAME_EXACT" if candidates else "NO_MATCH"
+        if len(candidates) > 1:
+            match_type = "MULTIPLE_CANDIDATES"
+        elif len(candidates) == 0:
+            match_type = "NO_MATCH"
+        for pid, p in candidates.items():
+            output.append([
+                target["article"], target["name"], target["unique_id"], target["url"],
+                match_type, pid, p.get("sku", ""), p.get("external_id", ""),
+                p.get("name", ""), p.get("presence", "")
+            ])
+        if not candidates:
+            output.append([
+                target["article"], target["name"], target["unique_id"], target["url"],
+                match_type, "", "", "", "", ""
+            ])
+
+    audit_path = os.path.join(BASE, "prom-id-audit.csv")
+    with open(audit_path, "w", newline="", encoding="utf-8-sig") as f:
+        writer = csv.writer(f)
+        writer.writerow(["Артикул Excel", "Назва Excel", "Унікальний ID (лише довідково)",
+                         "URL (лише довідково)", "Тип збігу", "Prom ID з API",
+                         "API sku", "API external_id", "Назва з API", "Наявність з API"])
+        writer.writerows(output)
+    print(f"ID_AUDIT complete: targets={len(targets)} pages={pages_read} catalog_unique={len(seen_ids)} stop={stop_reason} output_rows={len(output)}")
+    print("ID_AUDIT is GET-only; no Prom product fields were changed.")
+    if stop_reason not in ("LAST_PAGE", "EMPTY_PAGE"):
+        raise RuntimeError(f"Prom catalog scan incomplete ({stop_reason}); audit file is partial and must not be used to assign IDs.")
+
 def main():
     yml_export_only = os.environ.get("PROM_YML_EXPORT_ONLY", "0").strip().lower() in ("1", "true", "yes")
     token = os.environ.get("PROM_API_TOKEN", "").strip()
@@ -172,6 +282,11 @@ def main():
                             "User-Agent": "HOME-PRIME-stock-sync/2.0"})
     report = []
     try:
+        if os.environ.get("PROM_ID_AUDIT", "0").strip().lower() in ("1", "true", "yes"):
+            if not token:
+                raise RuntimeError("PROM_ID_AUDIT requires PROM_API_TOKEN secret")
+            audit_missing_prom_ids(session)
+
         # Read-only diagnostic mode: page through the existing Prom catalog.
         # Prom returns at most 100 products per response; use last_id cursor.
         # This branch performs GET requests only and never changes product data.

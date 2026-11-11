@@ -222,7 +222,7 @@ def main():
             feeds[source] = parse_feed(path)
 
         # YML export mode: create a stock-only feed for every approved existing Prom card.
-        # The feed contains only Prom ID + availability, so names, prices, photos,
+        # The feed contains Prom ID + availability + existing vendorCode matching key, so names, prices, photos,
         # descriptions, SEO, categories and characteristics are not supplied.
         if os.environ.get("PROM_YML_EXPORT_ONLY", "0").strip().lower() in ("1", "true", "yes"):
             root = etree.Element("yml_catalog", date=time.strftime("%Y-%m-%d %H:%M"))
@@ -239,8 +239,11 @@ def main():
                     skipped += 1
                     report.append([product["prom_id"], product["article"], decision, details])
                     continue
-                etree.SubElement(offers, "offer", id=product["prom_id"],
-                                 available="true" if available else "false")
+                offer = etree.SubElement(offers, "offer", id=product["prom_id"],
+                                         available="true" if available else "false")
+                # Keep the existing article as the matching key used in the
+                # successful one-product Prom import; it is not changed.
+                etree.SubElement(offer, "vendorCode").text = product["article"]
                 included += 1
                 report.append([product["prom_id"], product["article"],
                                "YML_READY_IN_STOCK" if available else "YML_READY_OUT_OF_STOCK",

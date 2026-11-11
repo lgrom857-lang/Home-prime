@@ -28,7 +28,7 @@ jobs:
           PROM_SYNC_LIMIT: "1"
           PROM_API_READ_ONLY: "false"
           PROM_YML_EXPORT_ONLY: "true"
-          PROM_TEST_ONLY_ID: "3154820091"
+          PROM_TEST_ONLY_ID: "3971465799"
         run: python build_feed.py
 
       - name: Save synchronization report

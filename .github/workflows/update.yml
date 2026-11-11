@@ -2,10 +2,6 @@ name: HOME PRIME stock-only sync
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'build_feed.py'
-      - '.github/workflows/update.yml'
 
 permissions:
   contents: write
@@ -30,7 +26,8 @@ jobs:
         env:
           PROM_API_TOKEN: ${{ secrets.PROM_API_TOKEN }}
           PROM_SYNC_LIMIT: "1"
-          PROM_API_READ_ONLY: "true"
+          PROM_API_READ_ONLY: "false"
+          PROM_TEST_ONLY_ID: "3154820091"
         run: python build_feed.py
 
       - name: Save synchronization report

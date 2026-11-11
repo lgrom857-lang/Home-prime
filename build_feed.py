@@ -222,33 +222,25 @@ def audit_missing_prom_ids(session):
     for target in targets:
         candidates = {}
         for p in by_key.get(("article", target["article_norm"]), []):
-            candidates[str(p.get("id", ""))] = p
-        match_type = "ARTICLE_EXACT"
-        if not candidates and target["name_norm"]:
-            for p in by_key.get(("name", target["name_norm"]), []):
-                candidates[str(p.get("id", ""))] = p
-            match_type = "NAME_EXACT" if candidates else "NO_MATCH"
-        if len(candidates) > 1:
-            match_type = "MULTIPLE_CANDIDATES"
-        elif len(candidates) == 0:
-            match_type = "NO_MATCH"
-        for pid, p in candidates.items():
-            output.append([
-                target["article"], target["name"], target["unique_id"], target["url"],
-                match_type, pid, p.get("sku", ""), p.get("external_id", ""),
-                p.get("name", ""), p.get("presence", "")
-            ])
-        if not candidates:
-            output.append([
-                target["article"], target["name"], target["unique_id"], target["url"],
-                match_type, "", "", "", "", ""
-            ])
+            pid = str(p.get("id", "")).strip()
+            if pid:
+                candidates[pid] = p
+        match_type = "ARTICLE_EXACT" if len(candidates) == 1 else (
+            "MULTIPLE_CANDIDATES" if len(candidates) > 1 else "NO_MATCH"
+        )
+        if candidates:
+            for pid, p in candidates.items():
+                output.append([
+                    target["article"], match_type, pid, p.get("sku", ""),
+                    p.get("external_id", ""), p.get("name", ""), p.get("presence", "")
+                ])
+        else:
+            output.append([target["article"], match_type, "", "", "", "", ""])
 
     audit_path = os.path.join(BASE, "prom-id-audit.csv")
     with open(audit_path, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
-        writer.writerow(["Артикул Excel", "Назва Excel", "Унікальний ID (лише довідково)",
-                         "URL (лише довідково)", "Тип збігу", "Prom ID з API",
+        writer.writerow(["Артикул з Excel", "Тип збігу", "Prom ID з API",
                          "API sku", "API external_id", "Назва з API", "Наявність з API"])
         writer.writerows(output)
     print(f"ID_AUDIT complete: targets={len(targets)} pages={pages_read} catalog_unique={len(seen_ids)} stop={stop_reason} output_rows={len(output)}")

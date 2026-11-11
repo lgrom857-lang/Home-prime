@@ -119,8 +119,9 @@ def determine_status(product, feeds):
     )
 
 def main():
+    yml_export_only = os.environ.get("PROM_YML_EXPORT_ONLY", "0").strip().lower() in ("1", "true", "yes")
     token = os.environ.get("PROM_API_TOKEN", "").strip()
-    if not token:
+    if not yml_export_only and not token:
         raise RuntimeError("Missing GitHub Actions secret PROM_API_TOKEN. Add it in Settings > Secrets and variables > Actions.")
     whitelist = load_whitelist()
     test_id = os.environ.get("PROM_TEST_ONLY_ID", "").strip()
@@ -236,6 +237,7 @@ def main():
             etree.SubElement(offer, "categoryId").text = product["category_id"]
             etree.ElementTree(root).write(os.path.join(BASE, "prom-feed.xml"),
                                           encoding="UTF-8", xml_declaration=True,
+                                          doctype='<!DOCTYPE yml_catalog SYSTEM "shops.dtd">',
                                           pretty_print=True)
             with open(REPORT, "w", newline="", encoding="utf-8-sig") as f:
                 writer = csv.writer(f)

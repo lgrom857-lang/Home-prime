@@ -1,6 +1,10 @@
 name: HOME PRIME stock-only sync
 
 on:
+  push:
+    paths:
+      - 'build_feed.py'
+      - '.github/workflows/update.yml'
   workflow_dispatch:
   schedule:
     - cron: "17 */4 * * *"
@@ -32,14 +36,16 @@ jobs:
           PROM_YML_EXPORT_ONLY: "true"
         run: python build_feed.py
 
-      - name: Save availability feed and report
+      - name: Upload read-only audit files
         if: always()
-        run: |
-          if [ -f sync-report.csv ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add sync-report.csv prom-feed.xml
-            for f in prom-id-audit.csv prom-id-audit-details.csv prom-id-audit-details.json; do if [ -f "$f" ]; then git add "$f"; fi; done
-            git diff --cached --quiet || git commit -m "Update HOME PRIME stock-only feed"
-            git push
-          fi
+        uses: actions/upload-artifact@v4
+        with:
+          name: home-prime-prom-id-audit
+          path: |
+            prom-id-audit.csv
+            prom-id-audit-details.csv
+            prom-id-audit-details.json
+            sync-report.csv
+            prom-feed.xml
+          if-no-files-found: warn
+          retention-days: 7

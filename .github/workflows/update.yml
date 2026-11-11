@@ -39,7 +39,7 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add sync-report.csv prom-feed.xml
-            if [ -f prom-id-audit.csv ]; then git add prom-id-audit.csv; fi
+            for f in prom-id-audit.csv prom-id-audit-details.csv prom-id-audit-details.json; do if [ -f "$f" ]; then git add "$f"; fi; done
             git diff --cached --quiet || git commit -m "Update HOME PRIME stock-only feed"
             git push
           fi

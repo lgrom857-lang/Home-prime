@@ -84,6 +84,8 @@ def load_whitelist():
                 raise RuntimeError(f"Duplicate Prom ID in whitelist: {prom_id}; refusing all updates")
             seen_ids.add(prom_id)
             rows.append({"code": code, "prom_id": prom_id,
+                         "name": (row.get("Назва_позиції_укр") or "").strip(),
+                         "category_id": (row.get("Ідентифікатор_підрозділу") or "").strip(),
                          "supplier_ids": {src: (row.get(col) or "").strip()
                                           for src, col in ID_COLUMNS.items()}})
     if not rows:
@@ -209,6 +211,41 @@ def main():
             fetch(url, path)
             temp_files.append(path)
             feeds[source] = parse_feed(path)
+
+        # YML export mode: generate a single-product availability-only feed; no Prom API writes.
+        if os.environ.get("PROM_YML_EXPORT_ONLY", "0").strip().lower() in ("1", "true", "yes"):
+            if not test_id or len(whitelist) != 1:
+                raise RuntimeError("Safety stop: YML test export requires exactly one PROM_TEST_ONLY_ID")
+            product = whitelist[0]
+            available, decision, details = determine_status(product, feeds)
+            if available is None:
+                raise RuntimeError(f"YML export stopped: supplier status is inconclusive ({decision}: {details})")
+            if not product["name"] or not product["category_id"].isdigit():
+                raise RuntimeError("YML export stopped: missing approved product name or category ID")
+            root = etree.Element("yml_catalog", date=time.strftime("%Y-%m-%d %H:%M"))
+            shop = etree.SubElement(root, "shop")
+            etree.SubElement(shop, "name").text = "HOME PRIME — stock-only test"
+            currencies = etree.SubElement(shop, "currencies")
+            etree.SubElement(currencies, "currency", id="UAH", rate="1")
+            categories = etree.SubElement(shop, "categories")
+            etree.SubElement(categories, "category", id=product["category_id"]).text = product["name"]
+            offers = etree.SubElement(shop, "offers")
+            offer = etree.SubElement(offers, "offer", id=product["prom_id"],
+                                     available="true" if available else "false")
+            etree.SubElement(offer, "name").text = product["name"]
+            etree.SubElement(offer, "categoryId").text = product["category_id"]
+            etree.ElementTree(root).write(os.path.join(BASE, "prom-feed.xml"),
+                                          encoding="UTF-8", xml_declaration=True,
+                                          pretty_print=True)
+            with open(REPORT, "w", newline="", encoding="utf-8-sig") as f:
+                writer = csv.writer(f)
+                writer.writerow(["Prom ID", "Артикул", "Результат", "Джерела"])
+                writer.writerow([product["prom_id"], product["code"],
+                                 "YML_READY_IN_STOCK" if available else "YML_READY_OUT_OF_STOCK",
+                                 details])
+            print(f"YML TEST READY: Prom ID={product['prom_id']}; available={available}; {details}")
+            print("No Prom API write requests were sent.")
+            return
 
         updates = 0
         # First validation run is deliberately limited to one product.

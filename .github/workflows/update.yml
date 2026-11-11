@@ -47,5 +47,6 @@ jobs:
             prom-id-audit-details.json
             sync-report.csv
             prom-feed.xml
+            prom-duplicate-resolution.csv
           if-no-files-found: warn
           retention-days: 7

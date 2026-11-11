@@ -1,6 +1,8 @@
 name: HOME PRIME stock-only sync
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: "17 */4 * * *"
@@ -38,7 +40,8 @@ jobs:
           if [ -f sync-report.csv ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add sync-report.csv prom-feed.xml prom-id-audit.csv
+            git add sync-report.csv prom-feed.xml
+            if [ -f prom-id-audit.csv ]; then git add prom-id-audit.csv; fi
             git diff --cached --quiet || git commit -m "Update HOME PRIME stock-only feed"
             git push
           fi

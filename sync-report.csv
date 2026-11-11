@@ -1,2 +1,2 @@
-﻿Prom ID,Артикул,Результат,Джерела / відповідь API
-3154820091,151160,NOT_CONFIRMED,"HTTP 200; Prom did not confirm this ID in processed_ids; response={'processed_ids': [], 'errors': {}, 'warnings': {}}"
+﻿Prom ID,Артикул,Результат,Джерела
+3154820091,151160,YML_READY_IN_STOCK,top_drop:+

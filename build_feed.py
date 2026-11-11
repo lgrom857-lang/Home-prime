@@ -128,6 +128,19 @@ def main():
                             "User-Agent": "HOME-PRIME-stock-sync/2.0"})
     report = []
     try:
+        # Read-only diagnostic mode: inspect official products/list before any edit.
+        if os.environ.get("PROM_API_READ_ONLY", "1").strip().lower() in ("1", "true", "yes"):
+            response = session.get(f"{API_BASE}/products/list", params={"limit": 5}, timeout=45)
+            print(f"READ_ONLY products/list HTTP {response.status_code}")
+            print(f"READ_ONLY response: {response.text[:5000]}")
+            response.raise_for_status()
+            with open(REPORT, "w", newline="", encoding="utf-8-sig") as f:
+                writer = csv.writer(f)
+                writer.writerow(["Mode", "HTTP", "Endpoint", "Response"])
+                writer.writerow(["READ_ONLY", response.status_code, "/products/list?limit=5", response.text[:5000]])
+            print("Read-only API check complete. No product data was changed.")
+            return
+
         for source, url in FEEDS.items():
             path = os.path.join(BASE, source + ".xml")
             fetch(url, path)

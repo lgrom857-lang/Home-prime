@@ -231,9 +231,9 @@ def main():
             categories = etree.SubElement(shop, "categories")
             etree.SubElement(categories, "category", id=product["category_id"]).text = product["name"]
             offers = etree.SubElement(shop, "offers")
-            # Use the approved product article as the YML offer ID and explicit vendorCode.
-            # Prom's internal product ID remains only in the whitelist/safety guard.
-            offer = etree.SubElement(offers, "offer", id=product["article"],
+            # Use the existing Prom product ID as the YML offer ID.
+            # Keep the supplier/article code separately in vendorCode.
+            offer = etree.SubElement(offers, "offer", id=product["prom_id"],
                                      available="true" if available else "false")
             etree.SubElement(offer, "name").text = product["name"]
             etree.SubElement(offer, "categoryId").text = product["category_id"]

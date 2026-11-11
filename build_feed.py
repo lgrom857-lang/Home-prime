@@ -121,6 +121,12 @@ def main():
     if not token:
         raise RuntimeError("Missing GitHub Actions secret PROM_API_TOKEN. Add it in Settings > Secrets and variables > Actions.")
     whitelist = load_whitelist()
+    test_id = os.environ.get("PROM_TEST_ONLY_ID", "").strip()
+    if test_id:
+        whitelist = [p for p in whitelist if p["prom_id"] == test_id]
+        if len(whitelist) != 1:
+            raise RuntimeError(f"Safety stop: expected exactly one approved product with Prom ID {test_id}; found {len(whitelist)}")
+        print(f"TEST MODE: only Prom product ID {test_id} can be updated")
     temp_files, feeds = [], {}
     session = requests.Session()
     session.headers.update({"Authorization": f"Bearer {token}",
@@ -217,6 +223,8 @@ def main():
                 "id": int(product["prom_id"]),
                 "presence": "available" if available else "not_available"
             }]
+            if test_id and str(payload[0]["id"]) != test_id:
+                raise RuntimeError("Safety stop: outgoing Prom ID differs from PROM_TEST_ONLY_ID")
             try:
                 response = session.post(f"{API_BASE}/products/edit", json=payload, timeout=45)
                 if response.status_code >= 400:
@@ -229,10 +237,15 @@ def main():
                     report.append([product["prom_id"], product["code"], "API_ERROR",
                                    str(data.get("error") or data.get("errors"))[:400]])
                     continue
+                processed = data.get("processed_ids") if isinstance(data, dict) else None
+                if processed is not None and int(product["prom_id"]) not in [int(x) for x in processed]:
+                    report.append([product["prom_id"], product["code"], "NOT_CONFIRMED",
+                                   f"HTTP {response.status_code}; Prom did not confirm this ID in processed_ids; response={str(data)[:400]}"])
+                    continue
                 updates += 1
                 report.append([product["prom_id"], product["code"],
                                "UPDATED_IN_STOCK" if available else "UPDATED_OUT_OF_STOCK",
-                               f"HTTP {response.status_code}; {details}; response={str(data)[:250]}"])
+                               f"HTTP {response.status_code}; {details}; response={str(data)[:400]}"])
                 time.sleep(0.25)
             except (requests.RequestException, ValueError) as exc:
                 report.append([product["prom_id"], product["code"], "API_ERROR", str(exc)[:400]])

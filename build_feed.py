@@ -83,7 +83,7 @@ def load_whitelist():
             if prom_id in seen_ids:
                 raise RuntimeError(f"Duplicate Prom ID in whitelist: {prom_id}; refusing all updates")
             seen_ids.add(prom_id)
-            rows.append({"code": code, "prom_id": prom_id,
+            rows.append({"code": code, "article": (row.get("Код_товару") or "").strip(), "prom_id": prom_id,
                          "name": (row.get("Назва_позиції_укр") or "").strip(),
                          "category_id": (row.get("Ідентифікатор_підрозділу") or "").strip(),
                          "supplier_ids": {src: (row.get(col) or "").strip()
@@ -233,11 +233,11 @@ def main():
             offers = etree.SubElement(shop, "offers")
             # Use the approved product article as the YML offer ID and explicit vendorCode.
             # Prom's internal product ID remains only in the whitelist/safety guard.
-            offer = etree.SubElement(offers, "offer", id=product["code"],
+            offer = etree.SubElement(offers, "offer", id=product["article"],
                                      available="true" if available else "false")
             etree.SubElement(offer, "name").text = product["name"]
             etree.SubElement(offer, "categoryId").text = product["category_id"]
-            etree.SubElement(offer, "vendorCode").text = product["code"]
+            etree.SubElement(offer, "vendorCode").text = product["article"]
             etree.ElementTree(root).write(os.path.join(BASE, "prom-feed.xml"),
                                           encoding="UTF-8", xml_declaration=True,
                                           doctype='<!DOCTYPE yml_catalog SYSTEM "shops.dtd">',
@@ -245,7 +245,7 @@ def main():
             with open(REPORT, "w", newline="", encoding="utf-8-sig") as f:
                 writer = csv.writer(f)
                 writer.writerow(["Prom ID", "Артикул", "Результат", "Джерела"])
-                writer.writerow([product["prom_id"], product["code"],
+                writer.writerow([product["prom_id"], product["article"],
                                  "YML_READY_IN_STOCK" if available else "YML_READY_OUT_OF_STOCK",
                                  details])
             print(f"YML TEST READY: Prom ID={product['prom_id']}; available={available}; {details}")

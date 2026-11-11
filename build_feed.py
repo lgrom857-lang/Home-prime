@@ -71,34 +71,62 @@ def parse_feed(path):
 
 def load_whitelist():
     rows, seen_ids = [], set()
+    allowed_statuses = {"ДОЗВОЛЕНО", "РУЧНА ПЕРЕВІРКА — повторний артикул Prom"}
     with open(WHITELIST, encoding="utf-8-sig", newline="") as f:
         for row in csv.DictReader(f):
-            if row.get("Статус_підключення") != "ДОЗВОЛЕНО":
+            status = (row.get("Статус_підключення") or "").strip()
+            if status not in allowed_statuses:
                 continue
             code = norm(row.get("Код_товару"))
             prom_id = (row.get("Ідентифікатор_товару") or "").strip()
-            # Only the Prom export ID is accepted. Supplier IDs are never Prom IDs.
+            # A Prom ID must come from the Prom catalog, never from a supplier feed.
             if not code or not prom_id.isdigit():
                 continue
             if prom_id in seen_ids:
                 raise RuntimeError(f"Duplicate Prom ID in whitelist: {prom_id}; refusing all updates")
             seen_ids.add(prom_id)
+            supplier_ids = {src: (row.get(col) or "").strip()
+                            for src, col in ID_COLUMNS.items()}
+            manual_duplicate = status != "ДОЗВОЛЕНО"
+            # Duplicate Prom articles are eligible only through explicit supplier IDs.
+            # Never fall back to article matching for these rows.
+            if manual_duplicate and not any(supplier_ids.values()):
+                continue
             rows.append({"code": code, "article": (row.get("Код_товару") or "").strip(), "prom_id": prom_id,
                          "name": (row.get("Назва_позиції_укр") or "").strip(),
                          "category_id": (row.get("Ідентифікатор_підрозділу") or "").strip(),
-                         "supplier_ids": {src: (row.get(col) or "").strip()
-                                          for src, col in ID_COLUMNS.items()}})
+                         "supplier_ids": supplier_ids, "manual_duplicate": manual_duplicate})
+    # A supplier ID shared by multiple Prom cards is not safe for exact mapping.
+    id_owners = defaultdict(set)
+    for product in rows:
+        for source, supplier_id in product["supplier_ids"].items():
+            if supplier_id:
+                id_owners[(source, supplier_id)].add(product["prom_id"])
+    for product in rows:
+        product["supplier_id_conflicts"] = {
+            source for source, supplier_id in product["supplier_ids"].items()
+            if supplier_id and len(id_owners[(source, supplier_id)]) > 1
+        }
     if not rows:
-        raise RuntimeError("No approved existing Prom products with numeric Prom IDs")
+        raise RuntimeError("No eligible existing Prom products with numeric Prom IDs")
     return rows
 
 def determine_status(product, feeds):
     observations, missing, ambiguous = [], [], []
     for source, index in feeds.items():
         supplier_id = product["supplier_ids"].get(source, "")
-        # If a supplier-specific ID is supplied, it must match exactly.
-        # Fall back to the normalized article only when no supplier ID exists.
-        key = ("id", supplier_id) if supplier_id else ("code", product["code"])
+        if source in product.get("supplier_id_conflicts", set()):
+            ambiguous.append(source)
+            continue
+        # Manual duplicate-article rows must use explicit supplier IDs only.
+        # Article fallback is allowed only for rows without the duplicate warning.
+        if supplier_id:
+            key = ("id", supplier_id)
+        elif product.get("manual_duplicate"):
+            missing.append(source)
+            continue
+        else:
+            key = ("code", product["code"])
         values = index.get(key, [])
         if len(values) > 1:
             ambiguous.append(source)
@@ -107,15 +135,14 @@ def determine_status(product, feeds):
         else:
             missing.append(source)
 
-    # One unambiguous positive supplier is sufficient to confirm availability,
-    # even if another supplier has a duplicate/unknown record.
+    # One exact, unambiguous positive supplier match confirms availability.
     if any(value for _, value in observations):
         return True, "IN_STOCK", ",".join(f"{s}:{'+' if v else '-'}" for s, v in observations) + (
             "; ambiguous=" + ",".join(ambiguous) if ambiguous else ""
         )
 
-    # Mark unavailable only when all three sources each give one exact,
-    # unambiguous and explicit out-of-stock result.
+    # Mark unavailable only when every configured source is explicitly and
+    # unambiguously out of stock; unknown/missing sources are never treated as absent.
     if len(observations) == len(FEEDS) and not missing and not ambiguous and all(not v for _, v in observations):
         return False, "OUT_OF_STOCK", ",".join(f"{s}:-" for s, _ in observations)
 

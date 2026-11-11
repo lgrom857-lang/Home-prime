@@ -1,2 +1,2 @@
-﻿Mode,HTTP,Endpoint,Products returned,Target hits,Target product JSON
-READ_ONLY,200,/products/list?limit=1000,100,0,[]
+﻿Mode,Pages read,Unique products scanned,Stop reason,Target hits,Target product JSON
+READ_ONLY_PAGINATED,10,905,LAST_PAGE,1,"[{'id': 3154820091, 'external_id': '1105022476', 'sku': '151160-J834', 'name': 'Набор инструментов часового мастера, Набор инструментов часовщика, Инструмент для замены ремешка часов, RFJ', 'presence': 'available'}]"

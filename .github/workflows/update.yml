@@ -51,6 +51,7 @@ jobs:
             echo "Feed is unchanged; no commit needed."
           else
             git commit -m "Update HOME PRIME stock-only Prom feed"
+            git pull --rebase origin main
             git push
           fi
 

@@ -587,7 +587,7 @@ def main():
                     writer.writerows(report)
                 raise RuntimeError(
                     f"YML export stopped: only {supplier_confirmed} supplier-confirmed products; "
-                    f"minimum safety threshold is {min_confirmed}. Previous feed had 463 supplier-confirmed products. "
+                    f"minimum safety threshold is {min_confirmed}. "
                     "No new feed was published."
                 )
             if included == 0:

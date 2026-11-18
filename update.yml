@@ -20,8 +20,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install lxml
+      - run: pip install lxml requests
       - name: Build approved-only Prom feed
+        env:
+          PROM_API_TOKEN: ${{ secrets.PROM_API_TOKEN }}
+          PROM_API_READ_ONLY: "0"
+          PROM_YML_EXPORT_ONLY: "1"
         run: python build_feed.py
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -10,9 +10,7 @@ on:
     - cron: "17 */4 * * *"
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: home-prime-stock-feed
@@ -22,9 +20,6 @@ jobs:
   sync-stock:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,9 +32,6 @@ jobs:
       - name: Install dependencies
         run: pip install requests lxml
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-
       - name: Generate stock-only YML for currently existing approved products
         env:
           PROM_API_TOKEN: ${{ secrets.PROM_API_TOKEN }}
@@ -50,14 +42,17 @@ jobs:
           PROM_MIN_CONFIRMED_PRODUCTS: "400"
         run: python build_feed.py
 
-      - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-      - name: Deploy stock feed to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish generated feed to the repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add prom-feed.xml
+          if git diff --cached --quiet; then
+            echo "Feed is unchanged; no commit needed."
+          else
+            git commit -m "Update HOME PRIME stock-only Prom feed"
+            git push
+          fi
 
       - name: Upload feed and audit report
         if: always()

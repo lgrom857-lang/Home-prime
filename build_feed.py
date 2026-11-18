@@ -548,6 +548,7 @@ def main():
                     continue
                 offer = etree.SubElement(offers, "offer", id=product["prom_id"],
                                          available="true" if available else "false")
+                etree.SubElement(offer, "name").text = product["name"]
                 etree.SubElement(offer, "vendorCode").text = product["article"]
                 included += 1
                 supplier_confirmed += 1
@@ -575,6 +576,7 @@ def main():
                         continue
                     offer = etree.SubElement(offers, "offer", id=pid,
                                              available="true" if availability else "false")
+                    etree.SubElement(offer, "name").text = str(current.get("name", "") or "").strip()
                     etree.SubElement(offer, "vendorCode").text = article
                     included += 1
                     report.append([pid, article, result_name, details])

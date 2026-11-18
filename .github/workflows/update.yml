@@ -10,12 +10,21 @@ on:
     - cron: "17 */4 * * *"
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: home-prime-stock-feed
+  cancel-in-progress: true
 
 jobs:
   sync-stock:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,23 +37,34 @@ jobs:
       - name: Install dependencies
         run: pip install requests lxml
 
-      - name: Generate stock-only YML for approved existing products
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Generate stock-only YML for currently existing approved products
         env:
           PROM_API_TOKEN: ${{ secrets.PROM_API_TOKEN }}
-          PROM_ID_AUDIT: "true"
+          PROM_ID_AUDIT: "false"
           PROM_API_READ_ONLY: "false"
           PROM_YML_EXPORT_ONLY: "true"
+          PROM_CATALOG_MAX_PAGES: "200"
+          PROM_MIN_CONFIRMED_PRODUCTS: "400"
         run: python build_feed.py
 
-      - name: Upload read-only audit files
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy stock feed to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Upload feed and audit report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: home-prime-prom-id-audit
+          name: home-prime-stock-feed-report
           path: |
-            prom-id-audit.csv
-            prom-id-audit-details.csv
-            prom-id-audit-details.json
             sync-report.csv
             prom-feed.xml
             prom-duplicate-resolution.csv

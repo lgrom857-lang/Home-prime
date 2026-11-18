@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""HOME PRIME: stock-only sync for manually approved existing Prom products.
+"""Build a stock-only YML feed for manually approved existing Prom products.
 
-Only POSTs {"id": PROM_ID, "in_stock": bool} to Prom.
-No product creation and no other product fields are sent.
+Prom IDs are resolved against the live Prom catalog (GET only). The generated
+feed contains only the existing offer ID, availability and the unchanged
+vendorCode matching key. This export mode sends no product-write API requests.
 """
 import csv, json, os, re, time
 from collections import defaultdict
@@ -67,10 +68,12 @@ def parse_feed(path):
             del elem.getparent()[0]
     if not found:
         raise RuntimeError(f"No product offers parsed from {path}; source format may have changed")
+    if not any(value is not None for values in found.values() for value in values):
+        raise RuntimeError(f"No recognized availability values parsed from {path}; refusing to publish a partial feed")
     return found
 
 def load_whitelist():
-    rows, seen_ids = [], set()
+    rows = []
     allowed_statuses = {"ДОЗВОЛЕНО", "РУЧНА ПЕРЕВІРКА — повторний артикул Prom"}
     with open(WHITELIST, encoding="utf-8-sig", newline="") as f:
         for row in csv.DictReader(f):
@@ -78,38 +81,141 @@ def load_whitelist():
             if status not in allowed_statuses:
                 continue
             code = norm(row.get("Код_товару"))
-            prom_id = (row.get("Ідентифікатор_товару") or "").strip()
-            # A Prom ID must come from the Prom catalog, never from a supplier feed.
-            if not code or not prom_id.isdigit():
+            # This legacy column is mixed: some rows contain a Prom ID, others
+            # contain the product external_id. Keep it only as an identity check;
+            # never send it as the offer ID.
+            candidate = (row.get("Ідентифікатор_товару") or "").strip()
+            if not code or not candidate.isdigit():
                 continue
-            if prom_id in seen_ids:
-                raise RuntimeError(f"Duplicate Prom ID in whitelist: {prom_id}; refusing all updates")
-            seen_ids.add(prom_id)
             supplier_ids = {src: (row.get(col) or "").strip()
                             for src, col in ID_COLUMNS.items()}
             manual_duplicate = status != "ДОЗВОЛЕНО"
-            # Duplicate Prom articles are eligible only through explicit supplier IDs.
-            # Never fall back to article matching for these rows.
             if manual_duplicate and not any(supplier_ids.values()):
                 continue
-            rows.append({"code": code, "article": (row.get("Код_товару") or "").strip(), "prom_id": prom_id,
-                         "name": (row.get("Назва_позиції_укр") or "").strip(),
-                         "category_id": (row.get("Ідентифікатор_підрозділу") or "").strip(),
-                         "supplier_ids": supplier_ids, "manual_duplicate": manual_duplicate})
-    # A supplier ID shared by multiple Prom cards is not safe for exact mapping.
+            rows.append({
+                "code": code,
+                "article": (row.get("Код_товару") or "").strip(),
+                "prom_id": "",
+                "prom_id_candidate": candidate,
+                "name": (row.get("Назва_позиції_укр") or "").strip(),
+                "category_id": (row.get("Ідентифікатор_підрозділу") or "").strip(),
+                "supplier_ids": supplier_ids,
+                "manual_duplicate": manual_duplicate
+            })
+    # A supplier ID shared by different articles is not safe for exact matching.
     id_owners = defaultdict(set)
     for product in rows:
         for source, supplier_id in product["supplier_ids"].items():
             if supplier_id:
-                id_owners[(source, supplier_id)].add(product["prom_id"])
+                id_owners[(source, supplier_id)].add(product["code"])
     for product in rows:
         product["supplier_id_conflicts"] = {
             source for source, supplier_id in product["supplier_ids"].items()
             if supplier_id and len(id_owners[(source, supplier_id)]) > 1
         }
     if not rows:
-        raise RuntimeError("No eligible existing Prom products with numeric Prom IDs")
+        raise RuntimeError("No manually approved products with an identity candidate in the whitelist")
     return rows
+
+def load_duplicate_resolutions():
+    """Load the manually reviewed 53 duplicate-article pairs."""
+    path = os.path.join(BASE, "prom-duplicate-resolution.csv")
+    resolutions, seen_ids = [], set()
+    with open(path, encoding="utf-8-sig", newline="") as f:
+        for row in csv.DictReader(f):
+            article = (row.get("Артикул") or "").strip()
+            keep_id = (row.get("Prom_ID_залишити") or "").strip()
+            disable_id = (row.get("Prom_ID_немає_в_наявності") or "").strip()
+            if not article or not keep_id.isdigit() or not disable_id.isdigit() or keep_id == disable_id:
+                raise RuntimeError(f"Invalid duplicate resolution row: {row}")
+            if keep_id in seen_ids or disable_id in seen_ids:
+                raise RuntimeError(f"Duplicate Prom ID in duplicate resolution: {row}")
+            seen_ids.update((keep_id, disable_id))
+            resolutions.append((article, keep_id, disable_id))
+    if len(resolutions) != 53:
+        raise RuntimeError(f"Expected 53 reviewed duplicate pairs, found {len(resolutions)}")
+    return resolutions
+
+def load_prom_catalog(session):
+    """Read the current Prom catalog; only IDs returned by this GET scan may enter the feed."""
+    by_sku, by_id = defaultdict(list), {}
+    page_size = 100
+    last_id = None
+    max_pages = int(os.environ.get("PROM_CATALOG_MAX_PAGES", "200"))
+    stop_reason = "MAX_PAGES_REACHED"
+
+    for page_no in range(1, max_pages + 1):
+        params = {"limit": page_size}
+        if last_id is not None:
+            params["last_id"] = last_id
+        response = session.get(f"{API_BASE}/products/list", params=params, timeout=60)
+        print(f"PROM_CATALOG products/list page={page_no} params={params} HTTP {response.status_code}")
+        response.raise_for_status()
+        data = response.json()
+        products = data.get("products", []) if isinstance(data, dict) else []
+        if not isinstance(products, list):
+            raise RuntimeError("Unexpected products/list response: 'products' is not a list")
+        if not products:
+            stop_reason = "EMPTY_PAGE"
+            break
+
+        new_count, numeric_ids = 0, []
+        for product in products:
+            pid = str(product.get("id", "")).strip()
+            if not pid.isdigit():
+                continue
+            numeric_ids.append(int(pid))
+            if pid not in by_id:
+                by_id[pid] = product
+                new_count += 1
+            sku = norm(str(product.get("sku", "") or ""))
+            if sku and pid not in by_sku[sku]:
+                by_sku[sku].append(pid)
+
+        print(f"PROM_CATALOG page={page_no} products={len(products)} unique_total={len(by_id)}")
+        if len(products) < page_size:
+            stop_reason = "LAST_PAGE"
+            break
+        if not numeric_ids:
+            stop_reason = "NO_NUMERIC_PRODUCT_IDS_FOR_CURSOR"
+            break
+        next_last_id = str(min(numeric_ids))
+        if new_count == 0 or next_last_id == last_id:
+            stop_reason = "CURSOR_DID_NOT_ADVANCE_OR_PAGE_REPEATED"
+            break
+        last_id = next_last_id
+
+    if stop_reason not in ("LAST_PAGE", "EMPTY_PAGE") or not by_id:
+        raise RuntimeError(f"Prom catalog scan incomplete ({stop_reason}); refusing to publish a possibly incomplete feed")
+    print(f"PROM_CATALOG complete: products={len(by_id)} stop={stop_reason}")
+    return by_sku, by_id
+
+def map_whitelist_to_current_prom(whitelist, by_sku, by_id, resolution_articles, report):
+    """Map approved articles to current Prom IDs and verify the legacy ID/external_id candidate."""
+    mapped, used_ids = [], set()
+    for product in whitelist:
+        if product["code"] in resolution_articles:
+            continue
+        matches = by_sku.get(product["code"], [])
+        if len(matches) != 1:
+            report.append(["", product["article"], "SKIP_PROM_SKU_NOT_UNIQUE",
+                           f"Current Prom SKU matches={len(matches)}"])
+            continue
+        pid = matches[0]
+        current = by_id[pid]
+        candidate = product["prom_id_candidate"]
+        external_id = str(current.get("external_id", "") or "").strip()
+        if candidate != pid and candidate != external_id:
+            report.append([pid, product["article"], "SKIP_IDENTITY_MISMATCH",
+                           f"Whitelist candidate={candidate}; current Prom id={pid}; external_id={external_id}"])
+            continue
+        if pid in used_ids:
+            raise RuntimeError(f"Prom ID {pid} mapped more than once; refusing duplicate offer IDs")
+        product["prom_id"] = pid
+        used_ids.add(pid)
+        mapped.append(product)
+    print(f"PROM_MAPPING: whitelist rows={len(whitelist)}; mapped current products={len(mapped)}; excluded={len(whitelist)-len(mapped)}")
+    return mapped
 
 def determine_status(product, feeds):
     observations, missing, ambiguous = [], [], []
@@ -316,15 +422,9 @@ def audit_duplicate_product_details(session):
 def main():
     yml_export_only = os.environ.get("PROM_YML_EXPORT_ONLY", "0").strip().lower() in ("1", "true", "yes")
     token = os.environ.get("PROM_API_TOKEN", "").strip()
-    if not yml_export_only and not token:
-        raise RuntimeError("Missing GitHub Actions secret PROM_API_TOKEN. Add it in Settings > Secrets and variables > Actions.")
+    if not token:
+        raise RuntimeError("Missing GitHub Actions secret PROM_API_TOKEN. A live read-only Prom catalog lookup is required to prevent wrong IDs and deleted products from entering the feed.")
     whitelist = load_whitelist()
-    test_id = os.environ.get("PROM_TEST_ONLY_ID", "").strip()
-    if test_id:
-        whitelist = [p for p in whitelist if p["prom_id"] == test_id]
-        if len(whitelist) != 1:
-            raise RuntimeError(f"Safety stop: expected exactly one approved product with Prom ID {test_id}; found {len(whitelist)}")
-        print(f"TEST MODE: only Prom product ID {test_id} can be updated")
     temp_files, feeds = [], {}
     session = requests.Session()
     session.headers.update({"Authorization": f"Bearer {token}",
@@ -408,45 +508,39 @@ def main():
             print("Read-only paginated API lookup complete. No product data was changed.")
             return
 
+        if not yml_export_only:
+            raise RuntimeError("Safety stop: this project is configured to publish a stock-only YML feed; direct Prom product writes are disabled.")
+
+        resolutions = load_duplicate_resolutions()
+        resolution_articles = {norm(article) for article, _, _ in resolutions}
+        approved_codes = {product["code"] for product in whitelist}
+        missing_approved = sorted(resolution_articles - approved_codes)
+        if missing_approved:
+            raise RuntimeError(f"Duplicate resolution contains articles not present in the approved whitelist: {missing_approved[:10]}")
+
+        prom_by_sku, prom_by_id = load_prom_catalog(session)
+        whitelist = map_whitelist_to_current_prom(
+            whitelist, prom_by_sku, prom_by_id, resolution_articles, report
+        )
+
         for source, url in FEEDS.items():
             path = os.path.join(BASE, source + ".xml")
             fetch(url, path)
             temp_files.append(path)
             feeds[source] = parse_feed(path)
 
-        # YML export mode: create a stock-only feed for every approved existing Prom card.
-        # The feed contains Prom ID + availability + existing vendorCode matching key, so names, prices, photos,
-        # descriptions, SEO, categories and characteristics are not supplied.
-        if os.environ.get("PROM_YML_EXPORT_ONLY", "0").strip().lower() in ("1", "true", "yes"):
+        # YML export mode: only currently existing Prom products are included.
+        # Each offer contains the exact live Prom ID, availability and unchanged vendorCode.
+        if yml_export_only:
             root = etree.Element("yml_catalog", date=time.strftime("%Y-%m-%d %H:%M"))
             shop = etree.SubElement(root, "shop")
             etree.SubElement(shop, "name").text = "HOME PRIME — stock-only sync"
             currencies = etree.SubElement(shop, "currencies")
             etree.SubElement(currencies, "currency", id="UAH", rate="1")
             offers = etree.SubElement(shop, "offers")
-            included, skipped = 0, 0
-            report = []
-            # Explicit duplicate resolution: keep one existing Prom card available
-            # and mark its duplicate unavailable. Only stock is exported.
-            resolution_path = os.path.join(BASE, "prom-duplicate-resolution.csv")
-            resolutions = []
-            resolution_ids = set()
-            with open(resolution_path, encoding="utf-8-sig", newline="") as f:
-                for row in csv.DictReader(f):
-                    article = (row.get("Артикул") or "").strip()
-                    keep_id = (row.get("Prom_ID_залишити") or "").strip()
-                    disable_id = (row.get("Prom_ID_немає_в_наявності") or "").strip()
-                    if not article or not keep_id.isdigit() or not disable_id.isdigit() or keep_id == disable_id:
-                        raise RuntimeError(f"Invalid duplicate resolution row: {row}")
-                    if keep_id in resolution_ids or disable_id in resolution_ids:
-                        raise RuntimeError(f"Duplicate Prom ID in duplicate resolution: {row}")
-                    resolution_ids.update((keep_id, disable_id))
-                    resolutions.append((article, keep_id, disable_id))
-            if len(resolutions) != 53:
-                raise RuntimeError(f"Expected 53 reviewed duplicate pairs, found {len(resolutions)}")
+            included, skipped, supplier_confirmed = 0, 0, 0
+
             for product in whitelist:
-                if product["prom_id"] in resolution_ids:
-                    continue
                 available, decision, details = determine_status(product, feeds)
                 if available is None:
                     skipped += 1
@@ -454,36 +548,78 @@ def main():
                     continue
                 offer = etree.SubElement(offers, "offer", id=product["prom_id"],
                                          available="true" if available else "false")
-                # Keep the existing article as the matching key used in the
-                # successful one-product Prom import; it is not changed.
                 etree.SubElement(offer, "vendorCode").text = product["article"]
                 included += 1
+                supplier_confirmed += 1
                 report.append([product["prom_id"], product["article"],
                                "YML_READY_IN_STOCK" if available else "YML_READY_OUT_OF_STOCK",
                                details])
+
+            # Preserve the manually reviewed duplicate resolution, but include
+            # an ID only if it still exists in the live Prom catalog with this exact SKU.
             for article, keep_id, disable_id in resolutions:
-                offer = etree.SubElement(offers, "offer", id=keep_id, available="true")
-                etree.SubElement(offer, "vendorCode").text = article
-                included += 1
-                report.append([keep_id, article, "DUPLICATE_KEEP_AVAILABLE",
-                               "Selected card: external_id is populated"])
-                offer = etree.SubElement(offers, "offer", id=disable_id, available="false")
-                etree.SubElement(offer, "vendorCode").text = article
-                included += 1
-                report.append([disable_id, article, "DUPLICATE_MARK_UNAVAILABLE",
-                               "Duplicate card: external_id is empty; user can delete it later"])
+                for pid, availability, result_name, details in (
+                    (keep_id, True, "DUPLICATE_KEEP_AVAILABLE", "Manually selected existing card"),
+                    (disable_id, False, "DUPLICATE_MARK_UNAVAILABLE", "Manually selected duplicate card")
+                ):
+                    current = prom_by_id.get(pid)
+                    if not current:
+                        skipped += 1
+                        report.append([pid, article, "SKIP_NOT_IN_CURRENT_PROM_CATALOG",
+                                       "ID absent from current Prom products/list; not exported"])
+                        continue
+                    if norm(str(current.get("sku", "") or "")) != norm(article):
+                        skipped += 1
+                        report.append([pid, article, "SKIP_PROM_SKU_MISMATCH",
+                                       f"Current Prom SKU={current.get('sku', '')}; expected={article}"])
+                        continue
+                    offer = etree.SubElement(offers, "offer", id=pid,
+                                             available="true" if availability else "false")
+                    etree.SubElement(offer, "vendorCode").text = article
+                    included += 1
+                    report.append([pid, article, result_name, details])
+
+            min_confirmed = int(os.environ.get("PROM_MIN_CONFIRMED_PRODUCTS", "400"))
+            if supplier_confirmed < min_confirmed:
+                with open(REPORT, "w", newline="", encoding="utf-8-sig") as f:
+                    writer = csv.writer(f)
+                    writer.writerow(["Prom ID", "Артикул", "Результат", "Джерела"])
+                    writer.writerows(report)
+                raise RuntimeError(
+                    f"YML export stopped: only {supplier_confirmed} supplier-confirmed products; "
+                    f"minimum safety threshold is {min_confirmed}. Previous feed had 463 supplier-confirmed products. "
+                    "No new feed was published."
+                )
             if included == 0:
-                raise RuntimeError("YML export stopped: no products have a conclusive supplier status; no feed generated.")
-            etree.ElementTree(root).write(os.path.join(BASE, "prom-feed.xml"),
-                                          encoding="UTF-8", xml_declaration=True,
-                                          doctype='<!DOCTYPE yml_catalog SYSTEM "shops.dtd">',
-                                          pretty_print=True)
+                raise RuntimeError("YML export stopped: no current existing Prom products have a conclusive status.")
+
+            offer_ids = [offer.get("id") for offer in offers.findall("offer")]
+            if len(offer_ids) != len(set(offer_ids)):
+                raise RuntimeError("YML export stopped: duplicate Prom offer IDs detected.")
+            unknown_ids = sorted(set(offer_ids) - set(prom_by_id))
+            if unknown_ids:
+                raise RuntimeError(f"YML export stopped: IDs not present in the current Prom catalog: {unknown_ids[:10]}")
+
+            public_dir = os.path.join(BASE, "public")
+            os.makedirs(public_dir, exist_ok=True)
+            tree = etree.ElementTree(root)
+            tree.write(os.path.join(BASE, "prom-feed.xml"), encoding="UTF-8",
+                       xml_declaration=True,
+                       doctype='<!DOCTYPE yml_catalog SYSTEM "shops.dtd">',
+                       pretty_print=True)
+            tree.write(os.path.join(public_dir, "prom-feed.xml"), encoding="UTF-8",
+                       xml_declaration=True,
+                       doctype='<!DOCTYPE yml_catalog SYSTEM "shops.dtd">',
+                       pretty_print=True)
             with open(REPORT, "w", newline="", encoding="utf-8-sig") as f:
                 writer = csv.writer(f)
                 writer.writerow(["Prom ID", "Артикул", "Результат", "Джерела"])
                 writer.writerows(report)
-            print(f"YML READY: approved Prom products={len(whitelist)}; included={included}; skipped={skipped}")
-            print("Only offer ID and availability are exported. No Prom API write requests were sent.")
+            print(
+                f"YML READY: current Prom catalog={len(prom_by_id)}; "
+                f"supplier-confirmed={supplier_confirmed}; included={included}; skipped={skipped}"
+            )
+            print("Feed contains only existing Prom IDs, availability and unchanged vendorCode. No Prom API write requests were sent.")
             return
 
         updates = 0

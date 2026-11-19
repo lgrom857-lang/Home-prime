@@ -190,7 +190,7 @@ def load_prom_catalog(session):
     print(f"PROM_CATALOG complete: products={len(by_id)} stop={stop_reason}")
     return by_sku, by_id
 
-def map_whitelist_to_current_prom(whitelist, by_sku, by_id, resolution_articles, report):
+def map_whitelist_to_current_prom(whitelist, by_sku, by_id, report):
     """Map each approved supplier-linked row to its own current Prom card.
 
     Prefer the whitelist identity candidate (Prom external_id or Prom ID).
@@ -199,9 +199,6 @@ def map_whitelist_to_current_prom(whitelist, by_sku, by_id, resolution_articles,
     """
     mapped, used_ids = [], set()
     for product in whitelist:
-        if product["code"] in resolution_articles:
-            continue
-
         candidate = str(product.get("prom_id_candidate", "")).strip()
         # First resolve by the exact stable identity from the approved whitelist.
         identity_matches = []
@@ -236,47 +233,41 @@ def map_whitelist_to_current_prom(whitelist, by_sku, by_id, resolution_articles,
     return mapped
 
 def determine_status(product, feeds):
-    observations, missing, ambiguous = [], [], []
-    for source, index in feeds.items():
-        supplier_id = product["supplier_ids"].get(source, "")
+    """Use only the supplier feed whose exact supplier ID identifies this card.
+
+    Article/SKU fallback is intentionally forbidden: multiple supplier cards can
+    share the same Prom SKU and must be updated independently.
+    """
+    matches, ambiguous = [], []
+    for source in FEEDS:
+        supplier_id = (product.get("supplier_ids") or {}).get(source, "").strip()
+        if not supplier_id:
+            continue
         if source in product.get("supplier_id_conflicts", set()):
-            ambiguous.append(source)
+            ambiguous.append(source + ":" + supplier_id + ":ID_SHARED_BY_ARTICLES")
             continue
-        # Manual duplicate-article rows must use explicit supplier IDs only.
-        # Article fallback is allowed only for rows without the duplicate warning.
-        if supplier_id:
-            key = ("id", supplier_id)
-        elif product.get("manual_duplicate"):
-            missing.append(source)
-            continue
-        else:
-            key = ("code", product["code"])
-        values = index.get(key, [])
+        values = feeds.get(source, {}).get(("id", supplier_id), [])
         if len(values) > 1:
-            ambiguous.append(source)
-        elif len(values) == 1 and values[0] is not None:
-            observations.append((source, values[0]))
-        else:
-            missing.append(source)
+            ambiguous.append(source + ":" + supplier_id + ":DUPLICATE_FEED_ID")
+        elif len(values) == 1:
+            matches.append((source, supplier_id, values[0]))
 
-    # One exact, unambiguous positive supplier match confirms availability.
-    if any(value for _, value in observations):
-        return True, "IN_STOCK", ",".join(f"{s}:{'+' if v else '-'}" for s, v in observations) + (
-            "; ambiguous=" + ",".join(ambiguous) if ambiguous else ""
+    if ambiguous:
+        return None, "SKIP_AMBIGUOUS_SUPPLIER_ID", "; ".join(ambiguous)
+    if len(matches) != 1:
+        detail = "; ".join(source + ":" + supplier_id for source, supplier_id, _ in matches)
+        return None, "SKIP_SUPPLIER_NOT_UNIQUE", (
+            "Exact supplier-ID matches=" + str(len(matches)) +
+            (("; " + detail) if detail else "") +
+            "; no article/SKU fallback used"
         )
-
-    # Mark unavailable only when every configured source is explicitly and
-    # unambiguously out of stock; unknown/missing sources are never treated as absent.
-    if len(observations) == len(FEEDS) and not missing and not ambiguous and all(not v for _, v in observations):
-        return False, "OUT_OF_STOCK", ",".join(f"{s}:-" for s, _ in observations)
-
-    reason = "SKIP_AMBIGUOUS" if ambiguous else "SKIP_INCOMPLETE_OR_UNKNOWN"
-    return None, reason, (
-        "matched=" + ",".join(f"{s}:{'+' if v else '-'}" for s, v in observations) +
-        "; missing_or_unknown=" + ",".join(missing) +
-        "; ambiguous=" + ",".join(ambiguous)
-    )
-
+    source, supplier_id, status = matches[0]
+    if status is None:
+        return None, "SKIP_UNKNOWN_SUPPLIER_STATUS",
+            "Supplier=" + source + "; supplier ID=" + supplier_id + "; feed status not recognized"
+    if status:
+        return True, "IN_STOCK", "Supplier=" + source + "; supplier ID=" + supplier_id
+    return False, "OUT_OF_STOCK", "Supplier=" + source + "; supplier ID=" + supplier_id
 def audit_missing_prom_ids(session):
     """Read-only lookup of whitelist rows missing Prom IDs against the live Prom catalog."""
     targets = []
@@ -529,16 +520,11 @@ def main():
         if not yml_export_only:
             raise RuntimeError("Safety stop: this project is configured to publish a stock-only YML feed; direct Prom product writes are disabled.")
 
-        resolutions = load_duplicate_resolutions()
-        resolution_articles = {norm(article) for article, _, _ in resolutions}
-        approved_codes = {product["code"] for product in whitelist}
-        missing_approved = sorted(resolution_articles - approved_codes)
-        if missing_approved:
-            raise RuntimeError(f"Duplicate resolution contains articles not present in the approved whitelist: {missing_approved[:10]}")
-
+        # Map every approved whitelist row independently, including repeated SKUs
+        # that belong to separate supplier cards.
         prom_by_sku, prom_by_id = load_prom_catalog(session)
         whitelist = map_whitelist_to_current_prom(
-            whitelist, prom_by_sku, prom_by_id, resolution_articles, report
+            whitelist, prom_by_sku, prom_by_id, report
         )
 
         for source, url in FEEDS.items():
@@ -573,31 +559,6 @@ def main():
                 report.append([product["prom_id"], product["article"],
                                "YML_READY_IN_STOCK" if available else "YML_READY_OUT_OF_STOCK",
                                details])
-
-            # Preserve the manually reviewed duplicate resolution, but include
-            # an ID only if it still exists in the live Prom catalog with this exact SKU.
-            for article, keep_id, disable_id in resolutions:
-                for pid, availability, result_name, details in (
-                    (keep_id, True, "DUPLICATE_KEEP_AVAILABLE", "Manually selected existing card"),
-                    (disable_id, False, "DUPLICATE_MARK_UNAVAILABLE", "Manually selected duplicate card")
-                ):
-                    current = prom_by_id.get(pid)
-                    if not current:
-                        skipped += 1
-                        report.append([pid, article, "SKIP_NOT_IN_CURRENT_PROM_CATALOG",
-                                       "ID absent from current Prom products/list; not exported"])
-                        continue
-                    if norm(str(current.get("sku", "") or "")) != norm(article):
-                        skipped += 1
-                        report.append([pid, article, "SKIP_PROM_SKU_MISMATCH",
-                                       f"Current Prom SKU={current.get('sku', '')}; expected={article}"])
-                        continue
-                    offer = etree.SubElement(offers, "offer", id=pid,
-                                             available="true" if availability else "false")
-                    etree.SubElement(offer, "name").text = str(current.get("name", "") or "").strip()
-                    etree.SubElement(offer, "vendorCode").text = article
-                    included += 1
-                    report.append([pid, article, result_name, details])
 
             min_confirmed = int(os.environ.get("PROM_MIN_CONFIRMED_PRODUCTS", "400"))
             if supplier_confirmed < min_confirmed:

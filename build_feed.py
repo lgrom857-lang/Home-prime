@@ -85,7 +85,7 @@ def load_whitelist():
             # contain the product external_id. Keep it only as an identity check;
             # never send it as the offer ID.
             candidate = (row.get("Ідентифікатор_товару") or "").strip()
-            if not code or not candidate.isdigit():
+            if not code or not candidate:
                 continue
             supplier_ids = {src: (row.get(col) or "").strip()
                             for src, col in ID_COLUMNS.items()}

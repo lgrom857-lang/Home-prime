@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-19 01:54">
+<yml_catalog date="2026-11-19 12:07">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -2226,6 +2226,38 @@
       <offer id="3209224240" available="true">
         <name>Плоскогубці багатофункціональні 5в1 SJP8029 набір зі змінними насадками кусачки бокоріз ножиці стрипер</name>
         <vendorCode>SJP8029</vendorCode>
+      </offer>
+      <offer id="3212322017" available="true">
+        <name>Аерофритюрниця Zepline ZP-217 12 л (4200 Вт) з двома ТЕНами та сенсорним керуванням</name>
+        <vendorCode>ZP-217</vendorCode>
+      </offer>
+      <offer id="3212322018" available="true">
+        <name>Аерофритюрниця мультипіч Zepline ZP-216 12 л 4200 Вт з двома ТЕНами та знімним кошиком</name>
+        <vendorCode>ZP-216</vendorCode>
+      </offer>
+      <offer id="3212322019" available="true">
+        <name>Аерофритюрниця на 2 чаші Zepline ZP-209 (4000 Вт, 12 л)</name>
+        <vendorCode>ZP-209</vendorCode>
+      </offer>
+      <offer id="3212322024" available="false">
+        <name>Аерофритюрниця Sokany SK-10052 1700 Вт 7 л сенсорна мультипіч без олії</name>
+        <vendorCode>SK-10052</vendorCode>
+      </offer>
+      <offer id="3212322030" available="true">
+        <name>Аерофритюрниця Zepline ZP-00343 13 л 4200 Вт з грилем, сенсорним керуванням та 12 програмами</name>
+        <vendorCode>ZP-00343</vendorCode>
+      </offer>
+      <offer id="3212322031" available="true">
+        <name>Аерогриль Crownberg CB 5540</name>
+        <vendorCode>CB5540</vendorCode>
+      </offer>
+      <offer id="3212322054" available="true">
+        <name>Аерофритниця Zepline ZP-00345 / Аерогриль 2200 Вт / Мультипіч 13 л</name>
+        <vendorCode>ZP-00345</vendorCode>
+      </offer>
+      <offer id="3223047555" available="true">
+        <name>Електрична духовка 3 в 1 Domotec MS-5308B 4500 Вт 7 л з кавоваркою та сковородою</name>
+        <vendorCode>Zp116</vendorCode>
       </offer>
       <offer id="3223634950" available="true">
         <name>Акумуляторний садовий секатор 24V + 2 акумулятори Сучкоріз / Акумуляторні садові ножиці Crafting tools</name>

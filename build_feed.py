@@ -136,6 +136,44 @@ def load_duplicate_resolutions():
         raise RuntimeError(f"Expected 53 reviewed duplicate pairs, found {len(resolutions)}")
     return resolutions
 
+def exclude_duplicate_prom_cards(products, resolutions, report):
+    """Never publish the reviewed duplicate Prom cards marked for disabling."""
+    disabled_by_id = {disable_id: article for article, _keep_id, disable_id in resolutions}
+    keep_by_article = {norm(article): keep_id for article, keep_id, _disable_id in resolutions}
+    filtered = []
+    for product in products:
+        pid = str(product.get("prom_id", "")).strip()
+        article = str(product.get("article", "")).strip()
+        article_key = norm(article)
+        if pid in disabled_by_id:
+            report.append([
+                pid, article, "SKIP_DUPLICATE_DISABLED",
+                "Reviewed duplicate pair; keep Prom ID="
+                + keep_by_article.get(article_key, "")
+            ])
+            continue
+        expected_keep = keep_by_article.get(article_key)
+        if expected_keep and pid != expected_keep:
+            report.append([
+                pid, article, "SKIP_DUPLICATE_NOT_APPROVED",
+                "Reviewed duplicate pair; only Prom ID=" + expected_keep + " may be published"
+            ])
+            continue
+        filtered.append(product)
+
+    remaining_ids = {str(p.get("prom_id", "")).strip() for p in filtered}
+    leaked = sorted(set(disabled_by_id) & remaining_ids)
+    if leaked:
+        raise RuntimeError(
+            "Safety stop: disabled duplicate Prom IDs entered the feed: " + ", ".join(leaked)
+        )
+    print(
+        f"DUPLICATE_FILTER: reviewed_pairs={len(resolutions)}; "
+        f"disabled_cards_excluded={len(products)-len(filtered)}"
+    )
+    return filtered
+
+
 def load_prom_catalog(session):
     """Read the current Prom catalog; only IDs returned by this GET scan may enter the feed."""
     by_sku, by_id = defaultdict(list), {}
@@ -528,6 +566,14 @@ def main():
         prom_by_sku, prom_by_id = load_prom_catalog(session)
         whitelist = map_whitelist_to_current_prom(
             whitelist, prom_by_sku, prom_by_id, report
+        )
+
+        # The reviewed duplicate-resolution file is a mandatory exclusion list.
+        # A pair's secondary Prom card must never be published, even if it still
+        # exists in the live catalog and its supplier reports any stock status.
+        duplicate_resolutions = load_duplicate_resolutions()
+        whitelist = exclude_duplicate_prom_cards(
+            whitelist, duplicate_resolutions, report
         )
 
         for source, url in FEEDS.items():

@@ -263,7 +263,16 @@ def map_whitelist_to_current_prom(whitelist, by_sku, by_id, report):
 
         if pid in used_ids:
             raise RuntimeError(f"Prom ID {pid} mapped more than once; refusing duplicate offer IDs")
+        external_id = str(current.get("external_id", "") or "").strip()
+        if not external_id:
+            report.append([
+                pid, product["article"], "SKIP_NO_EXTERNAL_ID",
+                "Current Prom card has no external_id; refusing to publish an offer that could be created as new"
+            ])
+            continue
+
         product["prom_id"] = pid
+        product["prom_external_id"] = external_id
         used_ids.add(pid)
         mapped.append(product)
 
@@ -599,7 +608,10 @@ def main():
                     skipped += 1
                     report.append([product["prom_id"], product["article"], decision, details])
                     continue
-                offer = etree.SubElement(offers, "offer", id=product["prom_id"],
+                # YML offer id must remain the product's original Prom external_id.
+                # Prom's internal numeric product ID is used only for live-catalog
+                # validation and must never replace the import identity.
+                offer = etree.SubElement(offers, "offer", id=product["prom_external_id"],
                                          available="true" if available else "false")
                 etree.SubElement(offer, "name").text = product["name"]
                 etree.SubElement(offer, "vendorCode").text = product["article"]
@@ -625,10 +637,34 @@ def main():
 
             offer_ids = [offer.get("id") for offer in offers.findall("offer")]
             if len(offer_ids) != len(set(offer_ids)):
-                raise RuntimeError("YML export stopped: duplicate Prom offer IDs detected.")
-            unknown_ids = sorted(set(offer_ids) - set(prom_by_id))
-            if unknown_ids:
-                raise RuntimeError(f"YML export stopped: IDs not present in the current Prom catalog: {unknown_ids[:10]}")
+                raise RuntimeError("YML export stopped: duplicate original external_id values detected.")
+
+            # Validate every YML ID against exactly one live Prom card. Never
+            # substitute the internal Prom ID: that changes the import identity
+            # and can make Prom create a duplicate instead of updating a card.
+            external_id_owners = defaultdict(list)
+            for current_pid, current_product in prom_by_id.items():
+                external_id = str(current_product.get("external_id", "") or "").strip()
+                if external_id:
+                    external_id_owners[external_id].append(current_pid)
+            invalid_external_ids = sorted(
+                offer_id for offer_id in offer_ids
+                if len(external_id_owners.get(offer_id, [])) != 1
+            )
+            if invalid_external_ids:
+                raise RuntimeError(
+                    "YML export stopped: external_id does not resolve to exactly one current Prom card: "
+                    + ", ".join(invalid_external_ids[:10])
+                )
+            mismatched = [
+                product["prom_external_id"] for product in whitelist
+                if external_id_owners.get(product["prom_external_id"]) != [product["prom_id"]]
+            ]
+            if mismatched:
+                raise RuntimeError(
+                    "YML export stopped: external_id-to-Prom-ID validation failed: "
+                    + ", ".join(mismatched[:10])
+                )
 
             public_dir = os.path.join(BASE, "public")
             os.makedirs(public_dir, exist_ok=True)

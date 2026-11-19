@@ -191,29 +191,47 @@ def load_prom_catalog(session):
     return by_sku, by_id
 
 def map_whitelist_to_current_prom(whitelist, by_sku, by_id, resolution_articles, report):
-    """Map approved articles to current Prom IDs and verify the legacy ID/external_id candidate."""
+    """Map each approved supplier-linked row to its own current Prom card.
+
+    Prefer the whitelist identity candidate (Prom external_id or Prom ID).
+    SKU is only a validation field, not a unique key: different suppliers can
+    legitimately have separate Prom cards with the same article/SKU.
+    """
     mapped, used_ids = [], set()
     for product in whitelist:
         if product["code"] in resolution_articles:
             continue
-        matches = by_sku.get(product["code"], [])
-        if len(matches) != 1:
-            report.append(["", product["article"], "SKIP_PROM_SKU_NOT_UNIQUE",
-                           f"Current Prom SKU matches={len(matches)}"])
+
+        candidate = str(product.get("prom_id_candidate", "")).strip()
+        # First resolve by the exact stable identity from the approved whitelist.
+        identity_matches = []
+        if candidate in by_id:
+            identity_matches.append(candidate)
+        identity_matches.extend(
+            pid for pid, current in by_id.items()
+            if str(current.get("external_id", "") or "").strip() == candidate
+            and pid not in identity_matches
+        )
+
+        if len(identity_matches) != 1:
+            report.append(["", product["article"], "SKIP_IDENTITY_NOT_UNIQUE",
+                           f"Whitelist identity={candidate}; current Prom identity matches={len(identity_matches)}"])
             continue
-        pid = matches[0]
+
+        pid = identity_matches[0]
         current = by_id[pid]
-        candidate = product["prom_id_candidate"]
-        external_id = str(current.get("external_id", "") or "").strip()
-        if candidate != pid and candidate != external_id:
-            report.append([pid, product["article"], "SKIP_IDENTITY_MISMATCH",
-                           f"Whitelist candidate={candidate}; current Prom id={pid}; external_id={external_id}"])
+        current_sku = norm(str(current.get("sku", "") or ""))
+        if current_sku != product["code"]:
+            report.append([pid, product["article"], "SKIP_IDENTITY_SKU_MISMATCH",
+                           f"Whitelist identity={candidate}; current Prom SKU={current.get('sku', '')}; expected={product['article']}"])
             continue
+
         if pid in used_ids:
             raise RuntimeError(f"Prom ID {pid} mapped more than once; refusing duplicate offer IDs")
         product["prom_id"] = pid
         used_ids.add(pid)
         mapped.append(product)
+
     print(f"PROM_MAPPING: whitelist rows={len(whitelist)}; mapped current products={len(mapped)}; excluded={len(whitelist)-len(mapped)}")
     return mapped
 

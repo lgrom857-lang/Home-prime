@@ -263,8 +263,11 @@ def determine_status(product, feeds):
         )
     source, supplier_id, status = matches[0]
     if status is None:
-        return None, "SKIP_UNKNOWN_SUPPLIER_STATUS",
-            "Supplier=" + source + "; supplier ID=" + supplier_id + "; feed status not recognized"
+        return (
+            None,
+            "SKIP_UNKNOWN_SUPPLIER_STATUS",
+            "Supplier=" + source + "; supplier ID=" + supplier_id + "; feed status not recognized",
+        )
     if status:
         return True, "IN_STOCK", "Supplier=" + source + "; supplier ID=" + supplier_id
     return False, "OUT_OF_STOCK", "Supplier=" + source + "; supplier ID=" + supplier_id

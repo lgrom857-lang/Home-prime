@@ -66,6 +66,9 @@ jobs:
         with:
           name: home-prime-stock-feed-report
           path: |
+            build_feed.py
+            README_UA.txt
+            .github/workflows/update.yml
             sync-report.csv
             prom-feed.xml
             prom-duplicate-resolution.csv

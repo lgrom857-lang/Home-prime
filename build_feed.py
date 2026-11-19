@@ -279,6 +279,69 @@ def map_whitelist_to_current_prom(whitelist, by_sku, by_id, report):
     print(f"PROM_MAPPING: whitelist rows={len(whitelist)}; mapped current products={len(mapped)}; excluded={len(whitelist)-len(mapped)}")
     return mapped
 
+
+def load_previous_feed_ids():
+    """Freeze the feed to IDs already present in the last published feed.
+
+    Prom's URL-based scheduled import does not persist the manual 'only update'
+    option. Any unseen YML offer ID can therefore become a new product. This
+    baseline lock makes the stock feed strictly update-only: newly approved or
+    newly discovered IDs are excluded until deliberately onboarded outside this
+    stock-only workflow.
+    """
+    path = os.path.join(BASE, "prom-feed.xml")
+    if not os.path.isfile(path):
+        raise RuntimeError(
+            "Safety stop: previous prom-feed.xml baseline is missing; "
+            "refusing to publish a feed that could create new Prom products."
+        )
+    try:
+        parser = etree.XMLParser(resolve_entities=False, no_network=True, recover=False)
+        root = etree.parse(path, parser).getroot()
+    except Exception as exc:
+        raise RuntimeError(
+            "Safety stop: previous prom-feed.xml baseline is invalid; "
+            "refusing to publish a feed that could create new Prom products."
+        ) from exc
+    ids = {
+        str(offer.get("id", "")).strip()
+        for offer in root.xpath(".//offer")
+        if str(offer.get("id", "")).strip()
+    }
+    if not ids:
+        raise RuntimeError(
+            "Safety stop: previous prom-feed.xml contains no offer IDs; "
+            "refusing to publish a feed that could create new Prom products."
+        )
+    print(f"FEED_BASELINE: locked existing YML IDs={len(ids)}")
+    return ids
+
+
+def keep_only_previous_feed_ids(products, previous_ids, report):
+    """Never introduce a YML ID that was not already in the published feed."""
+    kept = []
+    for product in products:
+        offer_id = str(product.get("prom_external_id", "")).strip()
+        if offer_id not in previous_ids:
+            report.append([
+                product.get("prom_id", ""),
+                product.get("article", ""),
+                "SKIP_NEW_ID_NOT_IN_PREVIOUS_FEED",
+                "Stock-only safety lock: this YML ID was not in the previous published feed"
+            ])
+            continue
+        kept.append(product)
+    dropped = len(products) - len(kept)
+    print(
+        f"FEED_BASELINE_FILTER: kept={len(kept)}; "
+        f"blocked_new_ids={dropped}; baseline_ids={len(previous_ids)}"
+    )
+    if not kept:
+        raise RuntimeError(
+            "Safety stop: no products remain after the previous-feed ID lock."
+        )
+    return kept
+
 def determine_status(product, feeds):
     """Use only the supplier feed whose exact supplier ID identifies this card.
 
@@ -585,6 +648,14 @@ def main():
             whitelist, duplicate_resolutions, report
         )
 
+        # Prom's scheduled URL import ignores the manual "Тільки оновлення"
+        # checkbox. Lock this feed to the exact YML IDs from the last published
+        # file so a new/unseen ID can never be offered for creation.
+        previous_feed_ids = load_previous_feed_ids()
+        whitelist = keep_only_previous_feed_ids(
+            whitelist, previous_feed_ids, report
+        )
+
         for source, url in FEEDS.items():
             path = os.path.join(BASE, source + ".xml")
             fetch(url, path)
@@ -638,6 +709,12 @@ def main():
             offer_ids = [offer.get("id") for offer in offers.findall("offer")]
             if len(offer_ids) != len(set(offer_ids)):
                 raise RuntimeError("YML export stopped: duplicate original external_id values detected.")
+            unexpected_ids = sorted(set(offer_ids) - previous_feed_ids)
+            if unexpected_ids:
+                raise RuntimeError(
+                    "YML export stopped: new YML IDs would create products instead of updating "
+                    "the existing stock-only baseline: " + ", ".join(unexpected_ids[:10])
+                )
 
             # Validate every YML ID against exactly one live Prom card. Never
             # substitute the internal Prom ID: that changes the import identity

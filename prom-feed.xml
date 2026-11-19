@@ -1,12 +1,524 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-18 20:08">
+<yml_catalog date="2026-11-19 00:11">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
       <currency id="UAH" rate="1"/>
     </currencies>
     <offers>
+      <offer id="3145443585" available="true">
+        <name>Аерогріль з нахилом корпусу Zepline ZP-140 10 л, 4000 Вт, 18 програм, сенсорне керування, аероґриль</name>
+        <vendorCode>ZP140</vendorCode>
+      </offer>
+      <offer id="3145947195" available="true">
+        <name>Потужний аерогриль Zepline ZP-109A 12 л 4200 Вт | Мультипіч із двома ТЕНами, LED-дисплеєм і циркуляцією 360°</name>
+        <vendorCode>ZP109A</vendorCode>
+      </offer>
+      <offer id="3147005439" available="true">
+        <name>Аерогріль  ZepLine ZP-00235 12 л, 4200 Вт, аерогриль із сенсорним керуванням, таймером і вікном огляду</name>
+        <vendorCode>ZP00235</vendorCode>
+      </offer>
+      <offer id="3150452457" available="true">
+        <name>Вакуумний пакувальник Z.E.P Line ZP-00359 65 кПа з різаком, рулоном, пакетами та шлангом для контейнерів, чорний</name>
+        <vendorCode>ZP00359</vendorCode>
+      </offer>
+      <offer id="3154820091" available="true">
+        <name>Набір інструментів годинникаря, Інструмент для заміни ремінця годинника, Набір інструментів годинникового майстра, RFJ</name>
+        <vendorCode>151160</vendorCode>
+      </offer>
+      <offer id="3154820970" available="true">
+        <name>Господарський пилосос Karcher WD 3 V-17/4/20 1000 Вт, 17 л, для сухого та вологого прибирання, з функцією видування</name>
+        <vendorCode>951472-X508</vendorCode>
+      </offer>
+      <offer id="3154820971" available="true">
+        <name>Стильний пилосос з фільтром нера 2400Вт/ 35л AL-FA (Польща), Промислові пилососи для електроінструменту, RFJ</name>
+        <vendorCode>951473-K643</vendorCode>
+      </offer>
+      <offer id="3154820972" available="true">
+        <name>Пилосос для збору будівельного пилу (2000Вт / 20л), Пилосос для професійного використання, RFJ</name>
+        <vendorCode>951474-U546</vendorCode>
+      </offer>
+      <offer id="3159924444" available="true">
+        <name>Кухонний подрібнювач Zepline ZP-00219 3000 Вт, 6 в 1, 2 чаші 3,2 л, електричний чопер для м'яса, овочів та фаршу</name>
+        <vendorCode>ZP00219</vendorCode>
+      </offer>
+      <offer id="3161653147" available="true">
+        <name>Віброплатформа WAPS для тренувань 99 рівнів, 5 програм, еспандери, пульт ДУ, Bluetooth</name>
+        <vendorCode>N2281923</vendorCode>
+      </offer>
+      <offer id="3166948974" available="true">
+        <name>Москітна магнітна шторка Magic Mesh сітка на двері, аналог штора,210х100</name>
+        <vendorCode>3811033</vendorCode>
+      </offer>
+      <offer id="3166948975" available="true">
+        <name>Ручний відпарювач для одягу TOBI Steam Brush, парова праска, щітка-тачка</name>
+        <vendorCode>3811052</vendorCode>
+      </offer>
+      <offer id="3166948992" available="true">
+        <name>Машинка для манікюру та педикюру фрезер Beauty nail NN 25000</name>
+        <vendorCode>9174</vendorCode>
+      </offer>
+      <offer id="3166948999" available="true">
+        <name>Машинка для видалення ковтунців General Electric Lint Remover YX-5880 Найкраща ціна!</name>
+        <vendorCode>5880</vendorCode>
+      </offer>
+      <offer id="3166949004" available="true">
+        <name>Машинка тример для стриження волосся KEMEI KM-600 (11 В 1 + Підставка)</name>
+        <vendorCode>KM600</vendorCode>
+      </offer>
+      <offer id="3166949018" available="true">
+        <name>Електрична м'ясорубка із соковичавницею Crownberg CB-4212 2500 Вт</name>
+        <vendorCode>CB4212</vendorCode>
+      </offer>
+      <offer id="3166949019" available="true">
+        <name>Міксер ручний з 2 л чашею 7 режимів Crownberg CB-7321</name>
+        <vendorCode>CB-7321</vendorCode>
+      </offer>
+      <offer id="3166949020" available="true">
+        <name>Фен-щітка, стайлер з насадками Gemei GM-4828 з обертовою насадкою</name>
+        <vendorCode>GM-4828</vendorCode>
+      </offer>
+      <offer id="3166949021" available="true">
+        <name>Апарат для приготування солодкої цукрової вати в домашніх умовах Candy Maker</name>
+        <vendorCode>0999173</vendorCode>
+      </offer>
+      <offer id="3166949035" available="true">
+        <name>Кухонний Блендер 3 в 1 Promotec PM 586, 300Вт</name>
+        <vendorCode>CB6222</vendorCode>
+      </offer>
+      <offer id="3166949038" available="true">
+        <name>Розпилювач Nano BLUE MAGIC XH-080H</name>
+        <vendorCode>XH080H</vendorCode>
+      </offer>
+      <offer id="3166949378" available="true">
+        <name>Інфрачервоний антицелюлітний масажер для тіла RETTER Body Innovation</name>
+        <vendorCode>Body229101</vendorCode>
+      </offer>
+      <offer id="3166949380" available="true">
+        <name>Блендер Rainberg RB — 6202 350 W 3в1 заглибний блендер подрібнювач</name>
+        <vendorCode>RB - 6202</vendorCode>
+      </offer>
+      <offer id="3166949381" available="true">
+        <name>Вертикальний ручний парогенератор, відпарювач для одягу Rainberg RB-6316</name>
+        <vendorCode>RB-6316</vendorCode>
+      </offer>
+      <offer id="3166949382" available="true">
+        <name>М'ясорубка Rainberg RB-678 3000W + Насадка Для Колбас</name>
+        <vendorCode>RB-678</vendorCode>
+      </offer>
+      <offer id="3166949385" available="true">
+        <name>Стабілізатор телефона Gimbal L08. Штатив тримач телефона з Bluetooth пультом дистанційного керування</name>
+        <vendorCode>ARTL08</vendorCode>
+      </offer>
+      <offer id="3166949389" available="true">
+        <name>Силіконовий кухонний набір приладдя з відерцем 12 предметів. Набір кухарів із силікону ZP-036B</name>
+        <vendorCode>ZP063</vendorCode>
+      </offer>
+      <offer id="3166949391" available="true">
+        <name>Відпарювач для одягу ручний 1100 Вт, парова праска Difei Handheld Garment Steamer DF-019A</name>
+        <vendorCode>DF019A</vendorCode>
+      </offer>
+      <offer id="3166949392" available="true">
+        <name>Кухонний комбайн Rainberg RB 8081 Тестомес 1500 Вт</name>
+        <vendorCode>RB8081</vendorCode>
+      </offer>
+      <offer id="3166949397" available="true">
+        <name>Мультимейкер Crownberg CB-1076 4в1 Гриль Сендвічниця Вафельниця Горішниця</name>
+        <vendorCode>CВ1076</vendorCode>
+      </offer>
+      <offer id="3166949398" available="true">
+        <name>Кухонний комбайн Rainberg RB-8080 3 в 1 Тестомес, М'ясорубка, Блендер (4200 Вт) 5B</name>
+        <vendorCode>RB-8080</vendorCode>
+      </offer>
+      <offer id="3166949399" available="true">
+        <name>Притискний контактний електричний настільний гриль з індикатором нагрівання Rainberg RB-5412 2800W</name>
+        <vendorCode>RB-5412</vendorCode>
+      </offer>
+      <offer id="3166949400" available="true">
+        <name>Блендер стаціонарний Zepline ZP-004. Блендер із подрібнювачем 850w</name>
+        <vendorCode>ZP-004</vendorCode>
+      </offer>
+      <offer id="3166949401" available="true">
+        <name>Набір каструль і сковорода Higher Kitchen HK-305, Набір посуду з гранітним антипригарним покриттям КРАСНИЙ</name>
+        <vendorCode>HK-305</vendorCode>
+      </offer>
+      <offer id="3166949404" available="true">
+        <name>Професійний фен для сушіння та укладання волосся VGR V-431</name>
+        <vendorCode>V-431</vendorCode>
+      </offer>
+      <offer id="3166949410" available="true">
+        <name>Акумуляторний шурупокрут 12 V з набором DF330DWE, набір біт і запасний акумулятор</name>
+        <vendorCode>DF330DWE</vendorCode>
+      </offer>
+      <offer id="3166949414" available="true">
+        <name>Ваги з лічильником ціни електронні торгові RAINBERG RB-311 до 55 кг</name>
+        <vendorCode>RB-311</vendorCode>
+      </offer>
+      <offer id="3166949417" available="true">
+        <name>Відпарювач із функцією пароочисника Steam Cleaner DF-A001 (TM-115)/Рожевий відпарювач</name>
+        <vendorCode>TM-115</vendorCode>
+      </offer>
+      <offer id="3166949423" available="true">
+        <name>Апарат для приготування печива DSP KC1156</name>
+        <vendorCode>KC1156</vendorCode>
+      </offer>
+      <offer id="3166949430" available="true">
+        <name>Квадрокоптер Pioneer CD622/623W с WiFi камерой</name>
+        <vendorCode>CD622</vendorCode>
+      </offer>
+      <offer id="3166949431" available="true">
+        <name>Квадрокоптер QY66-R2A/R02 Wi-Fi з камерою, дрон на радіокеруванні з камерою й підсвіткою</name>
+        <vendorCode>QY66</vendorCode>
+      </offer>
+      <offer id="3166949432" available="true">
+        <name>Квадрокоптер QY66-X05 з Wi-Fi камерою (Чорний, Білий)</name>
+        <vendorCode>QY66-X05</vendorCode>
+      </offer>
+      <offer id="3166949433" available="true">
+        <name>Органайзер для косметики 2 секции (розовий) YM206 Single Drawer | Косметический органайзер</name>
+        <vendorCode>YM206White</vendorCode>
+      </offer>
+      <offer id="3166949434" available="true">
+        <name>Органайзер для косметики 2 секції (зелений) YM206 Single Drawer  ⁇  Косметичний органайзер</name>
+        <vendorCode>YM206GR</vendorCode>
+      </offer>
+      <offer id="3166949437" available="true">
+        <name>М'ясорубка Rainberg RB-679 3000W Black 2в1 Електрична Електросоковичавниця Електро м'ясорубка</name>
+        <vendorCode>RB-679</vendorCode>
+      </offer>
+      <offer id="3166949447" available="true">
+        <name>Електрична плита Crownberg CB-1327 настільна інфрачервона на 2 конфорки по 2000 Вт</name>
+        <vendorCode>CB1327</vendorCode>
+      </offer>
+      <offer id="3166949453" available="true">
+        <name>Електрична м'ясорубка Rainberg RB-677 2600W</name>
+        <vendorCode>NRB677</vendorCode>
+      </offer>
+      <offer id="3166949454" available="true">
+        <name>Електром'ясорубка із соковичавницею Rainberg RB-674 3000W</name>
+        <vendorCode>NRB674</vendorCode>
+      </offer>
+      <offer id="3166949455" available="true">
+        <name>Електром'ясорубка із соковичавницею Rainberg RB 672 3000 Вт Електрична м'ясорубка з насадками для ковбаси</name>
+        <vendorCode>NRB672</vendorCode>
+      </offer>
+      <offer id="3166949456" available="true">
+        <name>Плита індукційна Crownberg CB 1323 2000 Вт</name>
+        <vendorCode>CB1323</vendorCode>
+      </offer>
+      <offer id="3166949536" available="true">
+        <name>Праска Crownberg CB-7444 2200 Вт</name>
+        <vendorCode>CB7444</vendorCode>
+      </offer>
+      <offer id="3166949537" available="true">
+        <name>Шашличниця Електрична кухонна Crownberg CB 7415 Шашлик будинку 5 шампурів 1000 Вт Нержавійка</name>
+        <vendorCode>CB7415</vendorCode>
+      </offer>
+      <offer id="3166949540" available="true">
+        <name>Блендер потужність 800W Crownberg CB-7327 з чашею на 1,5 літра 3 режими швидкості</name>
+        <vendorCode>CB7327</vendorCode>
+      </offer>
+      <offer id="3166949541" available="true">
+        <name>Блендер стаціонарний Crownberg CB-0999 (2 в 1) з кавомолкою, 500 Вт, 1.5 л</name>
+        <vendorCode>CB-0999</vendorCode>
+      </offer>
+      <offer id="3166949542" available="true">
+        <name>Електричний дисковий скляний чайник Crownberg CB 9121 1800 Вт електричний чайник із підсвіткою</name>
+        <vendorCode>CB9121</vendorCode>
+      </offer>
+      <offer id="3166949552" available="true">
+        <name>Двокомфоркова настільна інфрачервона електроплита Crownberg CB-1330 на 2000 Вт</name>
+        <vendorCode>CB1330</vendorCode>
+      </offer>
+      <offer id="3167179587" available="true">
+        <name>Електричний блендер-подрібнювач GRANT GR-4822 2 літри Метал 250 Вт</name>
+        <vendorCode>NGR4822</vendorCode>
+      </offer>
+      <offer id="3167179588" available="true">
+        <name>Заглибний блендер 5в1 Zepline ZP-073 1500ВТ Чорний</name>
+        <vendorCode>BLAZP073</vendorCode>
+      </offer>
+      <offer id="3167179589" available="true">
+        <name>Потужний заглибний блендер подрібнювач 5в1 Zepline ZP-073 1500ВТ Білий</name>
+        <vendorCode>WHI073</vendorCode>
+      </offer>
+      <offer id="3167179590" available="true">
+        <name>Ручний блендер заглибний з мірною склянкою 5в1 Zepline ZP-074 1500ВТ Червоний</name>
+        <vendorCode>ZP074</vendorCode>
+      </offer>
+      <offer id="3167179591" available="true">
+        <name>Портативний блендер пляшка 300 мл Акумуляторний на 1200 mAh Переносний компактний міксер</name>
+        <vendorCode>MIK312</vendorCode>
+      </offer>
+      <offer id="3167179592" available="true">
+        <name>Блендер Rainberg RB-2223 2000 Вт кавомолка, подрібнювач для коктейлів і смузі</name>
+        <vendorCode>RB2223</vendorCode>
+      </offer>
+      <offer id="3167179593" available="true">
+        <name>Електрична м'ясорубка з шатківницею Crownberg CB-4216 3200 Вт Кухонний комбайн</name>
+        <vendorCode>CB4216</vendorCode>
+      </offer>
+      <offer id="3167179594" available="true">
+        <name>Аерогриль Rainberg 8 л 4200 Вт — фритюрниця без олії з гарячою циркуляцією повітря</name>
+        <vendorCode>RB2268</vendorCode>
+      </offer>
+      <offer id="3167179595" available="true">
+        <name>Безоливна електрична Аерогриль Rainberg RB-2269 на 8 л 4200 W</name>
+        <vendorCode>RB2269</vendorCode>
+      </offer>
+      <offer id="3167179597" available="true">
+        <name>SOKANY Заглибний блендер Багатофункціональний блендер 4 в 1 Потужність 300 Вт/SK-1718-4</name>
+        <vendorCode>SK17184</vendorCode>
+      </offer>
+      <offer id="3167179598" available="true">
+        <name>Відпарювач SOKANY SK-GT-3065 1300 Вт Чорний</name>
+        <vendorCode>SKGT3065</vendorCode>
+      </offer>
+      <offer id="3167179600" available="true">
+        <name>Аерогриль Rainberg RB-2295 3800вт. чаша на 8.5 літра, різні температурні режими</name>
+        <vendorCode>RB2295</vendorCode>
+      </offer>
+      <offer id="3167179601" available="true">
+        <name>Ручний відпарювач для одягу Rainberg RB-6312 вертикальний, 1500 Вт</name>
+        <vendorCode>RB6312</vendorCode>
+      </offer>
+      <offer id="3167179604" available="true">
+        <name>Відпарювач для одягу вертикальний Сірий Zepline ZP-204 з неіржавкої сталі 2200 Вт</name>
+        <vendorCode>GREZP204</vendorCode>
+      </offer>
+      <offer id="3167179605" available="true">
+        <name>Ручний вертикальний відпарювач Синій Zepline ZP-204 2200 Вт</name>
+        <vendorCode>BLUZP204</vendorCode>
+      </offer>
+      <offer id="3167179606" available="true">
+        <name>Вертикальний ручний відпарювач Чорний 0.2 л парова праска для прасування одягу 2200 Вт Zepline ZP-204</name>
+        <vendorCode>BLACZP204</vendorCode>
+      </offer>
+      <offer id="3167179607" available="true">
+        <name>Вертикальний ручний відпарювач для одягу Червоний Z.e.pline ZP-204 2500 Вт 200 мл</name>
+        <vendorCode>REDZP204</vendorCode>
+      </offer>
+      <offer id="3167179608" available="true">
+        <name>Відпарювач вертикальний для одягу Rainberg RB-2305 1600 Вт Пароочисник для штор і постільної білизни</name>
+        <vendorCode>RB2305</vendorCode>
+      </offer>
+      <offer id="3167179610" available="true">
+        <name>Аерогриль для кухні Rainberg RB-2318 3800 Вт безоливна фритюрниця 8.5 л Червоний</name>
+        <vendorCode>RED2318</vendorCode>
+      </offer>
+      <offer id="3167179611" available="true">
+        <name>Мультипіч побутовий Rainberg RB-2318 3800 Вт Білий аерофритюрниця з антипригарним кошиком 8.5 л</name>
+        <vendorCode>WHITRB2318</vendorCode>
+      </offer>
+      <offer id="3167179616" available="true">
+        <name>Тестомесильна машина Crownberg CB-3407 2600 Вт Кухонний комбайн 5 л Планетарний тістоміс-міксер Кухонний тісто</name>
+        <vendorCode>CB3407</vendorCode>
+      </offer>
+      <offer id="3167179617" available="true">
+        <name>Кухонна аерофритюрниця Zepline ZP-216 на 8,8 л, 4200 Вт, мультипіч з великою чашею, фритюрниця без олії</name>
+        <vendorCode>ZP216</vendorCode>
+      </offer>
+      <offer id="3167179618" available="true">
+        <name>Ручний вертикальний відпарювач чорний Zepline ZP-210 2000 Вт, 0,4 л з рукавичкою</name>
+        <vendorCode>BL210</vendorCode>
+      </offer>
+      <offer id="3167179621" available="true">
+        <name>Аерофритюрниця Zepline ZP00340, 13 л, 4200 Вт, гриль, сенсорна панель, силіконова форма в комплекті</name>
+        <vendorCode>ZP00340</vendorCode>
+      </offer>
+      <offer id="3167179623" available="true">
+        <name>Мультипіч аерогриль Zepline ZP-127, 12 л, 4000 Вт, 12 програм, сенсорне керування</name>
+        <vendorCode>ZP127</vendorCode>
+      </offer>
+      <offer id="3167179629" available="true">
+        <name>Аерофритюрниця мультипіч Zepline ZP-00233 (6.5 л, 4200 Вт) з двома ТЕНами та сенсорним управлінням + Силіконова форма</name>
+        <vendorCode>ZP00233</vendorCode>
+      </offer>
+      <offer id="3167179631" available="true">
+        <name>Аерофритюрниця Zepline ZP-00234 без олії, 6.5 л, 4200 Вт, сімейна, з LED-дисплеєм та автоматичними режимами</name>
+        <vendorCode>ZP00234</vendorCode>
+      </offer>
+      <offer id="3167179638" available="true">
+        <name>Аерогриль Rainberg RB 2331 4800W з двома чашами 7,5+7,5 л сенсорне керування</name>
+        <vendorCode>RB2331</vendorCode>
+      </offer>
+      <offer id="3167179640" available="true">
+        <name>Ручний відпарювач для одягу з поворотною ручкою 180° і резервуаром 120 мл RAF R.1102 1000W</name>
+        <vendorCode>RAFR1102</vendorCode>
+      </offer>
+      <offer id="3167179641" available="true">
+        <name>Вертикальний відпарювач з дезінфекцією RAF R.3039 1800 Вт Парогенератор для одягу</name>
+        <vendorCode>RAFR3039</vendorCode>
+      </offer>
+      <offer id="3167179643" available="true">
+        <name>Вертикальний відпарювач для одягу з підлоговою конструкцією та резервуаром 1.5 л RAF R.3054 2180W</name>
+        <vendorCode>RAFR3054</vendorCode>
+      </offer>
+      <offer id="3167179645" available="true">
+        <name>Ручний відпарювач з функцією блокування подавання пари та захистом від перегрівання RAF R.1370P 1500W</name>
+        <vendorCode>RAFR1370P</vendorCode>
+      </offer>
+      <offer id="3167179646" available="true">
+        <name>Ручний відпарювач для одягу з насадкою-щіткою і ромбоподібною панеллю RAF R.1159 1600W</name>
+        <vendorCode>RAFR1159</vendorCode>
+      </offer>
+      <offer id="3167179647" available="true">
+        <name>Ручний вертикальний відпарювач для одягу з насадкою на 1500 Вт RAF R.1278W Білий</name>
+        <vendorCode>RAFR1278W</vendorCode>
+      </offer>
+      <offer id="3167179648" available="true">
+        <name>Ручний відпарювач для вертикального відпарювання та прасування RAF R.1284 1700W</name>
+        <vendorCode>RAFR1284</vendorCode>
+      </offer>
+      <offer id="3167179649" available="true">
+        <name>Кухонний подрібнювач-блендер Rainberg RB-2339 2 в 1, 1200 Вт, 3 швидкості, скляна та металева чаша</name>
+        <vendorCode>RB2339</vendorCode>
+      </offer>
+      <offer id="3167179650" available="true">
+        <name>Електричний кухонний комбайн на 3 літри з неіржавкої сталі RAF R.7729 300W</name>
+        <vendorCode>RAFR7729</vendorCode>
+      </offer>
+      <offer id="3167179653" available="true">
+        <name>Ручний вертикальний відпарювач для одягу на 300 мл і потужністю 1500 Вт BITEK BT-1214 Білий</name>
+        <vendorCode>BT1214</vendorCode>
+      </offer>
+      <offer id="3167179654" available="true">
+        <name>Заглибний ручний блендер для кухні з чашею на 600 мл BITEK BT-328B Чорний1200W Блендер з металевою ніжкою</name>
+        <vendorCode>BT328B</vendorCode>
+      </offer>
+      <offer id="3167179656" available="true">
+        <name>Стаціонарний блендер на 400 мл і мульти чашей 1.5 л BITEK BT-2822R потужністю 1200 Вт Червоний</name>
+        <vendorCode>BT2822R</vendorCode>
+      </offer>
+      <offer id="3167179657" available="true">
+        <name>Ручний відпарювач для одягу 250 мл зі щіт2400</name>
+        <vendorCode>BT1391B</vendorCode>
+      </offer>
+      <offer id="3167179658" available="true">
+        <name>Ручний відпарювач для одягу Bitek BT-1277G 200 мл 1600 Вт Парогенератор для прасування одягу Зелений</name>
+        <vendorCode>BT1277G</vendorCode>
+      </offer>
+      <offer id="3167179659" available="true">
+        <name>Ручний відпарювач 320 мл для прасування одягу Bitek BT-1285В 1600Вт Чорний</name>
+        <vendorCode>BT1285В</vendorCode>
+      </offer>
+      <offer id="3167179660" available="true">
+        <name>Ручний вертикальний відпарювач для одягу на 1600 Вт із резервуаром для води на 200 мл BITEK BT-1277B Чорний</name>
+        <vendorCode>BT1277B</vendorCode>
+      </offer>
+      <offer id="3167179662" available="true">
+        <name>Відпарювач вертикальний для одягу BITEK BT-3037 3600W Парова праска для всіх типів тканини</name>
+        <vendorCode>BT3037</vendorCode>
+      </offer>
+      <offer id="3167179663" available="true">
+        <name>Ручний відпарювач + 2 насадки, 2400 Вт, 320 мл, BITEK BT-1285W, Білий/ Вертикальний відпарювач для одягу</name>
+        <vendorCode>BT1285W</vendorCode>
+      </offer>
+      <offer id="3167179664" available="true">
+        <name>Блендер ручний 18в1 з набором насадоки1500 Вт Zepline ZP- 00347 Чорний</name>
+        <vendorCode>ZP00347</vendorCode>
+      </offer>
+      <offer id="3167179666" available="true">
+        <name>Аерофритюрниця на дві чаші Zepline ZP-209 4000 Вт (12 літрів) — мультипіч з сенсорним керуванням</name>
+        <vendorCode>ZP209</vendorCode>
+      </offer>
+      <offer id="3167179667" available="true">
+        <name>Аерофритюрниця двокамерна Zepline ZP-212 8+8 л 4200 Вт</name>
+        <vendorCode>ZP212</vendorCode>
+      </offer>
+      <offer id="3167179668" available="true">
+        <name>Аерофритюрниця Zepline ZP0218 12 л 4200 Вт дві чаші 6 л + 6 л антипригарне покриття Аерогриль і мультипеч</name>
+        <vendorCode>ZP0218</vendorCode>
+      </offer>
+      <offer id="3167179671" available="true">
+        <name>Занурювальний блендер 6 в 1 Zepline ZP-117 1500 Вт кухонний багатофункціональний блендер з насадками, подрібнювач, вінчик, міксер</name>
+        <vendorCode>ZP117</vendorCode>
+      </offer>
+      <offer id="3167179672" available="true">
+        <name>Ручний відпарювач для одягу Zepline ZP-093, 1750 Вт, вертикальний парогенератор з нержавіючою підошвою</name>
+        <vendorCode>ZP093</vendorCode>
+      </offer>
+      <offer id="3167179674" available="true">
+        <name>Ручний парогенератор Zepline ZP-206 Червоний – 3000 Вт, нагрів за 35 сек відпарювач для одягу</name>
+        <vendorCode>ZP206RD</vendorCode>
+      </offer>
+      <offer id="3167179675" available="true">
+        <name>Відпарювач Zepline ZP-206 Синій – компактний, 3000 Вт, резервуар 500 мл</name>
+        <vendorCode>ZP206BL</vendorCode>
+      </offer>
+      <offer id="3167179676" available="true">
+        <name>Zepline ZP-206 Compact Сірий – ручний керамічний відпарювач для одягу, 3000 Вт, 500 мл</name>
+        <vendorCode>ZP206GR</vendorCode>
+      </offer>
+      <offer id="3167179677" available="true">
+        <name>Відпарювач Zepline ZP-00222 Pro Сірий – з функцією самоочищення та сенсорне керування</name>
+        <vendorCode>GRE00222</vendorCode>
+      </offer>
+      <offer id="3167179678" available="true">
+        <name>Zepline ZP-00222 Pro – ручний відпарювач, Червоний 3000 Вт, подача пари 50 г/хв</name>
+        <vendorCode>RED00222</vendorCode>
+      </offer>
+      <offer id="3167179679" available="true">
+        <name>Аерофритюрниця Zepline ZP-00351 на 8 літрів на два тени 2200 Вт в комплекті з силіконовою формою</name>
+        <vendorCode>ZP00351</vendorCode>
+      </offer>
+      <offer id="3167179683" available="true">
+        <name>Електричний кухонний комбайн з чашею 3л та механічним управлінням RAF 7601 300W</name>
+        <vendorCode>RAF7601</vendorCode>
+      </offer>
+      <offer id="3167179684" available="true">
+        <name>Стаціонарний блендер з подрібнювачем та регулюванням швидкості RAF 2906 900W</name>
+        <vendorCode>RAF2906</vendorCode>
+      </offer>
+      <offer id="3167179688" available="true">
+        <name>Стаціонарний блендер з 8-лопатевим ножем та додатковим подрібнювачем RAF R.2945 700W</name>
+        <vendorCode>RAF2945</vendorCode>
+      </offer>
+      <offer id="3167179690" available="true">
+        <name>Електрична аерофритюрниця BITEK BT-5395 14 л 4800 Вт із сенсорною панеллю та оглядовим вікном</name>
+        <vendorCode>BT5395</vendorCode>
+      </offer>
+      <offer id="3167179691" available="true">
+        <name>Електричний кухонний комбайн з чашею із нержавіючої сталі 5 літрів RAF R.7725 600W</name>
+        <vendorCode>RAF7725</vendorCode>
+      </offer>
+      <offer id="3167179692" available="true">
+        <name>Аерогриль з керуванням через додаток та антипригарною чашею RAF 5295 1700W</name>
+        <vendorCode>RAF5295</vendorCode>
+      </offer>
+      <offer id="3167179694" available="true">
+        <name>Електричний портативний блендер із чашею 600 мл для смузі та коктейлів RAF R.397 300W Білий</name>
+        <vendorCode>R397</vendorCode>
+      </offer>
+      <offer id="3167179695" available="true">
+        <name>Подрібнювач продуктів блендер чоппер стаціонарний занурювальний RAF-291W</name>
+        <vendorCode>RAF291W</vendorCode>
+      </offer>
+      <offer id="3167179696" available="true">
+        <name>Ручний вертикальний відпарювач з резервуаром 350 мл та швидким нагріванням RAF R.1226R 1200W</name>
+        <vendorCode>RAFR1226R</vendorCode>
+      </offer>
+      <offer id="3167179697" available="true">
+        <name>Вертикальний відпарювач з прасувальною дошкою та телескопічною стійкою RAF R.3048G 2000Вт Бежевий</name>
+        <vendorCode>RAFR3048G</vendorCode>
+      </offer>
+      <offer id="3167179698" available="true">
+        <name>Вертикальний відпарювач із прасувальною дошкою 1800 Вт 1,8 л для одягу та тканин із регулюванням температури</name>
+        <vendorCode>G6553</vendorCode>
+      </offer>
+      <offer id="3167179700" available="true">
+        <name>Аерофритюрниця Zepline ZP-00345 на 13 л 2200 Вт без олії з 20 програмами приготування та цифровим керуванням</name>
+        <vendorCode>ZP00345</vendorCode>
+      </offer>
+      <offer id="3167179701" available="true">
+        <name>Аерофритюрниця Silver Max Pro-3 з нержавіючої сталі 13 літрів 2200 Вт на два тіни Zepline ZP-00355</name>
+        <vendorCode>ZP00355</vendorCode>
+      </offer>
+      <offer id="3167179703" available="true">
+        <name>Аерофритюрниця Max Pro-3 на 13 літрів 4200 Вт Zepline ZP-00376 12 програм</name>
+        <vendorCode>ZP00376</vendorCode>
+      </offer>
       <offer id="3167179705" available="true">
         <name>Відпарювач ручний Handheld Streamer RL-2408 1400W / Парова праска / Відпарювач для одягу</name>
         <vendorCode>RL2408</vendorCode>
@@ -534,6 +1046,10 @@
       <offer id="3206034607" available="true">
         <name>Кавоварка крапельна електрична RAF R.104B 850 Вт 1.8 л для меленої кави чорна</name>
         <vendorCode>RAFR104B</vendorCode>
+      </offer>
+      <offer id="3206034608" available="true">
+        <name>Професійна фритюрниця Zepline ZP-217, 12 л, 4200 Вт, 2 ТЕНи, антипригарні кошики, сенсорне керування</name>
+        <vendorCode>ZP217</vendorCode>
       </offer>
       <offer id="3206034609" available="true">
         <name>Планетарний міксер тістоміс Zepline ZP-105 стаціонарний із металевою чашею 3500 Вт.</name>

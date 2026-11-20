@@ -1,12 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-20 18:37">
+<yml_catalog date="2026-11-20 18:59">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
       <currency id="UAH" rate="1"/>
     </currencies>
     <offers>
+      <offer id="1105022476" available="true">
+        <name>Набір інструментів годинникаря, Інструмент для заміни ремінця годинника, Набір інструментів годинникового майстра, RFJ</name>
+        <vendorCode>151160</vendorCode>
+      </offer>
       <offer id="8677008626" available="true">
         <name>Господарський пилосос Karcher WD 3 V-17/4/20 1000 Вт, 17 л, для сухого та вологого прибирання, з функцією видування</name>
         <vendorCode>951472-X508</vendorCode>

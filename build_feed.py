@@ -420,12 +420,35 @@ def determine_status(product, feeds):
 
     if ambiguous:
         return None, "SKIP_AMBIGUOUS_SUPPLIER_ID", "; ".join(ambiguous)
+    if not matches:
+        # Approved whitelist rows may have no supplier-specific ID recorded.
+        # In that case, allow only one exact normalized article/vendorCode match
+        # across all supplier feeds. Multiple rows or suppliers remain ambiguous.
+        article_matches = []
+        for fallback_source in FEEDS:
+            values = feeds.get(fallback_source, {}).get(("code", product.get("code", "")), [])
+            if values:
+                article_matches.append((fallback_source, values))
+        total_rows = sum(len(values) for _, values in article_matches)
+        if total_rows != 1 or len(article_matches) != 1:
+            return None, "SKIP_ARTICLE_MATCH_NOT_UNIQUE", (
+                "Exact article/vendorCode matches=" + str(total_rows) +
+                "; matched suppliers=" + str(len(article_matches)) +
+                "; requires exactly one supplier row in exactly one feed"
+            )
+        source, values = article_matches[0]
+        status = values[0]
+        supplier_id = "exact-article:" + product.get("article", "")
+        if status is None:
+            return None, "SKIP_UNKNOWN_SUPPLIER_STATUS", (
+                "Supplier=" + source + "; exact article match; status not recognized"
+            )
+        matches = [(source, supplier_id, status)]
     if len(matches) != 1:
         detail = "; ".join(source + ":" + supplier_id for source, supplier_id, _ in matches)
         return None, "SKIP_SUPPLIER_NOT_UNIQUE", (
             "Exact supplier-ID matches=" + str(len(matches)) +
-            (("; " + detail) if detail else "") +
-            "; no article/SKU fallback used"
+            (("; " + detail) if detail else "")
         )
     source, supplier_id, status = matches[0]
     if status is None:

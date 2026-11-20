@@ -36,12 +36,30 @@ def parse_status(raw):
 
 def fetch(url, path):
     req = Request(url, headers={"User-Agent": "HOME-PRIME-stock-sync/2.0"})
-    with urlopen(req, timeout=180) as r, open(path, "wb") as f:
-        while True:
-            chunk = r.read(1024 * 1024)
-            if not chunk:
-                break
-            f.write(chunk)
+    with urlopen(req, timeout=180) as r:
+        body = r.read()
+
+    # Some Top-Drop responses prepend PHP warnings before the actual YML.
+    # Keep only a recognizable XML/YML document; never publish an error page.
+    xml_start = body.find(b"<?xml")
+    if xml_start < 0:
+        xml_start = body.find(b"<yml_catalog")
+    if xml_start < 0:
+        xml_start = body.find(b"<shop")
+    if xml_start > 0:
+        prefix = body[:xml_start].lstrip()
+        if not (prefix.startswith(b"Warning:") or prefix.startswith(b"Notice:") or
+                prefix.startswith(b"Deprecated:") or prefix.startswith(b"\xef\xbb\xbfWarning:")):
+            raise RuntimeError(
+                f"Unexpected data before XML document from {url}: {prefix[:200]!r}"
+            )
+        print(f"SUPPLIER_XML stripped PHP warning preamble: {len(body[:xml_start])} bytes")
+        body = body[xml_start:]
+    if xml_start < 0:
+        preview = body[:300].decode("utf-8", errors="replace")
+        raise RuntimeError(f"Supplier URL did not return XML/YML: {url}; response={preview!r}")
+    with open(path, "wb") as f:
+        f.write(body)
 
 def parse_feed(path):
     """Parse supplier YML offers with or without XML namespaces.

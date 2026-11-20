@@ -44,32 +44,70 @@ def fetch(url, path):
             f.write(chunk)
 
 def parse_feed(path):
+    """Parse supplier YML offers with or without XML namespaces.
+
+    Some supplier endpoints serve a namespaced YML document while uploaded
+    snapshots may be namespace-free. Iterating all end events and comparing
+    local element names handles both formats without weakening status checks.
+    """
     found = defaultdict(list)
-    context = etree.iterparse(path, events=("end",), tag=("offer", "item"),
-                              recover=True, huge_tree=True, no_network=True)
-    for _, elem in context:
-        data = {}
-        for child in elem:
-            key = etree.QName(child).localname
-            if key not in data:
-                data[key] = (child.text or "").strip()
-        code = norm(data.get("vendorCode") or data.get("vendor_code") or
-                    data.get("article") or data.get("barcode") or data.get("sku"))
-        supplier_id = (elem.get("id") or data.get("id") or "").strip()
-        raw = (elem.get("available") or data.get("available") or
-               data.get("presence") or data.get("stock_status") or "").strip()
-        status = parse_status(raw)
-        if code:
-            found[("code", code)].append(status)
-        if supplier_id:
-            found[("id", supplier_id)].append(status)
-        elem.clear()
-        while elem.getprevious() is not None:
-            del elem.getparent()[0]
+    offer_count = 0
+    try:
+        context = etree.iterparse(
+            path, events=("end",), recover=True, huge_tree=True,
+            no_network=True, resolve_entities=False
+        )
+        for _, elem in context:
+            local_tag = etree.QName(elem).localname
+            if local_tag not in ("offer", "item"):
+                continue
+            offer_count += 1
+            data = {}
+            for child in elem:
+                key = etree.QName(child).localname
+                if key not in data:
+                    data[key] = (child.text or "").strip()
+
+            code = norm(data.get("vendorCode") or data.get("vendor_code") or
+                        data.get("article") or data.get("barcode") or data.get("sku"))
+            supplier_id = (elem.get("id") or data.get("id") or "").strip()
+            raw = (elem.get("available") or data.get("available") or
+                   elem.get("in_stock") or data.get("in_stock") or
+                   data.get("presence") or data.get("stock_status") or "").strip()
+            status = parse_status(raw)
+            if code:
+                found[("code", code)].append(status)
+            if supplier_id:
+                found[("id", supplier_id)].append(status)
+
+            elem.clear()
+            parent = elem.getparent()
+            if parent is not None:
+                while elem.getprevious() is not None:
+                    del parent[0]
+    except (OSError, etree.XMLSyntaxError) as exc:
+        raise RuntimeError(f"Cannot parse supplier XML {path}: {exc}") from exc
+
+    if offer_count == 0:
+        try:
+            with open(path, "rb") as source_file:
+                preview = source_file.read(300).decode("utf-8", errors="replace")
+        except OSError:
+            preview = "(file could not be read)"
+        raise RuntimeError(
+            f"No <offer>/<item> elements found in {path}; "
+            f"downloaded response may not be a YML feed. First bytes: {preview!r}"
+        )
     if not found:
-        raise RuntimeError(f"No product offers parsed from {path}; source format may have changed")
+        raise RuntimeError(
+            f"Found {offer_count} offers in {path}, but none had a usable supplier code or ID"
+        )
     if not any(value is not None for values in found.values() for value in values):
-        raise RuntimeError(f"No recognized availability values parsed from {path}; refusing to publish a partial feed")
+        raise RuntimeError(
+            f"Found {offer_count} offers in {path}, but no recognized availability values; "
+            "refusing to publish a partial feed"
+        )
+    print(f"SUPPLIER_XML parsed: file={os.path.basename(path)} offers={offer_count} keys={len(found)}")
     return found
 
 def load_whitelist():

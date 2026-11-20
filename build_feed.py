@@ -704,13 +704,11 @@ def main():
             whitelist, duplicate_resolutions, report
         )
 
-        # Prom's scheduled URL import ignores the manual "Тільки оновлення"
-        # checkbox. Lock this feed to the exact YML IDs from the last published
-        # file so a new/unseen ID can never be offered for creation.
-        previous_feed_ids = load_previous_feed_ids()
-        whitelist = keep_only_previous_feed_ids(
-            whitelist, previous_feed_ids, report
-        )
+        # Safety is based on the live Prom catalog, not on the previous feed.
+        # Every row has already been matched to exactly one current Prom card,
+        # its SKU is checked, and its external_id is verified below to belong
+        # to exactly one current card. This allows approved existing products
+        # omitted from an older feed to be restored without creating new cards.
 
         for source, url in FEEDS.items():
             path = os.path.join(BASE, source + ".xml")
@@ -765,13 +763,6 @@ def main():
             offer_ids = [offer.get("id") for offer in offers.findall("offer")]
             if len(offer_ids) != len(set(offer_ids)):
                 raise RuntimeError("YML export stopped: duplicate original external_id values detected.")
-            unexpected_ids = sorted(set(offer_ids) - previous_feed_ids)
-            if unexpected_ids:
-                raise RuntimeError(
-                    "YML export stopped: new YML IDs would create products instead of updating "
-                    "the existing stock-only baseline: " + ", ".join(unexpected_ids[:10])
-                )
-
             # Validate every YML ID against exactly one live Prom card. Never
             # substitute the internal Prom ID: that changes the import identity
             # and can make Prom create a duplicate instead of updating a card.

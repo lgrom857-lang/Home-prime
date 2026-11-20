@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-20 18:59">
+<yml_catalog date="2026-11-20 19:02">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -2203,6 +2203,98 @@
         <name>Плоскогубці багатофункціональні 5в1 SJP8029 набір зі змінними насадками кусачки бокоріз ножиці стрипер</name>
         <vendorCode>SJP8029</vendorCode>
       </offer>
+      <offer id="nav4366643" available="true">
+        <name>Автомобільний відеореєстратор HD 129 Full HD 1080p, дисплей 2,7 дюйма, нічна зйомка, датчик руху</name>
+        <vendorCode>nav4366643</vendorCode>
+      </offer>
+      <offer id="VEN-1286" available="true">
+        <name>Автомобільний відеореєстратор LF9 Pro Full HD 1080P Wi-Fi 170° з G-Sensor та підтримкою microSD 128 ГБ</name>
+        <vendorCode>VEN-1286</vendorCode>
+      </offer>
+      <offer id="VEN-1281" available="true">
+        <name>Відеореєстратор автомобільний на 3 камери 1296P Full HD+, G-Sensor, нічна зйомка, циклічний запис</name>
+        <vendorCode>VEN-1281</vendorCode>
+      </offer>
+      <offer id="224-PI-606" available="true">
+        <name>Автомагнітола PI-606 Toyota / Магнітола 2DIN Android 10.0, 3/32 ГБ, / Мультимедійна система GPS, Bluetooth, Wi-Fi</name>
+        <vendorCode>224-PI-606</vendorCode>
+      </offer>
+      <offer id="sp45210" available="true">
+        <name>Зарядний пристрій автомобільний для акумулятора Battery Charger UKC MA-1230A 30A</name>
+        <vendorCode>sp45210</vendorCode>
+      </offer>
+      <offer id="nav49046" available="true">
+        <name>Перетворювач напруги UKC 1500 Вт 24v 220v інвертор 1500w 24в 220в</name>
+        <vendorCode>nav49046</vendorCode>
+      </offer>
+      <offer id="sp54545" available="true">
+        <name>Зарядний пристрій акумулятора UKC Battery Charger 20A MA 1220A black</name>
+        <vendorCode>sp54545</vendorCode>
+      </offer>
+      <offer id="sp326545" available="true">
+        <name>Акумуляторна зарядка Battery Charger 10A MA-1210A</name>
+        <vendorCode>sp326545</vendorCode>
+      </offer>
+      <offer id="Wx1438" available="true">
+        <name>Портативна електоростанція WX1438, 650W (171 000 мАг), USB, Type-C, DC, 2 розетки, ліхтар</name>
+        <vendorCode>Wx1438</vendorCode>
+      </offer>
+      <offer id="KC1000D" available="false">
+        <name>Автомобільний перетворювач напруги 12V-220V 1000W</name>
+        <vendorCode>KC1000D</vendorCode>
+      </offer>
+      <offer id="201НФ008183" available="true">
+        <name>Автомобільний перетворювач напруги інвертор 4000W 12V UN-3060</name>
+        <vendorCode>201НФ008183</vendorCode>
+      </offer>
+      <offer id="sp8444" available="false">
+        <name>Перетворювач AC/DC UPS 1800W UPS+CHARGE</name>
+        <vendorCode>sp8444</vendorCode>
+      </offer>
+      <offer id="sp3738" available="false">
+        <name>Перетворювач AC/DC KC-500D 500W+lcd, Інвертор у машину</name>
+        <vendorCode>sp3738</vendorCode>
+      </offer>
+      <offer id="sp4138" available="true">
+        <name>Автомобильный инвертор 1500 Вт, 12–220 В, 2×USB, чистый синус / Инвертор для котла и техники</name>
+        <vendorCode>sp4138</vendorCode>
+      </offer>
+      <offer id="G6349" available="true">
+        <name>Зварювальний апарат інверторного типу Vollyx VOL-MIG-350A</name>
+        <vendorCode>G6349</vendorCode>
+      </offer>
+      <offer id="sp10529" available="false">
+        <name>Автомобільний інвертор Жовтий / Перетворювач напруги з 12-220V, 500Вт, 2хUSB</name>
+        <vendorCode>sp10529</vendorCode>
+      </offer>
+      <offer id="sp10530" available="false">
+        <name>Перетворювач автомобільний інвертор UKC AC/DC UPS 1300 Вт</name>
+        <vendorCode>sp10530</vendorCode>
+      </offer>
+      <offer id="sp10531" available="false">
+        <name>Автомобільний інвертор Жовтий / Перетворювач напруги з 12-220V, 1500Вт, 2хUSB</name>
+        <vendorCode>sp10531</vendorCode>
+      </offer>
+      <offer id="sp10532" available="false">
+        <name>Автомобільний інвертор Жовтий / Перетворювач напруги з 12-220V, 2000Вт, 2хUSB</name>
+        <vendorCode>sp10532</vendorCode>
+      </offer>
+      <offer id="sp2711" available="false">
+        <name>Перетворювач AC/DC SSK 2000W 24V / Інвертор автомобільний 24В</name>
+        <vendorCode>sp2711</vendorCode>
+      </offer>
+      <offer id="flSK-10008" available="true">
+        <name>Мультипіч аерофритюрниця SOKANY SK-10008 10 л (2х5 л) 2400 Вт</name>
+        <vendorCode>flSK-10008</vendorCode>
+      </offer>
+      <offer id="225СВ-5543" available="true">
+        <name>Аерофритюрниця Crownberg CB 5543 1500Вт 4л (мультипіч, аерогриль)</name>
+        <vendorCode>225СВ-5543</vendorCode>
+      </offer>
+      <offer id="201НФ8868" available="true">
+        <name>Безмасляна фритюрниця на 7 л DOMOTEC MS-3221 3500W</name>
+        <vendorCode>201НФ8868</vendorCode>
+      </offer>
       <offer id="ZP-217" available="true">
         <name>Аерофритюрниця Zepline ZP-217 12 л (4200 Вт) з двома ТЕНами та сенсорним керуванням</name>
         <vendorCode>ZP-217</vendorCode>
@@ -2215,9 +2307,41 @@
         <name>Аерофритюрниця на 2 чаші Zepline ZP-209 (4000 Вт, 12 л)</name>
         <vendorCode>ZP-209</vendorCode>
       </offer>
+      <offer id="NF-00009353" available="true">
+        <name>Аерофритюрниця мультипіч Domotec MS-3222 3500W 7 л сенсорна</name>
+        <vendorCode>NF-00009353</vendorCode>
+      </offer>
+      <offer id="NF-00007956" available="true">
+        <name>Аерофритюрниця Domotec MS-3220 4,5 л 1300 Вт — мультипіч без олії з регулюванням температури</name>
+        <vendorCode>NF-00007956</vendorCode>
+      </offer>
+      <offer id="SK-10081" available="true">
+        <name>Мультипіч-аерофритюрниця Sokany SK-10081 з нержавіючої сталі 9 л 2000 Вт</name>
+        <vendorCode>SK-10081</vendorCode>
+      </offer>
       <offer id="SK-10052" available="false">
         <name>Аерофритюрниця Sokany SK-10052 1700 Вт 7 л сенсорна мультипіч без олії</name>
         <vendorCode>SK-10052</vendorCode>
+      </offer>
+      <offer id="SK-10060" available="true">
+        <name>Аерофритюрниця Sokany SK-10060 4 л + 8,5 л, 2 чаші, сенсорне керування</name>
+        <vendorCode>SK-10060</vendorCode>
+      </offer>
+      <offer id="MS-3223" available="true">
+        <name>Аерофритюрниця Domotec MS-3223 12 л 3500 Вт з двома ТЕНами, електронним керуванням та антипригарним покриттям</name>
+        <vendorCode>MS-3223</vendorCode>
+      </offer>
+      <offer id="sp10329" available="true">
+        <name>Аерофритюрниця Domotec MS-3226 13 л 4800 Вт, 2 ТЕНи, сенсорне керування, без олії</name>
+        <vendorCode>sp10329</vendorCode>
+      </offer>
+      <offer id="sp10328" available="true">
+        <name>Аерофритюрниця DOMOTEC Air Fryer MS-3225 3500 Вт 7 л, сенсорне керування, 2 ТЕНи</name>
+        <vendorCode>sp10328</vendorCode>
+      </offer>
+      <offer id="sp10326" available="true">
+        <name>Аерофритюрниця DOMOTEC MS-3224 4500 Вт 12 л з LED-дисплеєм та 2 ТЕНами</name>
+        <vendorCode>sp10326</vendorCode>
       </offer>
       <offer id="ZP-00343" available="true">
         <name>Аерофритюрниця Zepline ZP-00343 13 л 4200 Вт з грилем, сенсорним керуванням та 12 програмами</name>
@@ -2227,17 +2351,653 @@
         <name>Аерогриль Crownberg CB 5540</name>
         <vendorCode>CB5540</vendorCode>
       </offer>
+      <offer id="J1312" available="true">
+        <name>Аерофритюрниця Silver love MK-81-А 1500 Вт 8 л з кнопковим керуванням</name>
+        <vendorCode>J1312</vendorCode>
+      </offer>
+      <offer id="SK-10085" available="true">
+        <name>Аерофритюрниця SOKANY SK-10085 2200 Вт 12 л з сенсорним керуванням та LED-дисплеєм</name>
+        <vendorCode>SK-10085</vendorCode>
+      </offer>
+      <offer id="sp10404" available="true">
+        <name>Аерофритюрниця Domotec MS-3227 4600 Вт, 7 л, електронне керування, мультипіч без олії</name>
+        <vendorCode>sp10404</vendorCode>
+      </offer>
+      <offer id="SK-10066" available="true">
+        <name>Аерофритюрниця Sokany SK-10066 9,5 л 2400 Вт — фритюрниця без олії, аерогриль</name>
+        <vendorCode>SK-10066</vendorCode>
+      </offer>
+      <offer id="SK-10095" available="true">
+        <name>Аерофритюрниця Sokany SK-10066 2400 Вт, 9,5 л, з цифровим дисплеєм</name>
+        <vendorCode>SK-10095</vendorCode>
+      </offer>
+      <offer id="2055305" available="true">
+        <name>Аерогриль R.5406 12L / Чорний Аарогріль RAF / Аерофритюр 8в1</name>
+        <vendorCode>2055305</vendorCode>
+      </offer>
+      <offer id="2055313" available="true">
+        <name>Аерогриль RAF R.5336 6 л, 1350 Вт — мультипіч із сенсорним керуванням, оглядовим вікном і циркуляцією гарячого повітря 360°</name>
+        <vendorCode>2055313</vendorCode>
+      </offer>
+      <offer id="2055937" available="true">
+        <name>Сенсорна подвійна аерофритюрниця RAF R.5225 3300 Вт / Чорний електричний гриль 6л+6л / Аерогриль RAF</name>
+        <vendorCode>2055937</vendorCode>
+      </offer>
+      <offer id="SK-10002" available="true">
+        <name>Аерофритюрниця-мініпіч Sokany SK-10002 18л / Аерогриль + духовка 2в1 1800 Вт 10 програм</name>
+        <vendorCode>SK-10002</vendorCode>
+      </offer>
+      <offer id="SK-ZG-8032" available="true">
+        <name>Аерогриль-фритюрниця з сенсорним керуванням SOKANY SK-ZG-8032 16 л 1700 Вт 8 програм</name>
+        <vendorCode>SK-ZG-8032</vendorCode>
+      </offer>
+      <offer id="Tk244/1" available="true">
+        <name>Чорна Електрична мультипіч Top Kitchen TK-00244 12л / Аерогриль з сенсорним керуванням 2400 Вт 10 програм</name>
+        <vendorCode>Tk244/1</vendorCode>
+      </offer>
+      <offer id="Tk244/3" available="true">
+        <name>Електрична мультипеч Top Kitchen TK-00244 12 л 2400 Вт, аерогриль із сенсорним керуванням і 10 програмами</name>
+        <vendorCode>Tk244/3</vendorCode>
+      </offer>
+      <offer id="TK275" available="true">
+        <name>Двокамерна аерофритюрниця з сенсорним керуванням / Аерогриль T.K. Line TK00275 12л+6л 5200+2000 Вт</name>
+        <vendorCode>TK275</vendorCode>
+      </offer>
+      <offer id="TK274" available="true">
+        <name>Двокамерна аерофритюрниця T.K. Line TK00274 5000Вт+3500Вт / Аерогриль з сенсорнм керуванням Sync та Dual Cook 10л+8л</name>
+        <vendorCode>TK274</vendorCode>
+      </offer>
+      <offer id="TK273" available="true">
+        <name>Аерофрітюрниця T.K.Line TK00273 12 л з Wi-Fi та керуванням через Tuya Smart</name>
+        <vendorCode>TK273</vendorCode>
+      </offer>
+      <offer id="TK00268" available="true">
+        <name>Аерофритниця TKLine TK00268 / Аерогриль 8 л 3400 Вт 10 програм</name>
+        <vendorCode>TK00268</vendorCode>
+      </offer>
+      <offer id="SK-10041" available="true">
+        <name>Двокамерна аерофритюрниця Sokany SK-10041 10 л / Аерогриль з сенсорним керуванням на 10 програм 3000 Вт</name>
+        <vendorCode>SK-10041</vendorCode>
+      </offer>
       <offer id="ZP-00345" available="true">
         <name>Аерофритниця Zepline ZP-00345 / Аерогриль 2200 Вт / Мультипіч 13 л</name>
         <vendorCode>ZP-00345</vendorCode>
+      </offer>
+      <offer id="009944" available="true">
+        <name>Портативний обігрівач Handy Heater Rovus 400W керамічний тепловентилятор у розетку</name>
+        <vendorCode>009944</vendorCode>
+      </offer>
+      <offer id="20500000019" available="true">
+        <name>Обігрівач електричний Flame Heater 1000W з пультом</name>
+        <vendorCode>20500000019</vendorCode>
+      </offer>
+      <offer id="201НФ08902" available="true">
+        <name>Керамічний обігрівач настільний A-Plus 1000W РТС тепловентилятор, 2 режими, захист від перегріву</name>
+        <vendorCode>201НФ08902</vendorCode>
+      </offer>
+      <offer id="2018903" available="true">
+        <name>Електричний баштовий обігрівач, тепловентилятор білий, 2000 Вт, 3 режими обігріву</name>
+        <vendorCode>2018903</vendorCode>
+      </offer>
+      <offer id="G9133" available="true">
+        <name>Портативний обігрівач від мережі, 500Вт, Настільний тепловентилятор / Електрообігрівач KRT-01</name>
+        <vendorCode>G9133</vendorCode>
+      </offer>
+      <offer id="20112738" available="true">
+        <name>Портативний обігрівач, тепловентилятор Wonder Heater 900 Вт з таймером KLW-019A1</name>
+        <vendorCode>20112738</vendorCode>
+      </offer>
+      <offer id="MS-5963" available="true">
+        <name>Настінний кондиціонер-обігрівач Domotec MS-5963 White 2000Вт з пультом та сушаркою</name>
+        <vendorCode>MS-5963</vendorCode>
+      </offer>
+      <offer id="VEN-1367" available="true">
+        <name>Тепловентилятор обігрівач Portable Fan Heater HQ30-300BS</name>
+        <vendorCode>VEN-1367</vendorCode>
+      </offer>
+      <offer id="SK-18036" available="false">
+        <name>Обігрівач настінний SOKANY SK-18036 2000 Вт з пультом та сушаркою</name>
+        <vendorCode>SK-18036</vendorCode>
+      </offer>
+      <offer id="SK-18035" available="true">
+        <name>Обігрівач настінний кондиціонер SOKANY SK-18035 2000 Вт з пультом та сушаркою</name>
+        <vendorCode>SK-18035</vendorCode>
+      </offer>
+      <offer id="Heater" available="true">
+        <name>Тепловентилятор керамічний дистанційним керуванням 2000W</name>
+        <vendorCode>Heater</vendorCode>
+      </offer>
+      <offer id="2019836" available="true">
+        <name>Підлоговий кондиціонер-обігрівач MS-1630 3в1 / Електричний кондиціонер DOMOTEC з поворотом на 90 ° з функцією зволоження</name>
+        <vendorCode>2019836</vendorCode>
+      </offer>
+      <offer id="M17380" available="true">
+        <name>Мобільний безлопатевий вентилятор Germatic LED 1200W / Кондиціонер підлоговий 2в1 з обігрівом та охолодженням AM-018JR сенсор,</name>
+        <vendorCode>M17380</vendorCode>
+      </offer>
+      <offer id="M17381" available="true">
+        <name>Мобільний безлопатевий вентилятор Germatic 2в1 автоповорот 80° / Кондиціонер зима-літо AM-030JR 1200W+ пульт ДУ</name>
+        <vendorCode>M17381</vendorCode>
+      </offer>
+      <offer id="AsAD-2688" available="true">
+        <name>Тепловентилятор з технологією 3D-полум'я / Обігрівач Flame Heater з дистанційним керуванням</name>
+        <vendorCode>AsAD-2688</vendorCode>
+      </offer>
+      <offer id="5094834" available="true">
+        <name>Кондиціонер підлоговий 2в1 з LED-дисплеєм 2000 Вт + пульт ДУ / Колонний керамічний тепловентилятор стаймером X-719</name>
+        <vendorCode>5094834</vendorCode>
+      </offer>
+      <offer id="Tk248" available="true">
+        <name>Підлоговий кондиціонер-обігрівач 5в1 TK Line TK00248 з охолодженням, обігрівом, зволоженням та іонізацією + пульт ДК</name>
+        <vendorCode>Tk248</vendorCode>
+      </offer>
+      <offer id="24433877" available="true">
+        <name>Підлоговий тепловентилятор 800 Вт / Обігрівач з регулюванням висоти та кута нахилу</name>
+        <vendorCode>24433877</vendorCode>
+      </offer>
+      <offer id="MU524136" available="true">
+        <name>Зарядний пристрій автомобільного акумулятора Foxsur 12V 6A / Імпульсний зарядний пристрій з РК-дисплеєм</name>
+        <vendorCode>MU524136</vendorCode>
+      </offer>
+      <offer id="22855522222" available="true">
+        <name>Стіл складний польського бренду стіл для пікніка</name>
+        <vendorCode>22855522222</vendorCode>
+      </offer>
+      <offer id="24365980" available="true">
+        <name>Розкладний набір для пікніка, круглий стіл та 4 стільці, компактна сумка GP4264</name>
+        <vendorCode>24365980</vendorCode>
+      </offer>
+      <offer id="2281808" available="true">
+        <name>Стіл складаний TE-1808</name>
+        <vendorCode>2281808</vendorCode>
+      </offer>
+      <offer id="RAF7009" available="true">
+        <name>Подрібнювач для кухні RAF R.7009B</name>
+        <vendorCode>RAF7009</vendorCode>
+      </offer>
+      <offer id="RAF3039" available="true">
+        <name>Відпарювач для одягу RAF R-3039 (1800 Вт)</name>
+        <vendorCode>RAF3039</vendorCode>
+      </offer>
+      <offer id="2051421001" available="true">
+        <name>Масажна подушка Gelius Smart Pillow Massager GP-PM001</name>
+        <vendorCode>2051421001</vendorCode>
+      </offer>
+      <offer id="2057425" available="true">
+        <name>Фен для волосся VGR 421, складаний</name>
+        <vendorCode>2057425</vendorCode>
+      </offer>
+      <offer id="DSP053" available="true">
+        <name>Потужний фен для укладання волосся DSP 30253</name>
+        <vendorCode>DSP053</vendorCode>
+      </offer>
+      <offer id="2254141201" available="true">
+        <name>Бритва 5 в 1 VGR V-316 Водонипроницаемая Акумуляторна З LED дисплеєм</name>
+        <vendorCode>2254141201</vendorCode>
+      </offer>
+      <offer id="DSP249" available="true">
+        <name>Фен для волосся DSP 30249</name>
+        <vendorCode>DSP249</vendorCode>
+      </offer>
+      <offer id="RAF3038" available="true">
+        <name>Відпарювач для одягу RAF R-3038</name>
+        <vendorCode>RAF3038</vendorCode>
+      </offer>
+      <offer id="DSP904" available="true">
+        <name>Тример для бороди з LED-дисплеєм DSP 90458</name>
+        <vendorCode>DSP904</vendorCode>
+      </offer>
+      <offer id="H85744" available="true">
+        <name>Набор 4в1 Шуруповер + Болгарка + Перфоратор + Гайковерт 2АКБ</name>
+        <vendorCode>H85744</vendorCode>
+      </offer>
+      <offer id="R.6637W" available="true">
+        <name>Стаціонарний ручний міксер  для кухні з металевою чашею RAF R6637 2 л 250W</name>
+        <vendorCode>R.6637W</vendorCode>
+      </offer>
+      <offer id="M15984" available="true">
+        <name>Професійний фен-стайлер A-602 з турбо режимом та іонізацією 3 швидкості 1500Вт</name>
+        <vendorCode>M15984</vendorCode>
+      </offer>
+      <offer id="M16046" available="true">
+        <name>Набір інструментів з тріскачкою 216 предметів у кейсі</name>
+        <vendorCode>M16046</vendorCode>
+      </offer>
+      <offer id="G7346" available="true">
+        <name>Професійний фен для волосся VGR V-431 потужністю 1600-1800 Вт зеленого кольору</name>
+        <vendorCode>G7346</vendorCode>
+      </offer>
+      <offer id="205000003" available="true">
+        <name>Масажна накидка на сидіння, Масажний килимок, стегна, MASSAGER LY-407</name>
+        <vendorCode>205000003</vendorCode>
+      </offer>
+      <offer id="22851234879" available="true">
+        <name>Тістоміс 1500Вт Rainberg 8081 планетарний комбайн</name>
+        <vendorCode>22851234879</vendorCode>
+      </offer>
+      <offer id="22851234881" available="true">
+        <name>Кухонний комбайн Rainberg Rb-8082 3200 Вт</name>
+        <vendorCode>22851234881</vendorCode>
+      </offer>
+      <offer id="М16213" available="true">
+        <name>Лазерний рівень нівелір для стяжки підлоги HILDA 4D 16 ліній 360 ° градусів самовирівнюється Зелений промінь + пульт + акумулятор</name>
+        <vendorCode>М16213</vendorCode>
+      </offer>
+      <offer id="VEN0345" available="true">
+        <name>Дитячий боксерський набір на стійці (груша підлогова з рукавичками для дітей)</name>
+        <vendorCode>VEN0345</vendorCode>
+      </offer>
+      <offer id="Т9642" available="false">
+        <name>Велотренажер для реабілітації рук та ніг Malatec 9642 / Базовий реабілітаційний велосипед 2в1</name>
+        <vendorCode>Т9642</vendorCode>
+      </offer>
+      <offer id="VEN0519" available="true">
+        <name>Акумуляторна дискова пила 85 мм, 25.5 мм, 2 акумулятори</name>
+        <vendorCode>VEN0519</vendorCode>
+      </offer>
+      <offer id="M1135-4" available="true">
+        <name>Акумуляторний безщітковий гайковерт на 2 акумулятори з набором інструментів 1135-4</name>
+        <vendorCode>M1135-4</vendorCode>
+      </offer>
+      <offer id="M224" available="true">
+        <name>Потужна акумуляторна болгарка в кейсі LITHIUM POWER компактна акумуляторна болгарка, 2 акумулятори 24V</name>
+        <vendorCode>M224</vendorCode>
       </offer>
       <offer id="Zp116" available="true">
         <name>Електрична духовка 3 в 1 Domotec MS-5308B 4500 Вт 7 л з кавоваркою та сковородою</name>
         <vendorCode>Zp116</vendorCode>
       </offer>
+      <offer id="M16327" available="true">
+        <name>Набір 3в1 електродомкрат + компресор + ліхтар до 3.5 тонн потужність 180w ZSY03-X 12V</name>
+        <vendorCode>M16327</vendorCode>
+      </offer>
+      <offer id="VEN0384" available="true">
+        <name>Вібромасажер для ніг Shiatsu Foot Massager Масажер для ніг електричний</name>
+        <vendorCode>VEN0384</vendorCode>
+      </offer>
+      <offer id="2127997" available="true">
+        <name>Акумуляторна болгарка + 2 акумулятори 24В, 125мм в кейсі / Міні болгарка / Кутова болгарка / УШМ</name>
+        <vendorCode>2127997</vendorCode>
+      </offer>
+      <offer id="20100008660" available="true">
+        <name>Міні пила ланцюгова+триммер акумуляторний KRAFFTEC КRА-808 (комплект)</name>
+        <vendorCode>20100008660</vendorCode>
+      </offer>
+      <offer id="m16346" available="true">
+        <name>Стіл складаний квадратний в чохлі 50х55х50см</name>
+        <vendorCode>m16346</vendorCode>
+      </offer>
+      <offer id="2127482" available="true">
+        <name>Електричний розпилювач для фарби Electric Paint Sprayer 500W ручний прилад пульверизатор, розпилювач 800 мл краскопульт 3 ступеня</name>
+        <vendorCode>2127482</vendorCode>
+      </offer>
+      <offer id="2128219" available="true">
+        <name>Набір акумуляторних інструментів Болгарка AG24/125 та Шуруповерт 12 B</name>
+        <vendorCode>2128219</vendorCode>
+      </offer>
+      <offer id="205АКУМLY-509" available="true">
+        <name>Бездротовий пістолет для миття автомобіля мийка високого тиску 21V Artifact мийка розпилювач авто</name>
+        <vendorCode>205АКУМLY-509</vendorCode>
+      </offer>
+      <offer id="n2024" available="true">
+        <name>Лазерний рівень, акумуляторний лазерний нівелір (3d, 12 променів)</name>
+        <vendorCode>n2024</vendorCode>
+      </offer>
+      <offer id="ME887459600" available="true">
+        <name>Акумуляторне мийка високого тиску 48V 5Ah 26bar</name>
+        <vendorCode>ME887459600</vendorCode>
+      </offer>
+      <offer id="DUC155Z" available="true">
+        <name>Комплект 2в1 АКБ 24V (пила DUC155Z та секатор DUP365)</name>
+        <vendorCode>DUC155Z</vendorCode>
+      </offer>
+      <offer id="MW37" available="true">
+        <name>Краскопульт електричний, 800мл, 2,5 бар, Синій / Пульверизатор для фарби / Фарборозпилювач</name>
+        <vendorCode>MW37</vendorCode>
+      </offer>
       <offer id="21233" available="true">
         <name>Акумуляторний садовий секатор 24V + 2 акумулятори Сучкоріз / Акумуляторні садові ножиці Crafting tools</name>
         <vendorCode>21233</vendorCode>
+      </offer>
+      <offer id="2127904" available="true">
+        <name>Акумуляторна ланцюгова пила 12 inch Electric SAW YELLOW 1600Вт 21V Li-Ion 7904</name>
+        <vendorCode>2127904</vendorCode>
+      </offer>
+      <offer id="2128644" available="true">
+        <name>Акумуляторна ланцюгова міні-пила 6 inch Electric SAW BLUE кейсом / 2 акумулятори 4А/год 8644</name>
+        <vendorCode>2128644</vendorCode>
+      </offer>
+      <offer id="2053542" available="false">
+        <name>Автомобільний відеореєстратор Full HD 1080P на 3 камери з нічною зйомкою та G-сенсором</name>
+        <vendorCode>2053542</vendorCode>
+      </offer>
+      <offer id="2055883" available="true">
+        <name>Автомобільний відеореєстратор на 3 камери Full HD 1080p з дисплеєм, поворотними об’єктивами та підтримкою 4-канального запису</name>
+        <vendorCode>2055883</vendorCode>
+      </offer>
+      <offer id="24020113" available="true">
+        <name>Повербанк 80000 мАч, зовнішній акумулятор із зарядними кабелями</name>
+        <vendorCode>24020113</vendorCode>
+      </offer>
+      <offer id="PahA21S" available="false">
+        <name>Портативний зарядний пристрій Konfulon A21S Power Bank 40000 mAh 4×USB-A 15W з LED-дисплеєм</name>
+        <vendorCode>PahA21S</vendorCode>
+      </offer>
+      <offer id="P101K" available="true">
+        <name>Повербанк AWEI P101K 100000 мА·год, швидка зарядка 22,5 Вт, LED-дисплей, USB-A, Type-C, Micro-USB, зовнішній акумулятор</name>
+        <vendorCode>P101K</vendorCode>
+      </offer>
+      <offer id="AsKP-93" available="false">
+        <name>Повербанк KP-93 40000 мА·год 22,5 Вт, Power Bank із швидкою зарядкою, 2 USB, Type-C, Micro-USB та цифровим дисплеєм</name>
+        <vendorCode>AsKP-93</vendorCode>
+      </offer>
+      <offer id="14569" available="true">
+        <name>Кемпінговий газовий балон Турист на 8 л з пальником</name>
+        <vendorCode>506666</vendorCode>
+      </offer>
+      <offer id="54011254411" available="true">
+        <name>Стіл для ноутбука та планшета M&amp;T Displays складний 60х40х28 матовий під дерево</name>
+        <vendorCode>54011254411</vendorCode>
+      </offer>
+      <offer id="pr2541387" available="true">
+        <name>Столик трансформер для ноутбука Laptop Table T8</name>
+        <vendorCode>pr2541387</vendorCode>
+      </offer>
+      <offer id="10484" available="true">
+        <name>Дитячий стіл проектор для малювання з підсвічуванням Projector Painting РОЖОВИЙ</name>
+        <vendorCode>10484</vendorCode>
+      </offer>
+      <offer id="50900000002/1" available="true">
+        <name>Рожевий Дитячий стіл проектор для малювання з підсвічуванням Projector Painting 24 Деталі</name>
+        <vendorCode>50900000002/1</vendorCode>
+      </offer>
+      <offer id="50900000002/2" available="true">
+        <name>Блакитний Дитячий стіл проектор для малювання з підсвічуванням Projector Painting 24 Деталі</name>
+        <vendorCode>50900000002/2</vendorCode>
+      </offer>
+      <offer id="50900000002/3" available="true">
+        <name>Жовтий Дитячий стіл проектор для малювання з підсвічуванням Projector Painting 24 Деталі</name>
+        <vendorCode>50900000002/3</vendorCode>
+      </offer>
+      <offer id="50900000002" available="true">
+        <name>Дитячий стіл проектор для малювання з підсвічуванням Projector Painting 24 Деталі</name>
+        <vendorCode>50900000002</vendorCode>
+      </offer>
+      <offer id="Jam12121" available="true">
+        <name>Круглий скляний музичний журнальний столик з підсвічуванням, підзарядка, Bluetooth</name>
+        <vendorCode>Jam12121</vendorCode>
+      </offer>
+      <offer id="2053894" available="true">
+        <name>Набір для пікніка стіл та стільці 2шт у сумці / Туристичний столик зі стільцями / Складаний стіл та стільці</name>
+        <vendorCode>2053894</vendorCode>
+      </offer>
+      <offer id="M17088" available="true">
+        <name>Стіл складаний STD-08 95х55х50см в чохлі, туристичний, для риболовлі коричневий</name>
+        <vendorCode>M17088</vendorCode>
+      </offer>
+      <offer id="M17084" available="true">
+        <name>Стіл STD-02 + 2 стільці, складаний, коричневий, метал і тканина, із сумкою</name>
+        <vendorCode>M17084</vendorCode>
+      </offer>
+      <offer id="M17083" available="true">
+        <name>Набір складних меблів STD-01 для туризму, кемпінгу та відпочинку, стіл та 4 стільців</name>
+        <vendorCode>M17083</vendorCode>
+      </offer>
+      <offer id="M17087" available="true">
+        <name>Стіл квадратний STD-07 складаний у чохлі, метал+пластик 50х55х50см коричневий</name>
+        <vendorCode>M17087</vendorCode>
+      </offer>
+      <offer id="54011254411/1" available="false">
+        <name>Стіл для ноутбука та планшета M&amp;T Displays складний 60х40х28 матовий під дерево Блакитний</name>
+        <vendorCode>54011254411/1</vendorCode>
+      </offer>
+      <offer id="54011254411/3" available="false">
+        <name>Стіл для ноутбука та планшета M&amp;T Displays складний 60х40х28 матовий під дерево Світле дерево</name>
+        <vendorCode>54011254411/3</vendorCode>
+      </offer>
+      <offer id="M17330" available="true">
+        <name>Дитячий стіл 4в1 B8020 з магнітною дошкою для малювання та конструктором</name>
+        <vendorCode>M17330</vendorCode>
+      </offer>
+      <offer id="2055404" available="true">
+        <name>Журнальний стіл-трансформер із підйомним механізмом AND-1932</name>
+        <vendorCode>2055404</vendorCode>
+      </offer>
+      <offer id="2054918" available="true">
+        <name>Функціональний столик-візок на коліщатках AND-1925</name>
+        <vendorCode>2054918</vendorCode>
+      </offer>
+      <offer id="2054921" available="true">
+        <name>Столик інтер'єрний для дому, для ноутбука AND-1928</name>
+        <vendorCode>2054921</vendorCode>
+      </offer>
+      <offer id="5094625" available="true">
+        <name>Регульована парта дитяча зі стільчиком та підставкою | Стіл письмовий регульований</name>
+        <vendorCode>5094625</vendorCode>
+      </offer>
+      <offer id="M17566" available="true">
+        <name>Стіл приліжковий / комп'ютерний на колесах DASH-1846 60х40х60-85 см</name>
+        <vendorCode>M17566</vendorCode>
+      </offer>
+      <offer id="M17578" available="true">
+        <name>Приліжковий кавовий столик Flower 40х30х60 см</name>
+        <vendorCode>M17578</vendorCode>
+      </offer>
+      <offer id="M17581" available="true">
+        <name>Журнальний столик з регулюванням висоти та оборотом 360° з нахилом Темне-дерево</name>
+        <vendorCode>M17581</vendorCode>
+      </offer>
+      <offer id="M17582" available="true">
+        <name>Журнальний столик з регулюванням висоти та оборотом 360° з нахилом Мармур</name>
+        <vendorCode>M17582</vendorCode>
+      </offer>
+      <offer id="Jam4664" available="false">
+        <name>Стіл для ноутбука на колесах з регулюванням висоти 60х40 см, Приліжковий комп'ютерний стіл Темне дерево</name>
+        <vendorCode>Jam4664</vendorCode>
+      </offer>
+      <offer id="VEN-1400" available="true">
+        <name>Багатофункціональний, дитячий ігровий стіл – трансформер з конструктором та стільчиком / Розвиваючий стіл для дітей 231 деталь</name>
+        <vendorCode>VEN-1400</vendorCode>
+      </offer>
+      <offer id="Mak1221" available="false">
+        <name>Стіл туристичний, розкладний 120×60×100 см, білий SNF1221</name>
+        <vendorCode>Mak1221</vendorCode>
+      </offer>
+      <offer id="Jam1297" available="true">
+        <name>Стіл розкладний для риболовлі та пікніка 50х50см з чохлом Коричневий</name>
+        <vendorCode>Jam1297</vendorCode>
+      </offer>
+      <offer id="Jam1296" available="true">
+        <name>Стіл складний 120х60см в чохлі, туристичний, для риболовлі бежевий</name>
+        <vendorCode>Jam1296</vendorCode>
+      </offer>
+      <offer id="24455205" available="true">
+        <name>Мультифункціональний столик з конструктором та мольбертом 6в1 / Дитячий стіл для творчості 108 деталей</name>
+        <vendorCode>24455205</vendorCode>
+      </offer>
+      <offer id="5094791" available="true">
+        <name>Дитячий туалетний столик з табуретом / Дитячий столик для макіяжу та ігор / Набір салон краси X-386</name>
+        <vendorCode>5094791</vendorCode>
+      </offer>
+      <offer id="5094824" available="true">
+        <name>Дитячий набір стіл і стілець Bambi, складаний столик 60×40 см</name>
+        <vendorCode>5094824</vendorCode>
+      </offer>
+      <offer id="5094824/1" available="true">
+        <name>Дитячий набір стіл і стілець Bambi, складаний столик 60×40 см, блакитний</name>
+        <vendorCode>5094824/1</vendorCode>
+      </offer>
+      <offer id="5094824/2" available="true">
+        <name>Дитячий набір стіл і стілець Bambi, складаний столик 60×40 см, рожевий</name>
+        <vendorCode>5094824/2</vendorCode>
+      </offer>
+      <offer id="G10214" available="true">
+        <name>Набір туристичних меблів / Складаний стіл 96х56см + 4 стільці 38х38х64см</name>
+        <vendorCode>G10214</vendorCode>
+      </offer>
+      <offer id="G10214/1" available="true">
+        <name>Набір туристичних меблів / Складаний стіл 96х56см + 4 стільці 38х38х64см Бежевий</name>
+        <vendorCode>G10214/1</vendorCode>
+      </offer>
+      <offer id="G10214/2" available="true">
+        <name>Набір туристичних меблів / Складаний стіл 120х55х50см + 4 стільці 38х38х64см Чорний</name>
+        <vendorCode>G10214/2</vendorCode>
+      </offer>
+      <offer id="G10217" available="true">
+        <name>Стіл складний туристичний 149,5х70х43см Коричневий / Стіл для пікніка, туристичний, для риболовлі</name>
+        <vendorCode>G10217</vendorCode>
+      </offer>
+      <offer id="G10216" available="true">
+        <name>Стіл складаний туристичний 116х58х43см Коричневий / Стіл для пікніка, кемпінгу з чохлом</name>
+        <vendorCode>G10216</vendorCode>
+      </offer>
+      <offer id="VEN-155/2" available="true">
+        <name>Чорний Стіл складний 120x55x50 см у чохлі / Туристичний розкладний компактний стіл</name>
+        <vendorCode>VEN-155/2</vendorCode>
+      </offer>
+      <offer id="2055759" available="true">
+        <name>Столик для ноутбука / Комп'ютерний стіл з регулюванням</name>
+        <vendorCode>2055759</vendorCode>
+      </offer>
+      <offer id="2055756/1" available="true">
+        <name>50 см Столик на коліщатках / Інтер'єрний столик для дому / Портативний столик з регулюванням висоти</name>
+        <vendorCode>2055756/1</vendorCode>
+      </offer>
+      <offer id="2055756" available="true">
+        <name>Столик на коліщатках / Інтер'єрний столик для дому / Портативний столик з регулюванням висоти</name>
+        <vendorCode>2055756</vendorCode>
+      </offer>
+      <offer id="VEN-155" available="true">
+        <name>Стіл складний 120x55x50 см у чохлі / Туристичний розкладний компактний стіл</name>
+        <vendorCode>VEN-155</vendorCode>
+      </offer>
+      <offer id="5094887" available="true">
+        <name>Комплект інтер'єрних столиків 50/70 см / Журанальний столик 2в1 Чорний Мармур</name>
+        <vendorCode>5094887</vendorCode>
+      </offer>
+      <offer id="2055722" available="true">
+        <name>Столик інтер'єрний мобільний YM088 / Стіл приліжковий з кишенею / Пересувний столик приставний</name>
+        <vendorCode>2055722</vendorCode>
+      </offer>
+      <offer id="2055720" available="true">
+        <name>Столик інтер'єрний журнальний в стилі лофт E5339 / Столик для дому, офісу / Журнальний стіл</name>
+        <vendorCode>2055720</vendorCode>
+      </offer>
+      <offer id="2055730" available="true">
+        <name>Столик інтер'єрний журнальний овальний YM195 / Дерев'яний столік / Стіл на колесах</name>
+        <vendorCode>2055730</vendorCode>
+      </offer>
+      <offer id="2055726" available="true">
+        <name>Столик інтер'єрний круглий кавовий YM173 / Журнальний столик на ніжках / Стіл інтер'єрний</name>
+        <vendorCode>2055726</vendorCode>
+      </offer>
+      <offer id="2055728" available="true">
+        <name>Столик інтер'єрний / Прямокутний журнальний дерев'яний стіл YM186 / кімнатний столик</name>
+        <vendorCode>2055728</vendorCode>
+      </offer>
+      <offer id="M17788" available="true">
+        <name>Журнальний, кавовий стіл 360° + гідропідйомник 60х40х58~75 см / Столик приліжковий / Комп'ютерний стіл на колесах Білий мармур</name>
+        <vendorCode>M17788</vendorCode>
+      </offer>
+      <offer id="M17788/1" available="true">
+        <name>Журнальний стіл 26010, 360°, гідропідіймач, 60×40×58–75 см, білий мармур</name>
+        <vendorCode>M17788/1</vendorCode>
+      </offer>
+      <offer id="M17794" available="true">
+        <name>Набір кавово-журнальних столиків (1916) / Інтер'єрні шестикутні столи (3 шт) Білий</name>
+        <vendorCode>M17794</vendorCode>
+      </offer>
+      <offer id="M17795" available="true">
+        <name>Набір кавово-журнальних столиків (2500) / Інтер'єрні шестикутні столи (4 шт) Сірий Мармур</name>
+        <vendorCode>M17795</vendorCode>
+      </offer>
+      <offer id="M17807" available="true">
+        <name>Комп'ютерний столик на коліщатках / Приліжковий стіл з регульованою висотою 60x40см / Приставний столик з 1 полицею</name>
+        <vendorCode>M17807</vendorCode>
+      </offer>
+      <offer id="M17807/3" available="true">
+        <name>Комп'ютерний столик на коліщатках / Приліжковий стіл з регульованою висотою 60x40см / Приставний столик з 1 полицею Чорний</name>
+        <vendorCode>M17807/3</vendorCode>
+      </offer>
+      <offer id="M17506/3" available="false">
+        <name>Комп'ютерний столик 80х40х60-85см / Стіл ліжка з регулюванням висоти / Поворотний столик для ноутбука (T-80) Чорний</name>
+        <vendorCode>M17506/3</vendorCode>
+      </offer>
+      <offer id="50900000002/4" available="true">
+        <name>Дитячий стіл проектор для малювання з підсвічуванням Projector Painting 24 Деталі Рожевий Жираф</name>
+        <vendorCode>50900000002/4</vendorCode>
+      </offer>
+      <offer id="M17796" available="true">
+        <name>Набір кавово-журнальних столиків (2502) / Інтер'єрні круглі столи (4 шт)</name>
+        <vendorCode>M17796</vendorCode>
+      </offer>
+      <offer id="2017100" available="true">
+        <name>Дитячий стіл-органайзер Arivans 55×30×22 см / Стіл для навчання, ігор та творчості</name>
+        <vendorCode>2017100</vendorCode>
+      </offer>
+      <offer id="5095130/1" available="false">
+        <name>Дитяча парта-трансформер Бузкова зі стільцем та полицями, регульована по висоті / Стіл для навчання, малювання та творчості</name>
+        <vendorCode>5095130/1</vendorCode>
+      </offer>
+      <offer id="M17924/2" available="true">
+        <name>Сірий Столик нічний Dash XBC-1-01 / Регульований столик на колесах / Комп'ютерний стіл 60х40 см</name>
+        <vendorCode>M17924/2</vendorCode>
+      </offer>
+      <offer id="M17924/1" available="true">
+        <name>Коричневий Столик нічний Dash XBC-1-01 / Регульований столик на колесах / Комп'ютерний стіл 60х40 см</name>
+        <vendorCode>M17924/1</vendorCode>
+      </offer>
+      <offer id="M17924" available="true">
+        <name>Столик нічний Dash XBC-1-01 / Регульований столик на колесах / Комп'ютерний стіл 60х40 см</name>
+        <vendorCode>M17924</vendorCode>
+      </offer>
+      <offer id="M17950" available="true">
+        <name>Журнальний столик Dash JDL-F-04 / Прямокутний столик з полицею 60×30×52 см</name>
+        <vendorCode>M17950</vendorCode>
+      </offer>
+      <offer id="M17950/1" available="true">
+        <name>Білий Журнальний столик Dash JDL-F-04 / Прямокутний столик з полицею 60×30×52 см</name>
+        <vendorCode>M17950/1</vendorCode>
+      </offer>
+      <offer id="M17950/2" available="true">
+        <name>Чорний Журнальний столик Dash JDL-F-04 / Прямокутний столик з полицею 60×30×52 см</name>
+        <vendorCode>M17950/2</vendorCode>
+      </offer>
+      <offer id="M17952" available="true">
+        <name>Журнальний столик 40х80х52 см / Прямокутний столик із полицею Dash JDL-F-02</name>
+        <vendorCode>M17952</vendorCode>
+      </offer>
+      <offer id="M17917" available="true">
+        <name>Комп'ютерний стіл Dash S12 / Ігровий комп'ютерний стіл 120×60×72,5 см</name>
+        <vendorCode>M17917</vendorCode>
+      </offer>
+      <offer id="M17917/1" available="true">
+        <name>Білий Комп'ютерний стіл Dash S12 / Ігровий комп'ютерний стіл 120×60×72,5 см</name>
+        <vendorCode>M17917/1</vendorCode>
+      </offer>
+      <offer id="M17917/2" available="false">
+        <name>Чорний Комп'ютерний стіл Dash S12 / Ігровий комп'ютерний стіл 120×60×72,5 см</name>
+        <vendorCode>M17917/2</vendorCode>
+      </offer>
+      <offer id="M17918" available="true">
+        <name>Комп'ютерний стіл Dash S10 / Ігровий комп'ютерний стіл 100×60×72,5 см</name>
+        <vendorCode>M17918</vendorCode>
+      </offer>
+      <offer id="M17951" available="true">
+        <name>Журнальний столик з полицею 40×60×52 см / Двоярусний стіл Dash JDL-F-01</name>
+        <vendorCode>M17951</vendorCode>
+      </offer>
+      <offer id="M17951/1" available="false">
+        <name>Білий Журнальний столик з полицею 40×60×52 см / Двоярусний стіл Dash JDL-F-01</name>
+        <vendorCode>M17951/1</vendorCode>
+      </offer>
+      <offer id="M17951/2" available="true">
+        <name>Чорний Журнальний столик з полицею 40×60×52 см / Двоярусний стіл Dash JDL-F-01</name>
+        <vendorCode>M17951/2</vendorCode>
+      </offer>
+      <offer id="M17917/3" available="true">
+        <name>Сірий Комп'ютерний стіл Dash S12 / Ігровий комп'ютерний стіл 120×60×72,5 см</name>
+        <vendorCode>M17917/3</vendorCode>
       </offer>
     </offers>
   </shop>

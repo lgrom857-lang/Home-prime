@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-21 01:33">
+<yml_catalog date="2026-11-21 12:43">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -1551,7 +1551,7 @@
         <name>Інтерактивний папугу Funny Parrot для мовних навичок TT8005 Жовтий</name>
         <vendorCode>TT8005YELL</vendorCode>
       </offer>
-      <offer id="2998586404" available="true">
+      <offer id="2998586404" available="false">
         <name>Дитяча складна гойдалка Esonstyle X623 рожева, з козирком від сонця, музикою та підсвіткою, для дому і вулиці</name>
         <vendorCode>PINK623</vendorCode>
       </offer>
@@ -1803,7 +1803,7 @@
         <name>Пароочисник 28в1 для домівки Zepline ZP-819 3000Вт 1500 мл</name>
         <vendorCode>ZP819</vendorCode>
       </offer>
-      <offer id="2855155126" available="true">
+      <offer id="2855155126" available="false">
         <name>Надувний диван двомісний із флокованим покриттям XL-1134 138х87х71 см</name>
         <vendorCode>XL1134</vendorCode>
       </offer>

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-22 06:53">
+<yml_catalog date="2026-11-22 16:19">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -139,10 +139,6 @@
         <name>Апарат для приготування печива DSP KC1156</name>
         <vendorCode>KC1156</vendorCode>
       </offer>
-      <offer id="1567913156" available="false">
-        <name>Квадрокоптер CX006 (9-996) з Wi-Fi камерою bi</name>
-        <vendorCode>CX006</vendorCode>
-      </offer>
       <offer id="1568123147" available="true">
         <name>Квадрокоптер Pioneer CD622/623W с WiFi камерой</name>
         <vendorCode>CD622</vendorCode>
@@ -163,10 +159,6 @@
         <name>Органайзер для косметики 2 секції (зелений) YM206 Single Drawer  ⁇  Косметичний органайзер</name>
         <vendorCode>YM206GR</vendorCode>
       </offer>
-      <offer id="1569917674" available="false">
-        <name>Органайзер-полиця для косметики "Метелик" (Рожевий) (W-32)</name>
-        <vendorCode>W-32</vendorCode>
-      </offer>
       <offer id="1574228015" available="true">
         <name>М'ясорубка Rainberg RB-679 3000W Black 2в1 Електрична Електросоковичавниця Електро м'ясорубка</name>
         <vendorCode>RB-679</vendorCode>
@@ -174,10 +166,6 @@
       <offer id="1650779707" available="true">
         <name>Електрична плита Crownberg CB-1327 настільна інфрачервона на 2 конфорки по 2000 Вт</name>
         <vendorCode>CB1327</vendorCode>
-      </offer>
-      <offer id="1661799265" available="false">
-        <name>Конвекторний нагрівач Crownberg CB-2000</name>
-        <vendorCode>CB2000</vendorCode>
       </offer>
       <offer id="1664143357" available="true">
         <name>Електрична м'ясорубка Rainberg RB-677 2600W</name>
@@ -214,10 +202,6 @@
       <offer id="1685816347" available="true">
         <name>Електричний дисковий скляний чайник Crownberg CB 9121 1800 Вт електричний чайник із підсвіткою</name>
         <vendorCode>CB9121</vendorCode>
-      </offer>
-      <offer id="1692441486" available="false">
-        <name>Настільна інфрачервона плита Crownberg CB-1324 (одна конфорка 2000 Вт) кераміка</name>
-        <vendorCode>CB1324</vendorCode>
       </offer>
       <offer id="1692447341" available="true">
         <name>Двокомфоркова настільна інфрачервона електроплита Crownberg CB-1330 на 2000 Вт</name>
@@ -275,10 +259,6 @@
         <name>Ручний відпарювач для одягу Rainberg RB-6312 вертикальний, 1500 Вт</name>
         <vendorCode>RB6312</vendorCode>
       </offer>
-      <offer id="2574069821" available="false">
-        <name>Ручний відпарювач для одягу Rainberg RB-6314 2000 Вт із двома змінними насадками, парова щітка</name>
-        <vendorCode>RB6314</vendorCode>
-      </offer>
       <offer id="2618090456" available="true">
         <name>Відпарювач для одягу вертикальний Сірий Zepline ZP-204 з неіржавкої сталі 2200 Вт</name>
         <vendorCode>GREZP204</vendorCode>
@@ -306,10 +286,6 @@
       <offer id="2729720818" available="true">
         <name>Мультипіч побутовий Rainberg RB-2318 3800 Вт Білий аерофритюрниця з антипригарним кошиком 8.5 л</name>
         <vendorCode>WHITRB2318</vendorCode>
-      </offer>
-      <offer id="2760500016" available="false">
-        <name>Ручний вертикальний відпарювач для одягу з мірною чашею для води на 800 Вт RAF R.1161 Зелений</name>
-        <vendorCode>R1161</vendorCode>
       </offer>
       <offer id="2763121004" available="true">
         <name>Тестомесильна машина Crownberg CB-3407 2600 Вт Кухонний комбайн 5 л Планетарний тістоміс-міксер Кухонний тісто</name>
@@ -438,10 +414,6 @@
       <offer id="3001651556" available="true">
         <name>Ручний відпарювач для одягу Zepline ZP-093, 1750 Вт, вертикальний парогенератор з нержавіючою підошвою</name>
         <vendorCode>ZP093</vendorCode>
-      </offer>
-      <offer id="3001660342" available="false">
-        <name>Компактний відпарювач Zepline ZP-206 Чорний – ручна праска-відпарювач з резервуаром 500 мл</name>
-        <vendorCode>ZP206BK</vendorCode>
       </offer>
       <offer id="3001660343" available="true">
         <name>Ручний парогенератор Zepline ZP-206 Червоний – 3000 Вт, нагрів за 35 сек відпарювач для одягу</name>
@@ -663,10 +635,6 @@
         <name>Набір каструль із неіржавкої сталі Zepline ZP-076 Німеччина 18 предметів Набір посуду</name>
         <vendorCode>ZP076</vendorCode>
       </offer>
-      <offer id="1951359327" available="false">
-        <name>Електричний ланчбокс із підігрівом Електричний 220V/12V DFC-C21 (живлення від мережі або автомобіля</name>
-        <vendorCode>DFCC21</vendorCode>
-      </offer>
       <offer id="1998964235" available="true">
         <name>Набір квадратних каструль із силіконовими кришками Higher Kitchen HK-323 Червоний</name>
         <vendorCode>HK323RED</vendorCode>
@@ -811,10 +779,6 @@
         <name>Карусель для зерен настінна з обертанням 360° Kitchen Storage Box 6-in-1 кухонний набір для круп із кріпленням</name>
         <vendorCode>BOX61</vendorCode>
       </offer>
-      <offer id="3053770975" available="false">
-        <name>Газова плита з чотирма конфорками, духовкою та нержавіючою поверхнею RAF 8514</name>
-        <vendorCode>RAF8514</vendorCode>
-      </offer>
       <offer id="2999645592" available="true">
         <name>Кавоварка ріжкова Zepline ZP-6861 — 2500 Вт, 15 барів, капучинатор, резервуар 2 л</name>
         <vendorCode>ZP6861</vendorCode>
@@ -826,10 +790,6 @@
       <offer id="2950754606" available="true">
         <name>Електричний гриль із відкриванням на 180° и антипригарними пластинами RAF R.560 2200W</name>
         <vendorCode>RAFR560</vendorCode>
-      </offer>
-      <offer id="2881879663" available="false">
-        <name>М'ясорубка електрична RAF R3362 1000 Вт потужна з реверсом 3 решітки насадка для ковбас кебе захист від перевантаження продуктивни</name>
-        <vendorCode>RAFR3362</vendorCode>
       </offer>
       <offer id="2953361214" available="true">
         <name>Електрична м'ясорубка з насадкою для кебе та дисками різного помелу RAF R.3376 1000W</name>
@@ -939,10 +899,6 @@
         <name>Електрична кексниця з поворотом 180° та антипригарним покриттям RAF 500 1800W</name>
         <vendorCode>RAF500</vendorCode>
       </offer>
-      <offer id="2760470480" available="false">
-        <name>Електрична м'ясорубка в металевому корпусі потужністю 2500 Вт RAF R.3367 Біла</name>
-        <vendorCode>R3367</vendorCode>
-      </offer>
       <offer id="2242096405" available="true">
         <name>Електрошашколичниця шашличниця електромангал на 6 шампурів із неіржавкої сталі Crownberg CB-7416 Grey 1000W</name>
         <vendorCode>CBB7416</vendorCode>
@@ -958,10 +914,6 @@
       <offer id="3141844075" available="true">
         <name>Електрична яйцеварка на 16 яєць, 350 Вт, RAF R.0056, Сіра/Прилад для варіння яєць</name>
         <vendorCode>R0056</vendorCode>
-      </offer>
-      <offer id="3048281880" available="false">
-        <name>Електричний кухонний подрібнювач з двома скляними чашами RAF 7056 300W</name>
-        <vendorCode>RAF7056</vendorCode>
       </offer>
       <offer id="2948760826" available="true">
         <name>Електричний апарат для приготування хот-догов з антипригарними пластинами RAF R.529 800W</name>
@@ -2975,10 +2927,6 @@
         <name>Білий Комп'ютерний стіл Dash S12 / Ігровий комп'ютерний стіл 120×60×72,5 см</name>
         <vendorCode>M17917/1</vendorCode>
       </offer>
-      <offer id="M17917/2" available="false">
-        <name>Чорний Комп'ютерний стіл Dash S12 / Ігровий комп'ютерний стіл 120×60×72,5 см</name>
-        <vendorCode>M17917/2</vendorCode>
-      </offer>
       <offer id="M17918" available="true">
         <name>Комп'ютерний стіл Dash S10 / Ігровий комп'ютерний стіл 100×60×72,5 см</name>
         <vendorCode>M17918</vendorCode>
@@ -2986,10 +2934,6 @@
       <offer id="M17951" available="true">
         <name>Журнальний столик з полицею 40×60×52 см / Двоярусний стіл Dash JDL-F-01</name>
         <vendorCode>M17951</vendorCode>
-      </offer>
-      <offer id="M17951/1" available="false">
-        <name>Білий Журнальний столик з полицею 40×60×52 см / Двоярусний стіл Dash JDL-F-01</name>
-        <vendorCode>M17951/1</vendorCode>
       </offer>
       <offer id="M17951/2" available="true">
         <name>Чорний Журнальний столик з полицею 40×60×52 см / Двоярусний стіл Dash JDL-F-01</name>

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-21 21:41">
+<yml_catalog date="2026-11-22 06:53">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -2459,7 +2459,7 @@
         <name>Обігрівач настінний SOKANY SK-18036 2000 Вт з пультом та сушаркою</name>
         <vendorCode>SK-18036</vendorCode>
       </offer>
-      <offer id="SK-18035" available="true">
+      <offer id="SK-18035" available="false">
         <name>Обігрівач настінний кондиціонер SOKANY SK-18035 2000 Вт з пультом та сушаркою</name>
         <vendorCode>SK-18035</vendorCode>
       </offer>

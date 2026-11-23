@@ -23,7 +23,7 @@ WHITELIST = os.path.join(BASE, "whitelist_prom.csv")
 REPORT = os.path.join(BASE, "sync-report.csv")
 API_BASE = "https://my.prom.ua/api/v1"
 # Explicitly approved existing Prom cards with no external_id; never put them in import YML.
-API_STOCK_FALLBACK_PROM_IDS = {"3233596328", "3233596329", "3233596330", "3233596331"}
+API_STOCK_FALLBACK_PROM_IDS = set()  # Use the normal GET /products/{id} identity recovery for every card.
 
 def norm(v):
     return re.sub(r"[^A-ZА-ЯІЇЄҐ0-9]", "", (v or "").strip().upper())

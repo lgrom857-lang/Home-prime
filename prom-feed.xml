@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-22 16:19">
+<yml_catalog date="2026-11-23 00:57">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -2171,7 +2171,7 @@
         <name>Автомагнітола PI-606 Toyota / Магнітола 2DIN Android 10.0, 3/32 ГБ, / Мультимедійна система GPS, Bluetooth, Wi-Fi</name>
         <vendorCode>224-PI-606</vendorCode>
       </offer>
-      <offer id="sp45210" available="true">
+      <offer id="sp45210" available="false">
         <name>Зарядний пристрій автомобільний для акумулятора Battery Charger UKC MA-1230A 30A</name>
         <vendorCode>sp45210</vendorCode>
       </offer>
@@ -2927,7 +2927,7 @@
         <name>Білий Комп'ютерний стіл Dash S12 / Ігровий комп'ютерний стіл 120×60×72,5 см</name>
         <vendorCode>M17917/1</vendorCode>
       </offer>
-      <offer id="M17918" available="true">
+      <offer id="M17918" available="false">
         <name>Комп'ютерний стіл Dash S10 / Ігровий комп'ютерний стіл 100×60×72,5 см</name>
         <vendorCode>M17918</vendorCode>
       </offer>

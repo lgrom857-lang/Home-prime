@@ -22,6 +22,8 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 WHITELIST = os.path.join(BASE, "whitelist_prom.csv")
 REPORT = os.path.join(BASE, "sync-report.csv")
 API_BASE = "https://my.prom.ua/api/v1"
+# Explicitly approved existing Prom cards with no external_id; never put them in import YML.
+API_STOCK_FALLBACK_PROM_IDS = {"3233596328", "3233596329", "3233596330", "3233596331"}
 
 def norm(v):
     return re.sub(r"[^A-ZА-ЯІЇЄҐ0-9]", "", (v or "").strip().upper())
@@ -360,7 +362,11 @@ def map_whitelist_to_current_prom(whitelist, by_sku, by_id, report, session):
         if pid in used_ids:
             raise RuntimeError(f"Prom ID {pid} mapped more than once; refusing duplicate offer IDs")
         external_id = str(current.get("external_id", "") or "").strip()
-        if not external_id:
+        if not external_id and pid in API_STOCK_FALLBACK_PROM_IDS:
+            # Keep these existing cards out of YML; update availability by verified internal Prom ID.
+            product["api_stock_only"] = True
+            print(f"PROM_API_STOCK_FALLBACK: Prom ID={pid}; article={product['article']}")
+        elif not external_id:
             try:
                 if pid not in detail_cache:
                     detail_response = session.get(f"{API_BASE}/products/{pid}", timeout=60)
@@ -831,11 +837,47 @@ def main():
             offers = etree.SubElement(shop, "offers")
             included, skipped, supplier_confirmed = 0, 0, 0
 
+            api_stock_updates = 0
             for product in whitelist:
                 available, decision, details = determine_status(product, feeds)
                 if available is None:
                     skipped += 1
                     report.append([product["prom_id"], product["article"], decision, details])
+                    continue
+                if product.get("api_stock_only"):
+                    # No external_id: never emit a YML offer that could create a duplicate.
+                    # Send only the verified internal ID and the availability field.
+                    payload = [{
+                        "id": int(product["prom_id"]),
+                        "presence": "available" if available else "not_available"
+                    }]
+                    try:
+                        response = session.post(f"{API_BASE}/products/edit", json=payload, timeout=45)
+                        if response.status_code >= 400:
+                            skipped += 1
+                            report.append([product["prom_id"], product["article"], "API_ERROR",
+                                           f"HTTP {response.status_code}: {response.text[:400]}"])
+                            continue
+                        data = response.json() if response.content else {}
+                        if isinstance(data, dict) and (data.get("error") or data.get("errors")):
+                            skipped += 1
+                            report.append([product["prom_id"], product["article"], "API_ERROR",
+                                           str(data.get("error") or data.get("errors"))[:400]])
+                            continue
+                        processed = data.get("processed_ids") if isinstance(data, dict) else None
+                        if processed is not None and int(product["prom_id"]) not in [int(x) for x in processed]:
+                            skipped += 1
+                            report.append([product["prom_id"], product["article"], "NOT_CONFIRMED",
+                                           f"Prom did not confirm this ID in processed_ids; response={str(data)[:400]}"])
+                            continue
+                        api_stock_updates += 1
+                        report.append([product["prom_id"], product["article"],
+                                       "API_UPDATED_IN_STOCK" if available else "API_UPDATED_OUT_OF_STOCK",
+                                       f"HTTP {response.status_code}; {details}; only presence sent; response={str(data)[:400]}"])
+                        time.sleep(0.25)
+                    except (requests.RequestException, ValueError) as exc:
+                        skipped += 1
+                        report.append([product["prom_id"], product["article"], "API_ERROR", str(exc)[:400]])
                     continue
                 # YML offer id must remain the product's original Prom external_id.
                 # Prom's internal numeric product ID is used only for live-catalog
@@ -913,7 +955,10 @@ def main():
                 f"YML READY: current Prom catalog={len(prom_by_id)}; "
                 f"supplier-confirmed={supplier_confirmed}; included={included}; skipped={skipped}"
             )
-            print("Feed contains only existing Prom IDs, availability and unchanged vendorCode. No Prom API write requests were sent.")
+            print(
+                f"Feed contains only existing Prom external IDs; API-only stock updates accepted={api_stock_updates}. "
+                "API fallback sent only id and presence for the four explicitly approved cards."
+            )
             return
 
         updates = 0

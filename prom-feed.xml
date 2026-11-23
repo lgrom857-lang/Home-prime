@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-23 13:18">
+<yml_catalog date="2026-11-23 14:08">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -2699,14 +2699,6 @@
         <name>Стіл квадратний STD-07 складаний у чохлі, метал+пластик 50х55х50см коричневий</name>
         <vendorCode>M17087</vendorCode>
       </offer>
-      <offer id="54011254411/1" available="false">
-        <name>Стіл для ноутбука та планшета M&amp;T Displays складний 60х40х28 матовий під дерево Блакитний</name>
-        <vendorCode>54011254411/1</vendorCode>
-      </offer>
-      <offer id="54011254411/3" available="false">
-        <name>Стіл для ноутбука та планшета M&amp;T Displays складний 60х40х28 матовий під дерево Світле дерево</name>
-        <vendorCode>54011254411/3</vendorCode>
-      </offer>
       <offer id="M17330" available="true">
         <name>Дитячий стіл 4в1 B8020 з магнітною дошкою для малювання та конструктором</name>
         <vendorCode>M17330</vendorCode>
@@ -2714,10 +2706,6 @@
       <offer id="2055404" available="true">
         <name>Журнальний стіл-трансформер із підйомним механізмом AND-1932</name>
         <vendorCode>2055404</vendorCode>
-      </offer>
-      <offer id="2054918" available="false">
-        <name>Функціональний столик-візок на коліщатках AND-1925</name>
-        <vendorCode>2054918</vendorCode>
       </offer>
       <offer id="2054921" available="true">
         <name>Столик інтер'єрний для дому, для ноутбука AND-1928</name>
@@ -2743,17 +2731,9 @@
         <name>Журнальний столик з регулюванням висоти та оборотом 360° з нахилом Мармур</name>
         <vendorCode>M17582</vendorCode>
       </offer>
-      <offer id="Jam4664" available="false">
-        <name>Стіл для ноутбука на колесах з регулюванням висоти 60х40 см, Приліжковий комп'ютерний стіл Темне дерево</name>
-        <vendorCode>Jam4664</vendorCode>
-      </offer>
       <offer id="VEN-1400" available="true">
         <name>Багатофункціональний, дитячий ігровий стіл – трансформер з конструктором та стільчиком / Розвиваючий стіл для дітей 231 деталь</name>
         <vendorCode>VEN-1400</vendorCode>
-      </offer>
-      <offer id="Mak1221" available="false">
-        <name>Стіл туристичний, розкладний 120×60×100 см, білий SNF1221</name>
-        <vendorCode>Mak1221</vendorCode>
       </offer>
       <offer id="Jam1297" available="true">
         <name>Стіл розкладний для риболовлі та пікніка 50х50см з чохлом Коричневий</name>
@@ -2843,10 +2823,6 @@
         <name>Столик інтер'єрний круглий кавовий YM173 / Журнальний столик на ніжках / Стіл інтер'єрний</name>
         <vendorCode>2055726</vendorCode>
       </offer>
-      <offer id="2055728" available="false">
-        <name>Столик інтер'єрний / Прямокутний журнальний дерев'яний стіл YM186 / кімнатний столик</name>
-        <vendorCode>2055728</vendorCode>
-      </offer>
       <offer id="M17788" available="true">
         <name>Журнальний, кавовий стіл 360° + гідропідйомник 60х40х58~75 см / Столик приліжковий / Комп'ютерний стіл на колесах Білий мармур</name>
         <vendorCode>M17788</vendorCode>
@@ -2871,10 +2847,6 @@
         <name>Комп'ютерний столик на коліщатках / Приліжковий стіл з регульованою висотою 60x40см / Приставний столик з 1 полицею Чорний</name>
         <vendorCode>M17807/3</vendorCode>
       </offer>
-      <offer id="M17506/3" available="false">
-        <name>Комп'ютерний столик 80х40х60-85см / Стіл ліжка з регулюванням висоти / Поворотний столик для ноутбука (T-80) Чорний</name>
-        <vendorCode>M17506/3</vendorCode>
-      </offer>
       <offer id="50900000002/4" available="true">
         <name>Дитячий стіл проектор для малювання з підсвічуванням Projector Painting 24 Деталі Рожевий Жираф</name>
         <vendorCode>50900000002/4</vendorCode>
@@ -2886,10 +2858,6 @@
       <offer id="2017100" available="true">
         <name>Дитячий стіл-органайзер Arivans 55×30×22 см / Стіл для навчання, ігор та творчості</name>
         <vendorCode>2017100</vendorCode>
-      </offer>
-      <offer id="5095130/1" available="false">
-        <name>Дитяча парта-трансформер Бузкова зі стільцем та полицями, регульована по висоті / Стіл для навчання, малювання та творчості</name>
-        <vendorCode>5095130/1</vendorCode>
       </offer>
       <offer id="M17924/2" available="true">
         <name>Сірий Столик нічний Dash XBC-1-01 / Регульований столик на колесах / Комп'ютерний стіл 60х40 см</name>

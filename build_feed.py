@@ -309,14 +309,15 @@ def load_prom_catalog(session):
     print(f"PROM_CATALOG complete: products={len(by_id)} stop={stop_reason}")
     return by_sku, by_id
 
-def map_whitelist_to_current_prom(whitelist, by_sku, by_id, report):
-    """Map each approved supplier-linked row to its own current Prom card.
+def map_whitelist_to_current_prom(whitelist, by_sku, by_id, report, session):
+    """Map approved rows to current Prom cards and recover omitted external_id.
 
-    Prefer the whitelist identity candidate (Prom external_id or Prom ID).
-    SKU is only a validation field, not a unique key: different suppliers can
-    legitimately have separate Prom cards with the same article/SKU.
+    The products/list endpoint may omit external_id for some cards. For those
+    cards, read the individual product endpoint and accept the value only when
+    its internal ID and SKU exactly match the approved whitelist row. GET only.
     """
     mapped, used_ids = [], set()
+    detail_cache = {}
     for product in whitelist:
         candidate = str(product.get("prom_id_candidate", "")).strip()
         # First resolve by the exact stable identity from the approved whitelist.
@@ -346,11 +347,37 @@ def map_whitelist_to_current_prom(whitelist, by_sku, by_id, report):
             raise RuntimeError(f"Prom ID {pid} mapped more than once; refusing duplicate offer IDs")
         external_id = str(current.get("external_id", "") or "").strip()
         if not external_id:
-            report.append([
-                pid, product["article"], "SKIP_NO_EXTERNAL_ID",
-                "Current Prom card has no external_id; refusing to publish an offer that could be created as new"
-            ])
-            continue
+            try:
+                if pid not in detail_cache:
+                    detail_response = session.get(f"{API_BASE}/products/{pid}", timeout=60)
+                    detail_response.raise_for_status()
+                    detail_payload = detail_response.json()
+                    detail_product = (
+                        detail_payload.get("product", detail_payload)
+                        if isinstance(detail_payload, dict) else {}
+                    )
+                    detail_cache[pid] = detail_product if isinstance(detail_product, dict) else {}
+                detail_product = detail_cache[pid]
+                detail_id = str(detail_product.get("id", "") or "").strip()
+                detail_sku = norm(str(detail_product.get("sku", "") or ""))
+                detail_external_id = str(detail_product.get("external_id", "") or "").strip()
+                if detail_id == pid and detail_sku == product["code"] and detail_external_id:
+                    external_id = detail_external_id
+                    current["external_id"] = external_id
+                    print(f"PROM_DETAIL_IDENTITY_RECOVERED: Prom ID={pid}; article={product['article']}")
+                else:
+                    report.append([
+                        pid, product["article"], "SKIP_NO_EXTERNAL_ID",
+                        "Detail GET did not confirm matching Prom ID, SKU and external_id; "
+                        f"detail_id={detail_id}; detail_sku={detail_product.get('sku', '')!r}"
+                    ])
+                    continue
+            except (requests.RequestException, ValueError, TypeError) as exc:
+                report.append([
+                    pid, product["article"], "SKIP_EXTERNAL_ID_DETAIL_LOOKUP_FAILED",
+                    f"Read-only GET /products/{pid} failed: {str(exc)[:300]}"
+                ])
+                continue
 
         product["prom_id"] = pid
         product["prom_external_id"] = external_id
@@ -756,7 +783,7 @@ def main():
         # that belong to separate supplier cards.
         prom_by_sku, prom_by_id = load_prom_catalog(session)
         whitelist = map_whitelist_to_current_prom(
-            whitelist, prom_by_sku, prom_by_id, report
+            whitelist, prom_by_sku, prom_by_id, report, session
         )
 
         # The reviewed duplicate-resolution file is a mandatory exclusion list.

@@ -928,7 +928,8 @@ def main():
                 )
             mismatched = [
                 product["prom_external_id"] for product in whitelist
-                if external_id_owners.get(product["prom_external_id"]) != [product["prom_id"]]
+                if not product.get("api_stock_only")
+                and external_id_owners.get(product["prom_external_id"]) != [product["prom_id"]]
             ]
             if mismatched:
                 raise RuntimeError(

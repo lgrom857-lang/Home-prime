@@ -389,12 +389,27 @@ def load_previous_feed_ids():
         for offer in root.xpath(".//offer")
         if str(offer.get("id", "")).strip()
     }
+    # A user-deleted Prom card must remain excluded even though its offer ID
+    # exists in the previous feed baseline. Keep the tombstone in the existing
+    # whitelist file; do not let the baseline lock resurrect it.
+    deleted_candidates = set()
+    with open(WHITELIST, encoding="utf-8-sig", newline="") as f:
+        for row in csv.DictReader(f):
+            status = (row.get("Статус_підключення") or "").strip()
+            if status == "ВИДАЛЕНО_КОРИСТУВАЧЕМ":
+                candidate = str(row.get("Ідентифікатор_товару") or "").strip()
+                if candidate:
+                    deleted_candidates.add(candidate)
+    before = len(ids)
+    ids.difference_update(deleted_candidates)
+    print(
+        f"FEED_BASELINE: locked existing YML IDs={before}; "
+        f"user-deleted IDs excluded={len(deleted_candidates & set(ids | deleted_candidates))}"
+    )
     if not ids:
         raise RuntimeError(
-            "Safety stop: previous prom-feed.xml contains no offer IDs; "
-            "refusing to publish a feed that could create new Prom products."
+            "Safety stop: no active offer IDs remain after excluding user-deleted products."
         )
-    print(f"FEED_BASELINE: locked existing YML IDs={len(ids)}")
     return ids
 
 

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-23 13:14">
+<yml_catalog date="2026-11-23 13:18">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -2926,10 +2926,6 @@
       <offer id="M17917/1" available="true">
         <name>Білий Комп'ютерний стіл Dash S12 / Ігровий комп'ютерний стіл 120×60×72,5 см</name>
         <vendorCode>M17917/1</vendorCode>
-      </offer>
-      <offer id="M17918" available="false">
-        <name>Комп'ютерний стіл Dash S10 / Ігровий комп'ютерний стіл 100×60×72,5 см</name>
-        <vendorCode>M17918</vendorCode>
       </offer>
       <offer id="M17951" available="true">
         <name>Журнальний столик з полицею 40×60×52 см / Двоярусний стіл Dash JDL-F-01</name>

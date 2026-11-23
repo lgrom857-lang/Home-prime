@@ -28,7 +28,7 @@ def norm(v):
 
 def parse_status(raw):
     raw = (raw or "").strip().lower().replace("\\u00a0", " ")
-    raw = re.sub(r"\\s+", " ", raw)
+    raw = re.sub(r"\s+", " ", raw)
     if raw in ("true", "1", "+", "yes", "так", "склад", "in_stock", "instock",
                "є", "наявний", "наявність", "в наявності", "є в наявності",
                "available", "available for order"):
@@ -38,7 +38,7 @@ def parse_status(raw):
                "not available", "unavailable"):
         return False
     # Supplier exports sometimes put a numeric stock quantity in the status field.
-    if re.fullmatch(r"-?\\d+(?:[.,]\\d+)?", raw):
+    if re.fullmatch(r"-?\d+(?:[.,]\d+)?", raw):
         try:
             return float(raw.replace(",", ".")) > 0
         except ValueError:
@@ -102,9 +102,21 @@ def parse_feed(path):
                 if value and key not in data:
                     data[key] = value
 
+                # Supplier feeds may store the article inside named <param> nodes
+                # instead of a dedicated <vendorCode>/<article> element.
+                if key in ("param", "parameter") and value:
+                    param_name = norm(child.get("name") or child.get("name_uk") or
+                                      child.get("name_ru") or child.get("type") or "")
+                    if param_name in ("ARTIKUL", "KODTOVARU", "KODTOVARA",
+                                      "VENDORCODE", "VENDOR_CODE", "SKU",
+                                      "PRODUCTCODE", "PRODUCT_CODE", "ARTICLE"):
+                        data.setdefault("param_article", value)
+
             code = norm(data.get("vendorcode") or data.get("vendor_code") or
                         data.get("article") or data.get("barcode") or data.get("sku") or
-                        data.get("product_code") or data.get("productcode"))
+                        data.get("product_code") or data.get("productcode") or
+                        data.get("код_товару") or data.get("артикул") or
+                        data.get("param_article"))
             supplier_id = (elem.get("id") or data.get("id") or data.get("product_id") or "").strip()
             # Prefer explicit availability flags. If absent, accept the supplier's
             # numeric stock/quantity field (positive = in stock, zero = out of stock).

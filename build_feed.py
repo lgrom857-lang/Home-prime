@@ -123,11 +123,13 @@ def parse_feed(path):
             raw = (elem.get("available") or elem.get("in_stock") or
                    data.get("available") or data.get("in_stock") or
                    data.get("presence") or data.get("availability") or
+                   data.get("наявність") or data.get("наличие") or
                    data.get("stock_status") or data.get("stock") or "")
             status = parse_status(raw)
             if status is None:
                 quantity = (data.get("quantity_in_stock") or data.get("stock_quantity") or
-                            data.get("quantity") or data.get("qty") or data.get("count"))
+                            data.get("quantity") or data.get("кількість") or
+                            data.get("количество") or data.get("qty") or data.get("count"))
                 if quantity is not None:
                     status = parse_status(quantity)
             if code:

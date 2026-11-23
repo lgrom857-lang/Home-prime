@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-23 00:57">
+<yml_catalog date="2026-11-23 13:14">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -1719,7 +1719,7 @@
         <name>Туалетний стіл ік з LED-дзеркалом у формі серця, пуфиком і шухлядами STL-MD 89</name>
         <vendorCode>STLMD89</vendorCode>
       </offer>
-      <offer id="3099603851" available="true">
+      <offer id="3099603851" available="false">
         <name>Комп'ютерний стіл 1849 білий 60×60×80 см Стіл для ноутбука, навчання та роботи 1849 з полицями для дому та офісу</name>
         <vendorCode>Dash1849</vendorCode>
       </offer>
@@ -2027,7 +2027,7 @@
         <name>Килимок вологопоглинальний для ванної кімнати 3D Мармур 50х80 см</name>
         <vendorCode>MR5080</vendorCode>
       </offer>
-      <offer id="2131295912" available="true">
+      <offer id="2131295912" available="false">
         <name>Портативний СИНІЙ дитячий міні принтер (Mini Printer), термопринтер, кишеньковий дитячий принтер</name>
         <vendorCode>PRI570</vendorCode>
       </offer>

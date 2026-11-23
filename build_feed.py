@@ -27,11 +27,22 @@ def norm(v):
     return re.sub(r"[^A-ZА-ЯІЇЄҐ0-9]", "", (v or "").strip().upper())
 
 def parse_status(raw):
-    raw = (raw or "").strip().lower()
-    if raw in ("true", "1", "+", "yes", "склад", "in_stock", "є", "наявний", "в наявності"):
+    raw = (raw or "").strip().lower().replace("\\u00a0", " ")
+    raw = re.sub(r"\\s+", " ", raw)
+    if raw in ("true", "1", "+", "yes", "так", "склад", "in_stock", "instock",
+               "є", "наявний", "наявність", "в наявності", "є в наявності",
+               "available", "available for order"):
         return True
-    if raw in ("false", "0", "-", "no", "out_of_stock", "немає", "відсутній", "немає в наявності"):
+    if raw in ("false", "0", "-", "no", "ні", "out_of_stock", "outofstock",
+               "немає", "відсутній", "немає в наявності", "не в наявності",
+               "not available", "unavailable"):
         return False
+    # Supplier exports sometimes put a numeric stock quantity in the status field.
+    if re.fullmatch(r"-?\\d+(?:[.,]\\d+)?", raw):
+        try:
+            return float(raw.replace(",", ".")) > 0
+        except ValueError:
+            return None
     return None
 
 def fetch(url, path):
@@ -81,18 +92,32 @@ def parse_feed(path):
                 continue
             offer_count += 1
             data = {}
-            for child in elem:
-                key = etree.QName(child).localname
-                if key not in data:
-                    data[key] = (child.text or "").strip()
+            # Supplier XML variants may nest availability or SKU fields one level
+            # deeper than the offer. Read descendants, not only direct children.
+            for child in elem.iter():
+                if child is elem:
+                    continue
+                key = etree.QName(child).localname.lower()
+                value = (child.text or "").strip()
+                if value and key not in data:
+                    data[key] = value
 
-            code = norm(data.get("vendorCode") or data.get("vendor_code") or
-                        data.get("article") or data.get("barcode") or data.get("sku"))
-            supplier_id = (elem.get("id") or data.get("id") or "").strip()
-            raw = (elem.get("available") or data.get("available") or
-                   elem.get("in_stock") or data.get("in_stock") or
-                   data.get("presence") or data.get("stock_status") or "").strip()
+            code = norm(data.get("vendorcode") or data.get("vendor_code") or
+                        data.get("article") or data.get("barcode") or data.get("sku") or
+                        data.get("product_code") or data.get("productcode"))
+            supplier_id = (elem.get("id") or data.get("id") or data.get("product_id") or "").strip()
+            # Prefer explicit availability flags. If absent, accept the supplier's
+            # numeric stock/quantity field (positive = in stock, zero = out of stock).
+            raw = (elem.get("available") or elem.get("in_stock") or
+                   data.get("available") or data.get("in_stock") or
+                   data.get("presence") or data.get("availability") or
+                   data.get("stock_status") or data.get("stock") or "")
             status = parse_status(raw)
+            if status is None:
+                quantity = (data.get("quantity_in_stock") or data.get("stock_quantity") or
+                            data.get("quantity") or data.get("qty") or data.get("count"))
+                if quantity is not None:
+                    status = parse_status(quantity)
             if code:
                 found[("code", code)].append(status)
             if supplier_id:

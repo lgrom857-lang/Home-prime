@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-23 17:03">
+<yml_catalog date="2026-11-24 02:56">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -2635,7 +2635,7 @@
         <name>Портативний зарядний пристрій Konfulon A21S Power Bank 40000 mAh 4×USB-A 15W з LED-дисплеєм</name>
         <vendorCode>PahA21S</vendorCode>
       </offer>
-      <offer id="P101K" available="true">
+      <offer id="P101K" available="false">
         <name>Повербанк AWEI P101K 100000 мА·год, швидка зарядка 22,5 Вт, LED-дисплей, USB-A, Type-C, Micro-USB, зовнішній акумулятор</name>
         <vendorCode>P101K</vendorCode>
       </offer>
@@ -2863,7 +2863,7 @@
         <name>Сірий Столик нічний Dash XBC-1-01 / Регульований столик на колесах / Комп'ютерний стіл 60х40 см</name>
         <vendorCode>M17924/2</vendorCode>
       </offer>
-      <offer id="M17924/1" available="true">
+      <offer id="M17924/1" available="false">
         <name>Коричневий Столик нічний Dash XBC-1-01 / Регульований столик на колесах / Комп'ютерний стіл 60х40 см</name>
         <vendorCode>M17924/1</vendorCode>
       </offer>

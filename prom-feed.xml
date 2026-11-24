@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-24 02:56">
+<yml_catalog date="2026-11-24 14:56">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -755,7 +755,7 @@
         <name>Сендвіч-мейкер з 3 змінними формами й антипригарним покриттям RAF R.2221 1400W</name>
         <vendorCode>RAFR2221</vendorCode>
       </offer>
-      <offer id="2760489832" available="true">
+      <offer id="2760489832" available="false">
         <name>Електрична настільна м'ясорубка з насадками RAF R.3392 2000 Вт</name>
         <vendorCode>R3392</vendorCode>
       </offer>
@@ -1195,7 +1195,7 @@
         <name>Індукційна плита на 1 конфорку Rainberg RB-2279 3500 Вт портативна одна конфорка</name>
         <vendorCode>RB2279</vendorCode>
       </offer>
-      <offer id="2290730421" available="true">
+      <offer id="2290730421" available="false">
         <name>Плита Rainberg RB-2280 індукційна 2800 Вт Електрична настільна плита</name>
         <vendorCode>RB2280</vendorCode>
       </offer>
@@ -1403,7 +1403,7 @@
         <name>Ігровий автомат з іграшками Ведмедик, акумуляторний, USB-зарядка, 5 іграшок і 5 монет</name>
         <vendorCode>US9316</vendorCode>
       </offer>
-      <offer id="2403144477" available="true">
+      <offer id="2403144477" available="false">
         <name>Перегонова машинка на пульті керування з ефектом пари підсвіткою і звуковими ефектами 21016 Синій</name>
         <vendorCode>N21016</vendorCode>
       </offer>

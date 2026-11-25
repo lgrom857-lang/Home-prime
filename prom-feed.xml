@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-25 00:48">
+<yml_catalog date="2026-11-25 14:28">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -351,7 +351,7 @@
         <name>Кухонний подрібнювач-блендер Rainberg RB-2339 2 в 1, 1200 Вт, 3 швидкості, скляна та металева чаша</name>
         <vendorCode>RB2339</vendorCode>
       </offer>
-      <offer id="2971209172" available="true">
+      <offer id="2971209172" available="false">
         <name>Електричний кухонний комбайн на 3 літри з неіржавкої сталі RAF R.7729 300W</name>
         <vendorCode>RAFR7729</vendorCode>
       </offer>
@@ -1707,7 +1707,7 @@
         <name>Wi-Fi камера відеоспостереження 5 Мп HX A 1536C/Вайфай камера з датчиком руху/Полична камера WiFi</name>
         <vendorCode>HXA1536C</vendorCode>
       </offer>
-      <offer id="2677636197" available="true">
+      <offer id="2677636197" available="false">
         <name>Підлогова пересувна 4 ярусна полиця-етажерка на колесах SKLM-11 104х40х26 см</name>
         <vendorCode>NNSKLM</vendorCode>
       </offer>
@@ -2131,7 +2131,7 @@
         <name>Гамак туристичний 260х140 см з москітною сіткою та кишенею GMSK-01 260х140см Піксель</name>
         <vendorCode>GMSK01</vendorCode>
       </offer>
-      <offer id="2537760491" available="true">
+      <offer id="2537760491" available="false">
         <name>Складане крісло складане для пікніка та риболовлі "Павук" чорний</name>
         <vendorCode>PY100</vendorCode>
       </offer>

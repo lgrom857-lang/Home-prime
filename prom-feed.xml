@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-24 14:56">
+<yml_catalog date="2026-11-25 00:48">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -2535,7 +2535,7 @@
         <name>Лазерний рівень нівелір для стяжки підлоги HILDA 4D 16 ліній 360 ° градусів самовирівнюється Зелений промінь + пульт + акумулятор</name>
         <vendorCode>М16213</vendorCode>
       </offer>
-      <offer id="VEN0345" available="true">
+      <offer id="VEN0345" available="false">
         <name>Дитячий боксерський набір на стійці (груша підлогова з рукавичками для дітей)</name>
         <vendorCode>VEN0345</vendorCode>
       </offer>

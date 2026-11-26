@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2026-11-26 00:24">
+<yml_catalog date="2026-11-26 13:57">
   <shop>
     <name>HOME PRIME — stock-only sync</name>
     <currencies>
@@ -1239,7 +1239,7 @@
         <name>Дитячий ігровий манеж складаний 120×100×55 см, безпечний манеж для дітей, сірий X-778</name>
         <vendorCode>4943</vendorCode>
       </offer>
-      <offer id="3175125294" available="false">
+      <offer id="3175125294" available="true">
         <name>Мішень Настінна Боксерська З Bluetooth Музичний Тренажер Для Боксу З Підсвіткою 6 Зон</name>
         <vendorCode>6085</vendorCode>
       </offer>
